@@ -3,6 +3,7 @@ package cmd
 import (
 	_ "embed"
 	"fmt"
+	"github.com/suyuan32/goctls/config"
 	"os"
 	"runtime"
 	"strings"
@@ -109,8 +110,8 @@ func init() {
 	})
 
 	rootCmd.Version = fmt.Sprintf(
-		"%s %s/%s", version.BuildVersion,
-		runtime.GOOS, runtime.GOARCH)
+		"%s %s/%s - Go Zero Version %s - Simple Admin Tools Version %s", version.BuildVersion,
+		runtime.GOOS, runtime.GOARCH, config.DefaultGoZeroVersion, config.DefaultToolVersion)
 
 	rootCmd.SetUsageTemplate(usageTpl)
 	rootCmd.AddCommand(api.Cmd, bug.Cmd, docker.Cmd, kube.Cmd, env.Cmd, gateway.Cmd)
