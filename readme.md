@@ -1,7 +1,6 @@
 # Goctls
 
-## This project is a fork from Go Zero. It contains lots of features for simple admin.
-## 这是一个 Go Zero的fork项目，提供了很多针对 simple admin 的优化
+# Goctls is a powerful tools for simple admin to gen codes | Goctls 是一个为 simple admin 设计的代码生成工具
 
 ## Features | 特性
 
