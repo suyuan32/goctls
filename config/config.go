@@ -14,6 +14,9 @@ const DefaultGoZeroVersion = "v1.5.4"
 // DefaultToolVersion defines the default version of simple admin tools for migrate
 const DefaultToolVersion = "v1.5.13"
 
+// GoctlsVersion is goctls version
+const GoctlsVersion = "v1.5.14"
+
 // LangEnvKey is the environment variable name to control the tools help info language
 const LangEnvKey = "SIMPLE_ADMIN_TOOLS_LANG"
 
