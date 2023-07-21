@@ -145,8 +145,6 @@ func GetEntDir() (string, error) {
 
 func GetTmpl(name string) string {
 	switch name {
-	case "not_empty_update.tmpl", "not_empty_update":
-		return NotEmptyTmpl
 	case "pagination.tmpl", "pagination":
 		return PaginationTmpl
 	case "set_not_nil.tmpl", "set_not_nil":
@@ -176,10 +174,6 @@ func ListAllTemplate() {
 				"pagination",
 				"Ent 分页模板",
 			},
-			{
-				"not_empty_update",
-				"Ent 非空模板，用于如果输入值为空则不更新",
-			},
 		}
 	} else {
 		color.Green.Println("The templates supported:\n")
@@ -192,10 +186,6 @@ func ListAllTemplate() {
 			{
 				"pagination",
 				"The template for paginating the data",
-			},
-			{
-				"not_empty_update",
-				"The template for updating the values when it is not empty",
 			},
 		}
 	}

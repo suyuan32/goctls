@@ -2,6 +2,7 @@ package extra
 
 import (
 	"github.com/suyuan32/goctls/extra/drone"
+	"github.com/suyuan32/goctls/extra/ent/localmixin"
 	"github.com/suyuan32/goctls/extra/ent/template"
 	"github.com/suyuan32/goctls/extra/i18n"
 	"github.com/suyuan32/goctls/extra/initlogic"
@@ -21,6 +22,8 @@ var (
 
 	templateCmd = cobrax.NewCommand("template", cobrax.WithRunE(template.GenTemplate))
 
+	mixinCmd = cobrax.NewCommand("mixin", cobrax.WithRunE(localmixin.GenLocalMixin))
+
 	droneCmd = cobrax.NewCommand("drone", cobrax.WithRunE(drone.GenDrone))
 
 	proto2apiCmd = cobrax.NewCommand("proto2api", cobrax.WithRunE(proto2api.Gen))
@@ -33,6 +36,7 @@ func init() {
 		i18nCmdFlags      = i18nCmd.Flags()
 		initCmdFlags      = initCmd.Flags()
 		templateCmdFlags  = templateCmd.Flags()
+		mixinCmdFlags     = mixinCmd.Flags()
 		droneCmdFlags     = droneCmd.Flags()
 		makefileCmdFlags  = makefileCmd.Flags()
 		proto2apiCmdFlags = proto2apiCmd.Flags()
@@ -68,9 +72,15 @@ func init() {
 	proto2apiCmdFlags.BoolVarWithDefaultValue(&proto2api.VarBoolMultiple, "multiple", false)
 	proto2apiCmdFlags.StringVarPWithDefaultValue(&proto2api.VarStringJsonStyle, "json_style", "j", "goZero")
 
+	mixinCmdFlags.StringVarP(&localmixin.VarStringDir, "dir", "d")
+	mixinCmdFlags.StringVarP(&localmixin.VarStringAdd, "add", "a")
+	mixinCmdFlags.BoolVarP(&localmixin.VarBoolList, "list", "l")
+	mixinCmdFlags.BoolVarP(&localmixin.VarBoolUpdate, "update", "u")
+
 	ExtraCmd.AddCommand(i18nCmd)
 	ExtraCmd.AddCommand(initCmd)
 	entCmd.AddCommand(templateCmd)
+	entCmd.AddCommand(mixinCmd)
 	ExtraCmd.AddCommand(entCmd)
 	//ExtraCmd.AddCommand(droneCmd)
 	ExtraCmd.AddCommand(makefileCmd)

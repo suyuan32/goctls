@@ -38,7 +38,7 @@ const (
 var (
 	//go:embed usage.tpl
 	usageTpl string
-	rootCmd  = cobrax.NewCommand("goctl")
+	rootCmd  = cobrax.NewCommand("goctls")
 )
 
 // Execute executes the given command

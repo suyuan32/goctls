@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package template
+package localmixin
 
 import _ "embed"
 
 var (
-	//go:embed tmpl/pagination.tmpl
-	PaginationTmpl string
-
-	//go:embed tmpl/set_not_nil.tmpl
-	NotNilTmpl string
+	//go:embed tpl/soft_delete.tpl
+	softDeleteTpl string
 )

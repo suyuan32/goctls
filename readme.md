@@ -1,6 +1,12 @@
 # Goctls
 
-# Goctls is a powerful tools for simple admin to gen codes | Goctls 是一个为 simple admin 设计的代码生成工具
+## Goctls is a powerful tools for simple admin to gen codes | Goctls 是一个为 simple admin 设计的代码生成工具
+
+## Install | 安装方法
+
+```shell
+go install github.com/suyuan32/goctls@latest
+```
 
 ## Features | 特性
 
@@ -22,6 +28,6 @@
 - 对Simple Admin 的针对性优化
 - rpc logic group分组
 
-## 本项目遵循 Apache 2.0 协议， 使用请注明出处
+## 本项目遵循 Apache 2.0 协议， 使用请注明出处，请不要使用该代码开发相同的工具和竞品。
 ## This project uses the Apache 2.0 license, please indicate the source when using it
 ## Simple Admin Core [https://github.com/suyuan32/simple-admin-core](https://github.com/suyuan32/simple-admin-core)
