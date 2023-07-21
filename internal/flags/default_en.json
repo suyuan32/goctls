@@ -1,0 +1,364 @@
+{
+  "goctl": {
+    "short": "A cli tool to generate go-zero code",
+    "long": "\n      ___                       ___           ___           ___       ___     \n     /\\  \\          ___        /\\__\\         /\\  \\         /\\__\\     /\\  \\    \n    /::\\  \\        /\\  \\      /::|  |       /::\\  \\       /:/  /    /::\\  \\   \n   /:/\\ \\  \\       \\:\\  \\    /:|:|  |      /:/\\:\\  \\     /:/  /    /:/\\:\\  \\  \n  _\\:\\~\\ \\  \\      /::\\__\\  /:/|:|__|__   /::\\~\\:\\  \\   /:/  /    /::\\~\\:\\  \\ \n /\\ \\:\\ \\ \\__\\  __/:/\\/__/ /:/ |::::\\__\\ /:/\\:\\ \\:\\__\\ /:/__/    /:/\\:\\ \\:\\__\\\n \\:\\ \\:\\ \\/__/ /\\/:/  /    \\/__/~~/:/  / \\/__\\:\\/:/  / \\:\\  \\    \\:\\~\\:\\ \\/__/\n  \\:\\ \\:\\__\\   \\::/__/           /:/  /       \\::/  /   \\:\\  \\    \\:\\ \\:\\__\\  \n   \\:\\/:/  /    \\:\\__\\          /:/  /         \\/__/     \\:\\  \\    \\:\\ \\/__/  \n    \\::/  /      \\/__/         /:/  /                     \\:\\__\\    \\:\\__\\    \n     \\/__/                     \\/__/                       \\/__/     \\/__/    \n \n A cli tool to generate Simple Admin's api, zrpc, model code\n\nGitHub: https://github.com/suyuan32/simple-admin-tools\nSite:   https://doc.ryansu.pro/",
+    "api": {
+      "short": "Generate api related files",
+      "o": "Output a sample api file",
+      "home": "{{.global.home}}",
+      "remote": "{{.global.remote}}",
+      "branch": "{{.global.branch}}",
+      "api": "The api file",
+      "dir": "The target dir",
+      "dart": {
+        "short": "Generate dart files for provided api in api file",
+        "dir": "{{.goctl.api.dir}}",
+        "api": "{{.goctl.api.api}}",
+        "legacy": "Legacy generator for flutter v1",
+        "hostname": "hostname of the server",
+        "scheme": "scheme of the server"
+      },
+      "doc": {
+        "short": "Generate doc files",
+        "dir": "{{.goctl.api.dir}}",
+        "o": "The output markdown directory"
+      },
+      "format": {
+        "short": "Format api files",
+        "dir": "{{.goctl.api.dir}}",
+        "iu": "Ignore update",
+        "stdin": "Use stdin to input api doc content, press \"ctrl + d\" to send EOF",
+        "declare": "Use to skip check api types already declare"
+      },
+      "go": {
+        "short": "Generate go files for provided api in api file",
+        "dir": "{{.goctl.api.dir}}",
+        "api": "{{.goctl.api.api}}",
+        "home": "{{.global.home}}",
+        "remote": "{{.global.remote}}",
+        "branch": "{{.global.branch}}",
+        "style": "{{.global.style}}",
+        "trans_err": "Whether to translate the error",
+        "casbin": "Whether to use the Casbin",
+        "extra_field": "Whether to generate extra fields for logic, such as userId",
+        "i18n": "{{.global.i18n}}"
+      },
+      "new": {
+        "short": "Fast create api service",
+        "Example": "goctl api new [options] service-name",
+        "home": "{{.global.home}}",
+        "remote": "{{.global.remote}}",
+        "branch": "{{.global.branch}}",
+        "style": "{{.global.style}}",
+        "casbin": "Whether to use the Casbin",
+        "i18n": "{{.global.i18n}}",
+        "go_zero_version": "The go zero version used for replacement. e.g. v1.5.2, see [https://github.com/zeromicro/go-zero/releases]",
+        "tool_version": "The simple admin tool version version used for migration. e.g. v1.5.5, see [https://github.com/suyuan32/simple-admin-tools/releases]",
+        "module_name": "The module name in go.mod. e.g. github.com/suyuan32/simple-admin-core",
+        "trans_err": "Whether to translate the error",
+        "port": "The service port exposed",
+        "gitlab": "Whether to use gitlab CI/CD",
+        "ent": "Whether to use Ent in API service"
+      },
+      "validate": {
+        "short": "Validate api file",
+        "api": "{{.goctl.api.api}}"
+      },
+      "kt": {
+        "short": "Generate kotlin code for provided api file",
+        "dir": "{{.goctl.api.dir}}",
+        "api": "{{.goctl.api.api}}",
+        "pkg": "Define package name for kotlin file"
+      },
+      "plugin": {
+        "short": "Custom file generator",
+        "plugin": "The plugin file",
+        "dir": "{{.goctl.api.dir}}",
+        "api": "{{.goctl.api.api}}",
+        "style": "{{.global.style}}"
+      },
+      "ts": {
+        "short": "Generate ts files for provided api in api file",
+        "dir": "{{.goctl.api.dir}}",
+        "api": "{{.goctl.api.api}}",
+        "caller": "The web api caller",
+        "unwrap": "Unwrap the webapi caller for import"
+      },
+      "proto": {
+        "short": "Generate CRUD template from proto file",
+        "proto": "The proto path",
+        "output": "The output path",
+        "api_service_name": "The API service name",
+        "rpc_service_name": "The RPC service name",
+        "style": "The file name format style",
+        "model": "The model name for generating e.g. user, if it is empty, generate codes for all models in schema directory",
+        "search_key_num": "The max number of search keys",
+        "rpc_name": "The rpc name in service context. e.g. CoreRpc",
+        "grpc_package": "The rpc package which stores pb file. e.g. github.com/suyuan32/simple-admin-job/types/job",
+        "multiple": "Whether the proto contains multiple services",
+        "json_style": "The JSON tag format, default is camelcase",
+        "i18n": "{{.global.i18n}}",
+        "import_prefix": "{{.global.import_prefix}}",
+        "overwrite": "Whether to overwrite the files, it will overwrite all generated files"
+      },
+      "ent": {
+        "short": "Generate CRUD logic files from ent file",
+        "schema": "The schema path of the Ent",
+        "output": "The output path",
+        "api_service_name": "The API service name",
+        "import_prefix": "{{.global.import_prefix}}",
+        "style": "The file name format style",
+        "model": "The model name for generating e.g. user, if it is empty, generate codes for all models in schema directory",
+        "search_key_num": "The max number of search keys",
+        "group": "The group name for logic. e.g. user",
+        "i18n": "{{.global.i18n}}",
+        "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
+        "json_style": "The JSON tag format, default is camelcase"
+      }
+    },
+    "bug": {
+      "short": "Report a bug"
+    },
+    "docker": {
+      "short": "Generate Dockerfile",
+      "author": "The author information",
+      "service_name": "The service name of the project",
+      "service_type": "The service type, such as rpc, api",
+      "base": "The base image to run the project",
+      "port": "The port to expose, default none",
+      "home": "{{.global.home}}",
+      "remote": "{{.global.remote}}",
+      "branch": "{{.global.branch}}",
+      "image": "The image for building project",
+      "tz": "The timezone of the container, such as Asia/Shanghai",
+      "china": "If your server in China, set true"
+    },
+    "kube": {
+      "short": "Generate kubernetes files",
+      "deploy": {
+        "short": "Generate deployment yaml file",
+        "name": "The name of deployment (required)",
+        "namespace": "The namespace of deployment (required)",
+        "image": "The docker image of deployment (required)",
+        "secret": "The secret to image pull from registry",
+        "requestCpu": "The request cpu to deploy",
+        "requestMem": "The request memory to deploy",
+        "limitCpu": "The limit cpu to deploy",
+        "limitMem": "The limit memory to deploy",
+        "o": "The output yaml file (required)",
+        "replicas": "The number of replicas to deploy",
+        "revisions": "The number of revision history to limit",
+        "port": "The port of the deployment to listen on pod (required)",
+        "nodePort": "The nodePort of the deployment to expose",
+        "targetPort": "The targetPort of the deployment, default to port",
+        "minReplicas": "The min replicas to deploy",
+        "maxReplicas": "The max replicas to deploy",
+        "imagePullPolicy": "The image pull policy of the deployment, default to IfNotPresent",
+        "home": "{{.global.home}}",
+        "remote": "{{.global.remote}}",
+        "branch": "{{.global.branch}}",
+        "serviceAccount": "TheServiceAccount for the deployment"
+      }
+    },
+    "env": {
+      "short": "Check or edit goctl environment",
+      "write": "Edit goctl environment",
+      "force": "Silent installation of non-existent dependencies",
+      "verbose": "Enable log output",
+      "install": {
+        "short": "Goctl env installation"
+      },
+      "check": {
+        "short": "Detect goctl env and dependency tools",
+        "install": "Install dependencies if not found"
+      }
+    },
+    "gateway": {
+      "short": "gateway is a tool to generate gateway code",
+      "home": "{{.global.home}}",
+      "remote": "{{.global.remote}}",
+      "branch": "{{.global.branch}}",
+      "dir": "The output dir",
+      "protoc": {
+        "short": "generate gateway code from proto file"
+      },
+      "protoset": {
+        "short": "generate gateway code from protoset file"
+      },
+      "server": {
+        "short": "generate gateway code from grpc server"
+      }
+    },
+    "migrate": {
+      "short": "Replace go zero with tools",
+      "long": "Migrate is a command to replace go zero to simple admin tools",
+      "verbose": "Verbose enables extra logging",
+      "version": "The target release version of github.com/zeromicro/go-zero to migrate",
+      "zero_version": "The target release version of github.com/zeromicro/go-zero to migrate",
+      "tool_version": "The target release version of github.com/suyuan32/simple-admin-tools to migrate"
+    },
+    "rpc": {
+      "short": "Generate rpc code",
+      "output": "Output a sample proto file",
+      "home": "{{.global.home}}",
+      "remote": "{{.global.remote}}",
+      "branch": "{{.global.branch}}",
+      "new": {
+        "short": "Generate rpc demo service",
+        "style": "{{.global.style}}",
+        "idea": "For idea plugin [optional]",
+        "home": "{{.global.home}}",
+        "remote": "{{.global.remote}}",
+        "branch": "{{.global.branch}}",
+        "verbose": "Enable log output",
+        "ent": "Whether use Ent in project",
+        "module_name": "The module name in go.mod. e.g. github.com/suyuan32/simple-admin-core",
+        "go_zero_version": "The go zero version used for replacement. e.g. v1.5.2, see [https://github.com/zeromicro/go-zero/releases]",
+        "tool_version": "The simple admin tool version version used for migration. e.g. v1.5.5, see [https://github.com/suyuan32/simple-admin-tools/releases]",
+        "port" : "The service port exposed",
+        "gitlab": "Whether to use gitlab-ci",
+        "i18n": "{{.global.i18n}}",
+        "desc": "Whether to create desc folder for splitting proto files",
+        "client": "Whether to generate client"
+      },
+      "template": {
+        "short": "Generate proto template",
+        "home": "{{.global.home}}",
+        "remote": "{{.global.remote}}",
+        "branch": "{{.global.branch}}"
+      },
+      "protoc": {
+        "short": "Generate grpc code",
+        "example": "goctl rpc protoc xx.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=.",
+        "multiple": "Generated in multiple rpc service mode",
+        "zrpc_out": "The zrpc output directory",
+        "style": "{{.global.style}}",
+        "home": "{{.global.home}}",
+        "remote": "{{.global.remote}}",
+        "branch": "{{.global.branch}}",
+        "verbose": "Enable log output",
+        "client": "Whether to generate client"
+      },
+      "ent": {
+        "short": "Generate CRUD template codes by Ent",
+        "schema": "The schema path of the Ent",
+        "output": "The output path",
+        "service_name": "The service name",
+        "project_name": "The project name",
+        "multiple": "Generated in multiple rpc service mode",
+        "style": "The file name format style",
+        "model": "The model name for generating e.g. user, if it is empty, generate codes for all models in schema directory",
+        "search_key_num": "The max number of search keys",
+        "group": "The group name for logic. e.g. user",
+        "proto_out": "The output proto file path",
+        "proto_field_style": "The proto field style",
+        "i18n": "{{.global.i18n}}",
+        "import_prefix": "{{.global.import_prefix}}",
+        "overwrite": "Whether to overwrite the files, it will overwrite all generated files"
+      }
+    },
+    "extra": {
+      "short": "Provide extra command, such as i18n, init code",
+      "drone": "Provide Drone CI file generation",
+      "i18n": {
+        "short": "Provide i18 json text generation",
+        "target": "The target type, now only support api",
+        "model_name": "The model name, it should be camelcase, such as StudentInfo",
+        "model_name_zh": "The model name's Chinese translation, such as 学生信息",
+        "output": "The output dir, such as ./i18n/locale"
+      },
+      "init_code": {
+        "short": "Generating initialize code",
+        "target": "The target type, now support core and other",
+        "model_name": "The model name, it should be camelcase, such as StudentInfo",
+        "output": "The output path, only support core generating to file, such as ./rpc/internal/logic/base/init_database_api_data.go"
+      },
+      "ent": {
+        "short": "Generating extra ent codes",
+        "template": {
+          "add": "Add template for ent",
+          "dir": "The ent directory. If it is empty, goctls will try to find it automatically",
+          "list": "List all support templates",
+          "update": "Update all templates"
+        }
+      },
+      "makefile": {
+        "short": "Generate makefile file.",
+        "service_name": "Service name.",
+        "style": "{{.global.style}}",
+        "dir": "Directory where the makefile file is located.",
+        "service_type": "Service type: api, single, or rpc.",
+        "i18n": "{{.global.i18n}}",
+        "ent": "Whether to use Ent."
+      },
+      "proto2api": {
+        "short": "Generate additional data for API, such as type and service, through proto.",
+        "api_path": "API file path. If it is empty, the output will be displayed on the console.",
+        "proto_path": "Proto file path. Note that it is the proto file in the root directory, not in the desc folder.",
+        "model_name": "Model name used for filtering RPC.",
+        "group_name": "Group name. If it is empty, it will be the lowercase of the model name.",
+        "multiple": "Whether it is a proto for multiple services.",
+        "json_style": "The format of the JSON fields, defaulting to goZero."
+      }
+    },
+    "template": {
+      "short": "Template operation",
+      "home": "The goctl home path of the template",
+      "init": {
+        "short": "Initialize the all templates(force update)",
+        "home": "{{.goctl.template.home}}",
+        "category": "The category of template, enum [api,rpc,model,docker,kube]"
+      },
+      "clean": {
+        "short": "Clean the all cache templates",
+        "home": "{{.goctl.template.home}}"
+      },
+      "update": {
+        "short": "Update template of the target category to the latest",
+        "home": "{{.goctl.template.home}}",
+        "category": "{{.goctl.template.category}}"
+      },
+      "revert": {
+        "short": "Revert the target template to the latest",
+        "home": "{{.goctl.template.home}}",
+        "category": "{{.goctl.template.category}}",
+        "name": "The target file name of template"
+      }
+    },
+    "upgrade": {
+      "short": "Upgrade goctl to latest version"
+    },
+    "frontend": {
+      "short": "Generate frontend related files",
+      "vben": {
+        "short": "Generate frontend related files",
+        "output": "The output directory, it should be the root directory of simple admin backend ui",
+        "api_file": "The absolute path of api file",
+        "folder_name": "The folder name to generate file in different directory. e.g. file folder in simple admin backend ui which is to store file manager service files",
+        "sub_folder": "The sub folder name. e.g. src/views/sys sub folder user which path is src/views/sys/user",
+        "prefix": "The request prefix for proxy. e.g. sys-api",
+        "model_name": "The model name. e.g. Example",
+        "overwrite": "Whether to overwrite the files, it will overwrite all generated files"
+      }
+    },
+    "info": {
+      "short": "View additional information, such as environment variables and project port usage.",
+      "env": {
+        "short": "View environment variables.",
+        "service_name": "Service name, support: core, fms, mcms",
+        "list": "Show the list of supported services"
+      },
+      "port": {
+        "short": "View port usage."
+      }
+    }
+  },
+  "global": {
+    "home": "The goctl home path of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority",
+    "remote": "The remote git repo of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority\nThe git repo directory must be consistent with the https://github.com/zeromicro/go-zero-template directory structure",
+    "branch": "The branch of the remote repo, it does work with --remote",
+    "style": "The file naming format, see [https://github.com/zeromicro/go-zero/blob/master/tools/goctl/config/readme.md]",
+    "i18n": "Whether to use i18n",
+    "import_prefix": "Import paths' prefix is only used when the service in sub folder, such as core service's api and rpc"
+  }
+}

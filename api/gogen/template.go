@@ -1,0 +1,72 @@
+package gogen
+
+import (
+	"fmt"
+
+	"github.com/suyuan32/goctls/util/pathx"
+)
+
+const (
+	category                    = "api"
+	configTemplateFile          = "config.tpl"
+	contextTemplateFile         = "context.tpl"
+	etcTemplateFile             = "etc.tpl"
+	handlerTemplateFile         = "handler.tpl"
+	logicTemplateFile           = "logic.tpl"
+	mainTemplateFile            = "main.tpl"
+	middlewareImplementCodeFile = "middleware.tpl"
+	routesTemplateFile          = "routes.tpl"
+	routesAdditionTemplateFile  = "route-addition.tpl"
+	typesTemplateFile           = "types.tpl"
+	authorityTemplateFile       = "authoritymiddleware.tpl"
+	gitlabTemplateFile          = "gitlab.tpl"
+	dbErrorHandlerTemplateFile  = "dberrorhandler.tpl"
+	entTxTemplateFile           = "enttx.tpl"
+)
+
+var templates = map[string]string{
+	configTemplateFile:          configTemplate,
+	contextTemplateFile:         contextTemplate,
+	etcTemplateFile:             etcTemplate,
+	handlerTemplateFile:         handlerTemplate,
+	logicTemplateFile:           logicTemplate,
+	mainTemplateFile:            mainTemplate,
+	middlewareImplementCodeFile: middlewareImplementCode,
+	routesTemplateFile:          routesTemplate,
+	routesAdditionTemplateFile:  routesAdditionTemplate,
+	typesTemplateFile:           typesTemplate,
+}
+
+// Category returns the category of the api files.
+func Category() string {
+	return category
+}
+
+// Clean cleans the generated deployment files.
+func Clean() error {
+	return pathx.Clean(category)
+}
+
+// GenTemplates generates api enttemplate files.
+func GenTemplates() error {
+	return pathx.InitTemplates(category, templates)
+}
+
+// RevertTemplate reverts the given enttemplate file to the default value.
+func RevertTemplate(name string) error {
+	content, ok := templates[name]
+	if !ok {
+		return fmt.Errorf("%s: no such file name", name)
+	}
+	return pathx.CreateTemplate(category, name, content)
+}
+
+// Update updates the enttemplate files to the templates built in current goctl.
+func Update() error {
+	err := Clean()
+	if err != nil {
+		return err
+	}
+
+	return pathx.InitTemplates(category, templates)
+}
