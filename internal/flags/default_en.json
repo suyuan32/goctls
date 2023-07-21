@@ -229,7 +229,7 @@
       },
       "protoc": {
         "short": "Generate grpc code",
-        "example": "goctl rpc protoc xx.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=.",
+        "example": "goctls rpc protoc xx.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=.",
         "multiple": "Generated in multiple rpc service mode",
         "zrpc_out": "The zrpc output directory",
         "style": "{{.global.style}}",
@@ -279,6 +279,12 @@
           "add": "Add template for ent",
           "dir": "The ent directory. If it is empty, goctls will try to find it automatically",
           "list": "List all support templates",
+          "update": "Update all templates"
+        },
+        "mixin": {
+          "add": "Add Mixin template for ent",
+          "dir": "Directory of ent. If empty, goctls will find it automatically",
+          "list": "List all supported templates",
           "update": "Update all templates"
         }
       },
