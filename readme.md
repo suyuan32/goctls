@@ -1,6 +1,7 @@
 # Goctls
 
-## Goctls is a powerful tools for simple admin to gen codes | Goctls 是一个为 simple admin 设计的代码生成工具
+## Goctls is a powerful tools for simple admin to gen codes, based on goctl | Goctls 是一个为 simple admin 设计的代码生成工具, 基于 go zero 官方工具 goctl 开发而成
+
 
 ## Install | 安装方法
 
