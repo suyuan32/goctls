@@ -33,7 +33,7 @@ func runE(_ *cobra.Command, _ []string) error {
 	env := getEnv()
 	content := fmt.Sprintf(issueTemplate, version.BuildVersion, env.string())
 	content = url.QueryEscape(content)
-	url := fmt.Sprintf("https://github.com/zeromicro/go-zero/issues/new?body=%s", content)
+	url := fmt.Sprintf("https://github.com/suyuan32/simple-admin-core/issues/new?body=%s", content)
 
 	goos := runtime.GOOS
 	var cmd string
