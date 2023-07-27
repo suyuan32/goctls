@@ -1,0 +1,184 @@
+// Copyright 2023 The Ryan SU Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package logviewer
+
+import (
+	"bytes"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"github.com/duke-git/lancet/v2/fileutil"
+	"github.com/gookit/color"
+	"github.com/spf13/cobra"
+	"os/user"
+	"path/filepath"
+	"strings"
+)
+
+var (
+	VarStringFilePath         string
+	VarStringLogData          string
+	VarIntMessageCapacity     int
+	VarStringWorkspaceSetting string
+	VarStringWorkspace        string
+	VarStringLogType          string
+	VarBoolResetWorkspace     bool
+)
+
+func Gen(_ *cobra.Command, _ []string) (err error) {
+	logData := ""
+	if VarStringFilePath != "" {
+		filePath, err := filepath.Abs(VarStringFilePath)
+		if err != nil {
+			return err
+		}
+		logData, err = fileutil.ReadFileToString(filePath)
+		if err != nil {
+			return err
+		}
+	} else if VarStringLogData != "" {
+		logData = VarStringLogData
+	} else if VarStringWorkspaceSetting != "" {
+		workspaceData := strings.Split(VarStringWorkspaceSetting, ",")
+		if len(workspaceData) < 2 {
+			return errors.New("wrong workspace setting, make sure the format: \"name,dir-path\"")
+		}
+		if names, err := fileutil.ListFileNames(workspaceData[1]); err != nil {
+			return errors.Join(err, errors.New("failed to access the path"))
+		} else {
+			if len(names) < 5 {
+				return errors.Join(err, errors.New("the folder does not contain the log files"))
+			}
+		}
+
+		userDir, err := user.Current()
+		if err != nil {
+			return errors.Join(err, errors.New("failed to get the user directory to store data"))
+		}
+
+		configFile := filepath.Join(userDir.HomeDir, ".goctls/log_workspace_config.txt")
+		if !fileutil.IsExist(configFile) {
+			err = fileutil.CreateDir(filepath.Join(userDir.HomeDir, ".goctls") + "/")
+			if err != nil {
+				return err
+			}
+			fileutil.CreateFile(configFile)
+		}
+
+		configData, err := fileutil.ReadFileToString(configFile)
+		if err != nil {
+			return errors.Join(err, errors.New("failed to read config file"))
+		}
+
+		workspaceConfigData := strings.Split(configData, "\n")
+		isAppend := true
+
+		for i := 0; i < len(workspaceConfigData); i++ {
+			if strings.Contains(workspaceConfigData[i], workspaceData[0]) {
+				workspaceConfigData[i] = VarStringWorkspaceSetting
+				isAppend = false
+			}
+		}
+
+		if isAppend {
+			err = fileutil.WriteStringToFile(configFile, VarStringWorkspaceSetting+"\n", true)
+			if err != nil {
+				return errors.Join(err, errors.New("failed to write workspace data to file"))
+			}
+		} else {
+			err = fileutil.WriteStringToFile(configFile, strings.Join(workspaceConfigData, "\n"), true)
+			if err != nil {
+				return errors.Join(err, errors.New("failed to write workspace data to file"))
+			}
+		}
+
+		color.Green.Println("set workspace successfully")
+		return nil
+	} else if VarStringWorkspace != "" {
+		userDir, err := user.Current()
+		if err != nil {
+			return errors.Join(err, errors.New("failed to get the user directory"))
+		}
+
+		configFile := filepath.Join(userDir.HomeDir, ".goctls/log_workspace_config.txt")
+		configData, err := fileutil.ReadFileToString(configFile)
+		if err != nil {
+			return errors.Join(err, errors.New("failed to read config file"))
+		}
+
+		workspaceConfigData := strings.Split(configData, "\n")
+		for i := 0; i < len(workspaceConfigData); i++ {
+			if strings.Contains(workspaceConfigData[i], VarStringWorkspace) {
+				workspaceData := strings.Split(workspaceConfigData[i], ",")
+				logData, err = fileutil.ReadFileToString(filepath.Join(workspaceData[1], VarStringLogType+".log"))
+				if err != nil {
+					return errors.Join(err, errors.New("failed to read log file"))
+				}
+			}
+		}
+	} else if VarBoolResetWorkspace {
+		userDir, err := user.Current()
+		if err != nil {
+			return errors.Join(err, errors.New("failed to get the user directory"))
+		}
+
+		configFile := filepath.Join(userDir.HomeDir, ".goctls/log_workspace_config.txt")
+
+		err = fileutil.WriteStringToFile(configFile, "", false)
+		if err != nil {
+			return errors.Join(err, errors.New("failed to reset config file"))
+		}
+	}
+
+	err = prettierJsonData(logData, VarIntMessageCapacity)
+
+	return err
+}
+
+func prettierJsonData(data string, capacity int) error {
+	messageData := strings.Split(data, "\n")
+
+	var messageDataCut []string
+	if len(messageData) < capacity {
+		messageDataCut = messageData
+	} else {
+		messageDataCut = messageData[len(messageData)-capacity:]
+	}
+
+	for i := len(messageDataCut) - 1; i >= 0; i-- {
+		if len(messageDataCut[i]) < 2 {
+			continue
+		}
+
+		tmp, err := beautifyJsonData(messageDataCut[i])
+		if err != nil {
+			return err
+		}
+		fmt.Println(tmp)
+	}
+
+	return nil
+}
+
+func beautifyJsonData(data string) (string, error) {
+	var prettyJSON bytes.Buffer
+	if err := json.Indent(&prettyJSON, []byte(data), "", "    "); err != nil {
+		return "", err
+	}
+
+	result := strings.ReplaceAll(prettyJSON.String(), "\\n", "\n    ")
+	result = strings.ReplaceAll(result, "\\t", "    ")
+	return result, nil
+}

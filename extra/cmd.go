@@ -6,6 +6,7 @@ import (
 	"github.com/suyuan32/goctls/extra/ent/template"
 	"github.com/suyuan32/goctls/extra/i18n"
 	"github.com/suyuan32/goctls/extra/initlogic"
+	"github.com/suyuan32/goctls/extra/logviewer"
 	"github.com/suyuan32/goctls/extra/makefile"
 	"github.com/suyuan32/goctls/extra/proto2api"
 	"github.com/suyuan32/goctls/internal/cobrax"
@@ -29,6 +30,8 @@ var (
 	proto2apiCmd = cobrax.NewCommand("proto2api", cobrax.WithRunE(proto2api.Gen))
 
 	makefileCmd = cobrax.NewCommand("makefile", cobrax.WithRunE(makefile.Gen))
+
+	logViewerCmd = cobrax.NewCommand("view_log", cobrax.WithRunE(logviewer.Gen))
 )
 
 func init() {
@@ -40,6 +43,7 @@ func init() {
 		droneCmdFlags     = droneCmd.Flags()
 		makefileCmdFlags  = makefileCmd.Flags()
 		proto2apiCmdFlags = proto2apiCmd.Flags()
+		logViewerCmdFlags = logViewerCmd.Flags()
 	)
 
 	i18nCmdFlags.StringVarP(&i18n.VarStringTarget, "target", "t")
@@ -77,6 +81,14 @@ func init() {
 	mixinCmdFlags.BoolVarP(&localmixin.VarBoolList, "list", "l")
 	mixinCmdFlags.BoolVarP(&localmixin.VarBoolUpdate, "update", "u")
 
+	logViewerCmdFlags.StringVarP(&logviewer.VarStringFilePath, "path", "p")
+	logViewerCmdFlags.StringVarP(&logviewer.VarStringLogData, "data", "d")
+	logViewerCmdFlags.StringVarP(&logviewer.VarStringWorkspaceSetting, "workspace_setting", "k")
+	logViewerCmdFlags.StringVarP(&logviewer.VarStringWorkspace, "workspace", "w")
+	logViewerCmdFlags.StringVarP(&logviewer.VarStringLogType, "log_type", "t")
+	logViewerCmdFlags.BoolVar(&logviewer.VarBoolResetWorkspace, "reset_workspace")
+	logViewerCmdFlags.IntVarPWithDefaultValue(&logviewer.VarIntMessageCapacity, "size", "s", 10)
+
 	ExtraCmd.AddCommand(i18nCmd)
 	ExtraCmd.AddCommand(initCmd)
 	entCmd.AddCommand(templateCmd)
@@ -85,4 +97,5 @@ func init() {
 	//ExtraCmd.AddCommand(droneCmd)
 	ExtraCmd.AddCommand(makefileCmd)
 	ExtraCmd.AddCommand(proto2apiCmd)
+	ExtraCmd.AddCommand(logViewerCmd)
 }

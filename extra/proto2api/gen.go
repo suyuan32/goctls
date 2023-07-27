@@ -18,6 +18,7 @@ import (
 	"fmt"
 	set "github.com/duke-git/lancet/v2/datastructure/set"
 	"github.com/duke-git/lancet/v2/fileutil"
+	"github.com/gookit/color"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/suyuan32/goctls/rpc/parser"
@@ -112,6 +113,10 @@ func DoGen(g *GenContext) error {
 		}
 	}
 
+	if routeData.Len() < 2 {
+		return errors.New("rpc not found, please check your group name is correct")
+	}
+
 	// gen type
 	protox.ProtoField = &protox.ProtoFieldData{}
 	for _, v := range protoData.Message {
@@ -177,6 +182,8 @@ func DoGen(g *GenContext) error {
 			return errors.Wrap(err, "failed to write data to api file")
 		}
 	}
+
+	color.Green.Println("successful")
 
 	return err
 }
