@@ -298,22 +298,23 @@
         "ent": "Whether to use Ent."
       },
       "proto2api": {
-        "short": "Generate additional data for API, such as type and service, through proto.",
-        "api_path": "API file path. If it is empty, the output will be displayed on the console.",
-        "proto_path": "Proto file path. Note that it is the proto file in the root directory, not in the desc folder.",
-        "model_name": "Model name used for filtering RPC.",
-        "group_name": "Group name. If it is empty, it will be the lowercase of the model name.",
-        "multiple": "Whether it is a proto for multiple services.",
-        "json_style": "The format of the JSON fields, defaulting to goZero."
+        "short": "Generate additional data for API, such as type and service, through proto",
+        "api_path": "API file path. If it is empty, the output will be displayed on the console",
+        "proto_path": "Proto file path. Note that it is the proto file in the root directory, not in the desc folder",
+        "model_name": "Model name used for filtering RPC",
+        "group_name": "Group name. If it is empty, it will be the lowercase of the model name",
+        "multiple": "Whether it is a proto for multiple services",
+        "json_style": "The format of the JSON fields, defaulting to goZero"
       },
       "view_log": {
         "short": "Format and view log information",
-        "path": "Log file path. If a configuration file path is provided, the corresponding file will be read directly.",
-        "data": "Log data. If provided, the data will be directly formatted.",
-        "workspace_setting": "Configure workspace data. After configuration, the workspace directory can be saved and read by name, and must be used with the log_type parameter. The format is \"name,directory\".",
-        "workspace": "Saved workspace names.",
-        "reset_workspace": "Clear workspace configurations.",
-        "size": "Number of messages to display. The default is 10, displayed in reverse order."
+        "path": "Log file path. If a configuration file path is provided, the corresponding file will be read directly",
+        "data": "Log data. If provided, the data will be directly formatted",
+        "workspace_setting": "Configure workspace data. After configuration, the workspace directory can be saved and read by name, and must be used with the log_type parameter. The format is \"name,directory\"",
+        "workspace": "Saved workspace names",
+        "reset_workspace": "Clear workspace configurations",
+        "size": "Number of messages to display. The default is 10, displayed in reverse order",
+        "list": "Show all workspace configurations"
       }
     },
     "template": {

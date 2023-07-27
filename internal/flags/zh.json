@@ -313,7 +313,8 @@
         "workspace_setting": "配置工作区数据，配置后可保存并通过名称读取工作区目录，需配合 log_type 参数使用， 格式为 \"名称,目录\"",
         "workspace": "已保存的工作区名称",
         "reset_workspace": "清空工作区配置",
-        "size": "显示的消息数量，默认为10条，倒序显示"
+        "size": "显示的消息数量，默认为10条，倒序显示",
+        "list": "显示所有 workspace 配置"
       }
     },
     "template": {

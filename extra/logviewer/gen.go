@@ -35,6 +35,7 @@ var (
 	VarStringWorkspace        string
 	VarStringLogType          string
 	VarBoolResetWorkspace     bool
+	VarBoolList               bool
 )
 
 func Gen(_ *cobra.Command, _ []string) (err error) {
@@ -107,12 +108,11 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 		color.Green.Println("set workspace successfully")
 		return nil
 	} else if VarStringWorkspace != "" {
-		userDir, err := user.Current()
+		configFile, err := getWorkspaceConfigDir()
 		if err != nil {
-			return errors.Join(err, errors.New("failed to get the user directory"))
+			return err
 		}
 
-		configFile := filepath.Join(userDir.HomeDir, ".goctl/log_workspace_config.txt")
 		configData, err := fileutil.ReadFileToString(configFile)
 		if err != nil {
 			return errors.Join(err, errors.New("failed to read config file"))
@@ -129,17 +129,29 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 			}
 		}
 	} else if VarBoolResetWorkspace {
-		userDir, err := user.Current()
+		configFile, err := getWorkspaceConfigDir()
 		if err != nil {
-			return errors.Join(err, errors.New("failed to get the user directory"))
+			return err
 		}
 
-		configFile := filepath.Join(userDir.HomeDir, ".goctl/log_workspace_config.txt")
-
-		err = fileutil.WriteStringToFile(configFile, "", false)
+		err = fileutil.ClearFile(configFile)
 		if err != nil {
 			return errors.Join(err, errors.New("failed to reset config file"))
 		}
+
+		color.Green.Println("reset workspace configuration successfully")
+	} else if VarBoolList {
+		configFile, err := getWorkspaceConfigDir()
+		if err != nil {
+			return err
+		}
+
+		configData, err := fileutil.ReadFileToString(configFile)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println(strings.ReplaceAll(configData, ",", "    "))
 	}
 
 	err = prettierJsonData(logData, VarIntMessageCapacity)
@@ -149,6 +161,7 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 
 func prettierJsonData(data string, capacity int) error {
 	messageData := strings.Split(data, "\n")
+	messageData = messageData[:len(messageData)-1]
 
 	var messageDataCut []string
 	if len(messageData) < capacity {
@@ -180,5 +193,7 @@ func beautifyJsonData(data string) (string, error) {
 
 	result := strings.ReplaceAll(prettyJSON.String(), "\\n", "\n    ")
 	result = strings.ReplaceAll(result, "\\t", "    ")
+	result = strings.ReplaceAll(result, "\"@timestamp\"", color.Green.Sprintf("\"@timestamp\""))
+	result = strings.ReplaceAll(result, "\"content\"", color.Red.Sprintf("\"content\""))
 	return result, nil
 }
