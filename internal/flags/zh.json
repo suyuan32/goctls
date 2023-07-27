@@ -305,6 +305,15 @@
         "group_name": "分组名称，若为空则为模型名称的小写",
         "multiple": "是否为多 service 的 proto",
         "json_style": "JSON 字段的格式，默认为 goZero"
+      },
+      "view_log": {
+        "short": "格式化查看 log 信息",
+        "path": "log 文件路径，若配置文件路径，将会直接读取对应文件",
+        "data": "log 数据, 若提供 log 数据，将会直接格式化数据",
+        "workspace_setting": "配置工作区数据，配置后可保存并通过名称读取工作区目录，需配合 log_type 参数使用， 格式为 \"名称,目录\"",
+        "workspace": "已保存的工作区名称",
+        "reset_workspace": "清空工作区配置",
+        "size": "显示的消息数量，默认为10条，倒序显示"
       }
     },
     "template": {

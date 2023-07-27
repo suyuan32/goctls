@@ -86,7 +86,7 @@ func init() {
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringWorkspaceSetting, "workspace_setting", "k")
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringWorkspace, "workspace", "w")
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringLogType, "log_type", "t")
-	logViewerCmdFlags.BoolVar(&logviewer.VarBoolResetWorkspace, "reset_workspace")
+	logViewerCmdFlags.BoolVarP(&logviewer.VarBoolResetWorkspace, "reset_workspace", "r")
 	logViewerCmdFlags.IntVarPWithDefaultValue(&logviewer.VarIntMessageCapacity, "size", "s", 10)
 
 	ExtraCmd.AddCommand(i18nCmd)

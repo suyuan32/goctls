@@ -68,9 +68,9 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 			return errors.Join(err, errors.New("failed to get the user directory to store data"))
 		}
 
-		configFile := filepath.Join(userDir.HomeDir, ".goctls/log_workspace_config.txt")
+		configFile := filepath.Join(userDir.HomeDir, ".goctl/log_workspace_config.txt")
 		if !fileutil.IsExist(configFile) {
-			err = fileutil.CreateDir(filepath.Join(userDir.HomeDir, ".goctls") + "/")
+			err = fileutil.CreateDir(filepath.Join(userDir.HomeDir, ".goctl") + "/")
 			if err != nil {
 				return err
 			}
@@ -112,7 +112,7 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 			return errors.Join(err, errors.New("failed to get the user directory"))
 		}
 
-		configFile := filepath.Join(userDir.HomeDir, ".goctls/log_workspace_config.txt")
+		configFile := filepath.Join(userDir.HomeDir, ".goctl/log_workspace_config.txt")
 		configData, err := fileutil.ReadFileToString(configFile)
 		if err != nil {
 			return errors.Join(err, errors.New("failed to read config file"))
@@ -134,7 +134,7 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 			return errors.Join(err, errors.New("failed to get the user directory"))
 		}
 
-		configFile := filepath.Join(userDir.HomeDir, ".goctls/log_workspace_config.txt")
+		configFile := filepath.Join(userDir.HomeDir, ".goctl/log_workspace_config.txt")
 
 		err = fileutil.WriteStringToFile(configFile, "", false)
 		if err != nil {
