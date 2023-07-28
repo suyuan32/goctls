@@ -29,7 +29,6 @@ import (
 
 var (
 	VarStringFilePath         string
-	VarStringLogData          string
 	VarIntMessageCapacity     int
 	VarStringWorkspaceSetting string
 	VarStringWorkspace        string
@@ -49,8 +48,6 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 		if err != nil {
 			return err
 		}
-	} else if VarStringLogData != "" {
-		logData = VarStringLogData
 	} else if VarStringWorkspaceSetting != "" {
 		workspaceData := strings.Split(VarStringWorkspaceSetting, ",")
 		if len(workspaceData) < 2 {

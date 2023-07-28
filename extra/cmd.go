@@ -82,7 +82,6 @@ func init() {
 	mixinCmdFlags.BoolVarP(&localmixin.VarBoolUpdate, "update", "u")
 
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringFilePath, "path", "p")
-	logViewerCmdFlags.StringVarP(&logviewer.VarStringLogData, "data", "d")
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringWorkspaceSetting, "workspace_setting", "k")
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringWorkspace, "workspace", "w")
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringLogType, "log_type", "t")
