@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"fmt"
 	"github.com/suyuan32/goctls/config"
+	"github.com/suyuan32/goctls/upgrade"
 	"os"
 	"runtime"
 	"strings"
@@ -115,7 +116,7 @@ func init() {
 
 	rootCmd.SetUsageTemplate(usageTpl)
 	rootCmd.AddCommand(api.Cmd, bug.Cmd, docker.Cmd, kube.Cmd, env.Cmd, gateway.Cmd)
-	rootCmd.AddCommand(migrate.Cmd, rpc.Cmd, tpl.Cmd, frontend.Cmd, extra.ExtraCmd, info.Cmd)
+	rootCmd.AddCommand(migrate.Cmd, rpc.Cmd, tpl.Cmd, frontend.Cmd, extra.ExtraCmd, info.Cmd, upgrade.Cmd)
 	rootCmd.Command.AddCommand(cobracompletefig.CreateCompletionSpecCommand())
 	rootCmd.MustInit()
 }
