@@ -1,7 +1,6 @@
 package extra
 
 import (
-	"github.com/suyuan32/goctls/extra/drone"
 	"github.com/suyuan32/goctls/extra/ent/localmixin"
 	"github.com/suyuan32/goctls/extra/ent/template"
 	"github.com/suyuan32/goctls/extra/i18n"
@@ -25,8 +24,6 @@ var (
 
 	mixinCmd = cobrax.NewCommand("mixin", cobrax.WithRunE(localmixin.GenLocalMixin))
 
-	droneCmd = cobrax.NewCommand("drone", cobrax.WithRunE(drone.GenDrone))
-
 	proto2apiCmd = cobrax.NewCommand("proto2api", cobrax.WithRunE(proto2api.Gen))
 
 	makefileCmd = cobrax.NewCommand("makefile", cobrax.WithRunE(makefile.Gen))
@@ -36,11 +33,10 @@ var (
 
 func init() {
 	var (
-		i18nCmdFlags     = i18nCmd.Flags()
-		initCmdFlags     = initCmd.Flags()
-		templateCmdFlags = templateCmd.Flags()
-		mixinCmdFlags    = mixinCmd.Flags()
-		//droneCmdFlags     = droneCmd.Flags()
+		i18nCmdFlags      = i18nCmd.Flags()
+		initCmdFlags      = initCmd.Flags()
+		templateCmdFlags  = templateCmd.Flags()
+		mixinCmdFlags     = mixinCmd.Flags()
 		makefileCmdFlags  = makefileCmd.Flags()
 		proto2apiCmdFlags = proto2apiCmd.Flags()
 		logViewerCmdFlags = logViewerCmd.Flags()
@@ -59,8 +55,6 @@ func init() {
 	templateCmdFlags.StringVarP(&template.VarStringAdd, "add", "a")
 	templateCmdFlags.BoolVarP(&template.VarBoolList, "list", "l")
 	templateCmdFlags.BoolVarP(&template.VarBoolUpdate, "update", "u")
-
-	//droneCmdFlags.BoolVarP(&drone.VarBoolDockerfile, "dockerfile", "d")
 
 	makefileCmdFlags.StringVarP(&makefile.VarStringServiceName, "service_name", "n")
 	makefileCmdFlags.StringVarP(&makefile.VarStringStyle, "style", "s")
@@ -94,7 +88,6 @@ func init() {
 	entCmd.AddCommand(templateCmd)
 	entCmd.AddCommand(mixinCmd)
 	ExtraCmd.AddCommand(entCmd)
-	//ExtraCmd.AddCommand(droneCmd)
 	ExtraCmd.AddCommand(makefileCmd)
 	ExtraCmd.AddCommand(proto2apiCmd)
 	ExtraCmd.AddCommand(logViewerCmd)

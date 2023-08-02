@@ -133,18 +133,6 @@
       "tz": "The timezone of the container, such as Asia/Shanghai",
       "china": "If your server in China, set true"
     },
-    "drone": {
-      "short": "Generate Drone yaml and Dockerfile",
-      "author": "ctra-wangdada",
-      "drone_name": "The Drone name",
-      "go_private": "Go private such as: gitee.com|github.com, default \"gitee.com\" (required)",
-      "service_name": "The service name of the main project go file, such as: core.go, you must ignore suffix: .go  (required)",
-      "service_type": "The service type such as: rpc|api, default \"happy\"",
-      "registry": "The remote Docker Registry, if aliyun ACR such as: registry.cn-beijing.aliyuncs.com (required)",
-      "git_branch": "The branch of the remote repo, default \"main\" ",
-      "repo": "The remote Git Repository, if tag is not 'latest' please assign tag such as: git-repo:v0.0.1, if tag is latest you can ignore the tag (required)",
-      "etc_yaml":"The Dockerfile with drone used, go-zero project etc yaml file name (required)"
-    },
     "kube": {
       "short": "Generate kubernetes files",
       "deploy": {
@@ -271,7 +259,6 @@
     },
     "extra": {
       "short": "Provide extra command, such as i18n, init code",
-      "drone": "Provide Drone CI file generation",
       "i18n": {
         "short": "Provide i18 json text generation",
         "target": "The target type, now only support api",
@@ -327,6 +314,21 @@
         "size": "Number of messages to display. The default is 10, displayed in reverse order",
         "log_type": "Log Type. Use with \"workspace\" param. Support error, stat, access, severe, slow",
         "list": "Show all workspace configurations"
+      }
+    },
+    "cicd": {
+      "short": "Continuous integration and continuous delivery configuration file generating, such as drone ci and gitlab ci",
+      "drone": {
+        "short": "Generate Drone yaml and Dockerfile",
+        "author": "ctra-wangdada",
+        "drone_name": "The Drone name",
+        "go_private": "Go private such as: gitee.com|github.com, default \"gitee.com\" (required)",
+        "service_name": "The service name of the main project go file, such as: core.go, you must ignore suffix: .go  (required)",
+        "service_type": "The service type such as: rpc|api, default \"happy\"",
+        "registry": "The remote Docker Registry, if aliyun ACR such as: registry.cn-beijing.aliyuncs.com (required)",
+        "git_branch": "The branch of the remote repo, default \"main\" ",
+        "repo": "The remote Git Repository, if tag is not 'latest' please assign tag such as: git-repo:v0.0.1, if tag is latest you can ignore the tag (required)",
+        "etc_yaml":"The Dockerfile with drone used, go-zero project etc yaml file name (required)"
       }
     },
     "template": {
