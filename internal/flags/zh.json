@@ -133,6 +133,18 @@
       "tz": "容器的时区，例如 Asia/Shanghai",
       "china": "如果您的服务器在中国，请设置为 true"
     },
+    "drone": {
+      "short": "生成 drone.yml和drockfile 文件",
+      "author": "ctra王大大",
+      "drone_name": "Drone名称",
+      "go_private": "go私有仓库设置，例如： gitee.com|github.com, 默认 \"gitee.com\" (必需)",
+      "service_name": "go-zero服务主程序入口文件,例如: core.go, 必须省略后面的 .go  (必需)",
+      "service_type": "go-zero服务类型: rpc|api, 默认 \"happy\"",
+      "registry": "远程镜像仓库地址, 例如阿里云镜像地址: registry.cn-beijing.aliyuncs.com (必需)",
+      "git_branch": "git仓库分支, 默认 \"main\" 分支",
+      "repo": "远程镜像仓库地址, 如果tag不是 'latest' 需要指定，例如: git-repo:v0.0.1, 如果是 'latest' 则需要忽略 (必需)",
+      "etc_yaml":"drone在CI过程中使用的dockerfile, go-zero项目中的yaml配置文件名 (必需)"
+    },
     "kube": {
       "short": "生成 kubernetes 文件",
       "deploy": {
