@@ -2,7 +2,6 @@ package api
 
 import (
 	"github.com/spf13/cobra"
-
 	"github.com/suyuan32/goctls/api/apigen"
 	"github.com/suyuan32/goctls/api/docgen"
 	"github.com/suyuan32/goctls/api/format"
