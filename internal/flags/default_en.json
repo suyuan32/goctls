@@ -133,6 +133,18 @@
       "tz": "The timezone of the container, such as Asia/Shanghai",
       "china": "If your server in China, set true"
     },
+    "drone": {
+      "short": "Generate Drone yaml and Dockerfile",
+      "author": "ctra-wangdada",
+      "drone_name": "The Drone name",
+      "go_private": "Go private such as: gitee.com|github.com, default \"gitee.com\" (required)",
+      "service_name": "The service name of the main project go file, such as: core.go, you must ignore suffix: .go  (required)",
+      "service_type": "The service type such as: rpc|api, default \"happy\"",
+      "registry": "The remote Docker Registry, if aliyun ACR such as: registry.cn-beijing.aliyuncs.com (required)",
+      "git_branch": "The branch of the remote repo, default \"main\" ",
+      "repo": "The remote Git Repository, if tag is not 'latest' please assign tag such as: git-repo:v0.0.1, if tag is latest you can ignore the tag (required)",
+      "etc_yaml":"The Dockerfile with drone used, go-zero project etc yaml file name (required)"
+    },
     "kube": {
       "short": "Generate kubernetes files",
       "deploy": {

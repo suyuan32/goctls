@@ -36,11 +36,11 @@ var (
 
 func init() {
 	var (
-		i18nCmdFlags      = i18nCmd.Flags()
-		initCmdFlags      = initCmd.Flags()
-		templateCmdFlags  = templateCmd.Flags()
-		mixinCmdFlags     = mixinCmd.Flags()
-		droneCmdFlags     = droneCmd.Flags()
+		i18nCmdFlags     = i18nCmd.Flags()
+		initCmdFlags     = initCmd.Flags()
+		templateCmdFlags = templateCmd.Flags()
+		mixinCmdFlags    = mixinCmd.Flags()
+		//droneCmdFlags     = droneCmd.Flags()
 		makefileCmdFlags  = makefileCmd.Flags()
 		proto2apiCmdFlags = proto2apiCmd.Flags()
 		logViewerCmdFlags = logViewerCmd.Flags()
@@ -60,7 +60,7 @@ func init() {
 	templateCmdFlags.BoolVarP(&template.VarBoolList, "list", "l")
 	templateCmdFlags.BoolVarP(&template.VarBoolUpdate, "update", "u")
 
-	droneCmdFlags.BoolVarP(&drone.VarBoolDockerfile, "dockerfile", "d")
+	//droneCmdFlags.BoolVarP(&drone.VarBoolDockerfile, "dockerfile", "d")
 
 	makefileCmdFlags.StringVarP(&makefile.VarStringServiceName, "service_name", "n")
 	makefileCmdFlags.StringVarP(&makefile.VarStringStyle, "style", "s")
