@@ -285,6 +285,12 @@
           "dir": "Directory of ent. If empty, goctls will find it automatically",
           "list": "List all supported templates",
           "update": "Update all templates"
+        },
+        "import": {
+          "dsn": "Database DSN address, supports mysql and postgres",
+          "tables": "Specify data tables, empty for all tables",
+          "output": "Output path, the project's root directory",
+          "auto_mixin": "Whether to automatically import official \"Mixin\""
         }
       },
       "makefile": {
