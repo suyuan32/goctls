@@ -1,6 +1,7 @@
 package extra
 
 import (
+	"github.com/suyuan32/goctls/extra/ent/importschema"
 	"github.com/suyuan32/goctls/extra/ent/localmixin"
 	"github.com/suyuan32/goctls/extra/ent/template"
 	"github.com/suyuan32/goctls/extra/i18n"
@@ -24,6 +25,8 @@ var (
 
 	mixinCmd = cobrax.NewCommand("mixin", cobrax.WithRunE(localmixin.GenLocalMixin))
 
+	entImportCmd = cobrax.NewCommand("import", cobrax.WithRunE(importschema.Gen))
+
 	proto2apiCmd = cobrax.NewCommand("proto2api", cobrax.WithRunE(proto2api.Gen))
 
 	makefileCmd = cobrax.NewCommand("makefile", cobrax.WithRunE(makefile.Gen))
@@ -38,6 +41,7 @@ func init() {
 		templateCmdFlags  = templateCmd.Flags()
 		mixinCmdFlags     = mixinCmd.Flags()
 		makefileCmdFlags  = makefileCmd.Flags()
+		entImportCmdFlags = entImportCmd.Flags()
 		proto2apiCmdFlags = proto2apiCmd.Flags()
 		logViewerCmdFlags = logViewerCmd.Flags()
 	)
@@ -75,6 +79,11 @@ func init() {
 	mixinCmdFlags.BoolVarP(&localmixin.VarBoolList, "list", "l")
 	mixinCmdFlags.BoolVarP(&localmixin.VarBoolUpdate, "update", "u")
 
+	entImportCmdFlags.StringVarP(&importschema.VarStringDSN, "dsn", "d")
+	entImportCmdFlags.StringVarP(&importschema.VarStringTables, "tables", "t")
+	entImportCmdFlags.StringVarP(&importschema.VarStringOutputDir, "output", "o")
+	//entImportCmdFlags.BoolVarP(&importschema.VarBoolAutoMixin, "auto_mixin", "a")
+
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringFilePath, "path", "p")
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringWorkspaceSetting, "workspace_setting", "k")
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringWorkspace, "workspace", "w")
@@ -87,6 +96,7 @@ func init() {
 	ExtraCmd.AddCommand(initCmd)
 	entCmd.AddCommand(templateCmd)
 	entCmd.AddCommand(mixinCmd)
+	entCmd.AddCommand(entImportCmd)
 	ExtraCmd.AddCommand(entCmd)
 	ExtraCmd.AddCommand(makefileCmd)
 	ExtraCmd.AddCommand(proto2apiCmd)
