@@ -275,18 +275,21 @@
       "ent": {
         "short": "生成额外的 ent 代码",
         "template": {
+          "short": "生成 Ent 模板",
           "add": "为 ent 添加模板",
           "dir": "ent 目录。如果为空，goctls 将自动查找它",
           "list": "列出所有支持的模板",
           "update": "更新所有模板"
         },
         "mixin": {
+          "short": "生成 Ent Mixin",
           "add": "为 ent 添加 Mixin 模板",
           "dir": "ent 目录。如果为空，goctls 将自动查找它",
           "list": "列出所有支持的模板",
           "update": "更新所有模板"
         },
         "import": {
+          "short": "从数据库生成 Ent Schema",
           "dsn": "数据库的 DSN 地址，支持 mysql 和 postgres。 例子：\"mysql://user:pass@tcp(localhost:3306)/dbname\"\n\"postgres://user:pass@host:port/dbname\"",
           "tables": "指定数据表，例子： sys_users,sys_tokens",
           "output": "输出路径，为项目根目录",
