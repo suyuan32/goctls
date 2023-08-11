@@ -19,6 +19,7 @@ go install github.com/suyuan32/goctls@latest
 - error handling which support multi-languages
 - several plugins such as RocketMQ, GORM
 - group rpc logic
+- fully support Ent code generating
 ---
 - go-swagger : 基于go-swagger而不是官方的@doc注解
 - 多国语言支持
@@ -28,6 +29,7 @@ go install github.com/suyuan32/goctls@latest
 - 支持多种额外插件如GORM, RocketMQ
 - 对Simple Admin 的针对性优化
 - rpc logic group分组
+- 全面支持 Ent 代码生成 
 
 ## 本项目遵循 GPL 3.0 协议， 使用请注明出处. 原许可证位于 originallicense 文件夹下，为 MIT 协议.
 ## This project uses the GPL 3.0 license, please indicate the source when using it. The original license is located in the originallicense folder under the MIT license.
