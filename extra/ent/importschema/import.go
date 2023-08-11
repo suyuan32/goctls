@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/suyuan32/goctls/extra/ent/importschema/mux"
+	"strings"
 
 	"ariga.io/atlas/sql/schema"
 
@@ -14,6 +15,7 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	entschema "entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
+	index2 "entgo.io/ent/schema/index"
 	"github.com/go-openapi/inflect"
 )
 
@@ -299,6 +301,21 @@ func upsertNode(field fieldFunc, table *schema.Table) (*schemast.UpsertSchema, e
 		if index.Unique && len(index.Parts) == 1 {
 			fields[index.Parts[0].C.Name].Descriptor().Unique = true
 		}
+
+		idxName := getIndexName(index.Name, upsert.Fields)
+
+		if idxName != "" {
+			var idx *index2.Builder
+			if index.Unique {
+				idx = index2.Fields(idxName).Unique()
+			} else {
+				idx = index2.Fields(idxName)
+			}
+
+			if idx != nil {
+				upsert.Indexes = append(upsert.Indexes, idx)
+			}
+		}
 	}
 	for _, fk := range table.ForeignKeys {
 		for _, column := range fk.Columns {
@@ -311,6 +328,16 @@ func upsertNode(field fieldFunc, table *schema.Table) (*schemast.UpsertSchema, e
 		}
 	}
 	return upsert, err
+}
+
+func getIndexName(name string, data []ent.Field) string {
+	for _, v := range data {
+		if strings.HasSuffix(name, v.Descriptor().Name) {
+			return v.Descriptor().Name
+		}
+	}
+
+	return ""
 }
 
 // applyColumnAttributes adds column attributes to a given ent field.

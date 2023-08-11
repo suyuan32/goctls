@@ -287,8 +287,8 @@
           "update": "Update all templates"
         },
         "import": {
-          "dsn": "Database DSN address, supports mysql and postgres",
-          "tables": "Specify data tables, empty for all tables",
+          "dsn": "Database DSN address, supports mysql and postgres. e.g. \"mysql://user:pass@tcp(localhost:3306)/dbname\"\n\"postgres://user:pass@host:port/dbname\"",
+          "tables": "Specify data tables. e.g. sys_users,sys_tokens",
           "output": "Output path, the project's root directory",
           "auto_mixin": "Whether to automatically import official \"Mixin\""
         }

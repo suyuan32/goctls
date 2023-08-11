@@ -19,6 +19,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/duke-git/lancet/v2/fileutil"
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 	"github.com/suyuan32/goctls/extra/ent/importschema/mux"
 	"path/filepath"
@@ -94,6 +95,8 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 	if err = FormatFile(ctx); err != nil {
 		return fmt.Errorf("format file failed - %v", err)
 	}
+
+	color.Green.Println("Generating schemas successfully")
 
 	return err
 }

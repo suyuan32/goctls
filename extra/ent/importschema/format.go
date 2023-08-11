@@ -24,9 +24,10 @@ func FormatFile(ctx *GenContext) error {
 			return err
 		}
 
-		if !strings.Contains(fileStr, ",\n") {
-			fileStr = strings.ReplaceAll(fileStr, ",", ",\n\t\t")
+		if !strings.Contains(fileStr, "),\n") {
+			fileStr = strings.ReplaceAll(fileStr, "),", "),\n\t\t")
 			fileStr = strings.ReplaceAll(fileStr, "ent.Field{field", "ent.Field{\n\t\tfield")
+			fileStr = strings.ReplaceAll(fileStr, "ent.Index{index", "ent.Index{\n\t\tindex")
 		}
 
 		if !strings.Contains(fileStr, "WithComments") && strings.Contains(fileStr, "Comment") {
@@ -37,6 +38,11 @@ func FormatFile(ctx *GenContext) error {
 				importIndex := strings.Index(fileStr, "import (")
 				fileStr = fileStr[:importIndex+8] + "\n\t\"entgo.io/ent/dialect/entsql\"" + fileStr[importIndex+8:]
 			}
+		}
+
+		if strings.Contains(fileStr, "uuid \"github.com/satori/go.uuid\"") {
+			fileStr = strings.ReplaceAll(fileStr, "uuid \"github.com/satori/go.uuid\"",
+				"\"github.com/gofrs/uuid/v5\"")
 		}
 
 		if err := fileutil.WriteStringToFile(filePath, fileStr, false); err != nil {

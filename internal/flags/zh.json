@@ -287,8 +287,8 @@
           "update": "更新所有模板"
         },
         "import": {
-          "dsn": "数据库的 DSN 地址，支持 mysql 和 postgres",
-          "tables": "指定数据表，为空则为所有表",
+          "dsn": "数据库的 DSN 地址，支持 mysql 和 postgres。 例子：\"mysql://user:pass@tcp(localhost:3306)/dbname\"\n\"postgres://user:pass@host:port/dbname\"",
+          "tables": "指定数据表，例子： sys_users,sys_tokens",
           "output": "输出路径，为项目根目录",
           "auto_mixin": "是否自动引入官方 Mixin"
         }
