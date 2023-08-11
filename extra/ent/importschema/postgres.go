@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/schema/field"
-	"github.com/google/uuid"
 	_ "github.com/lib/pq"
+	uuid "github.com/suyuan32/simple-admin-common/utils/uuidx"
 )
 
 // Postgres implements SchemaImporter for PostgreSQL databases.
@@ -78,7 +78,7 @@ func (p *Postgres) field(column *schema.Column) (f ent.Field, err error) {
 	case *postgres.SerialType:
 		f = p.convertSerial(typ, name)
 	case *postgres.UUIDType:
-		f = field.UUID(name, uuid.New())
+		f = field.UUID(name, uuid.NewUUID())
 	default:
 		return nil, fmt.Errorf("unsupported type %q for column %v", typ, column.Name)
 	}

@@ -29,8 +29,8 @@ go install github.com/suyuan32/goctls@latest
 - 对Simple Admin 的针对性优化
 - rpc logic group分组
 
-## 本项目遵循 GPL 3.0 协议， 使用请注明出处. 原许可证位于 originalLicense 文件夹下，为 MIT 协议.
-## This project uses the GPL 3.0 license, please indicate the source when using it. The original license is located in the originalLicense folder under the MIT license.
+## 本项目遵循 GPL 3.0 协议， 使用请注明出处. 原许可证位于 originallicense 文件夹下，为 MIT 协议.
+## This project uses the GPL 3.0 license, please indicate the source when using it. The original license is located in the originallicense folder under the MIT license.
 
 > [go zero原版工具 | the original tools](https://github.com/zeromicro/go-zero/tree/master/tools/goctl)
 
