@@ -55,9 +55,18 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 
 		if fileutil.IsExist(outputDir + "/ent/schema/") {
 			outputDir = outputDir + "/ent/schema/"
+		} else {
+			return errors.New("failed to find ent directory")
 		}
 	} else if !strings.HasSuffix(VarStringOutputDir, "/") {
-		VarStringTables = VarStringOutputDir + "/"
+		VarStringOutputDir = VarStringOutputDir + "/ent/schema/"
+
+		outputDir, err = filepath.Abs(VarStringOutputDir)
+		if err != nil {
+			return err
+		}
+	} else {
+		VarStringOutputDir = VarStringOutputDir + "ent/schema/"
 
 		outputDir, err = filepath.Abs(VarStringOutputDir)
 		if err != nil {
@@ -86,6 +95,10 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 	mutations, err := i.SchemaMutations(context.Background())
 	if err != nil {
 		return fmt.Errorf("schema import failed - %v", err)
+	}
+
+	if len(mutations) == 0 {
+		return errors.New("table not found: " + VarStringTables)
 	}
 
 	if err = WriteSchema(mutations, WithSchemaPath(ctx.OutputDir)); err != nil {
