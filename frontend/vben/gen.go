@@ -146,6 +146,6 @@ func GenCRUDLogic(_ *cobra.Command, _ []string) error {
 		return err
 	}
 
-	color.Green.Println("Done.")
+	color.Green.Println("Generate vben files successfully")
 	return nil
 }

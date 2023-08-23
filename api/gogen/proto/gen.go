@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"github.com/gookit/color"
 	"os"
 	"path"
 	"path/filepath"
@@ -177,6 +178,8 @@ func GenLogicByProto(p *GenLogicByProtoContext) error {
 	if err != nil {
 		return err
 	}
+
+	color.Green.Println("Generate logic files from proto successfully")
 
 	return nil
 }

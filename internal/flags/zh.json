@@ -294,6 +294,10 @@
           "tables": "指定数据表，例子： sys_users,sys_tokens",
           "output": "输出路径，为项目根目录",
           "auto_mixin": "是否自动引入官方 Mixin"
+        },
+        "schema": {
+          "short": "生成 schema 空白文件",
+          "model_name": "Model 名称"
         }
       },
       "makefile": {
