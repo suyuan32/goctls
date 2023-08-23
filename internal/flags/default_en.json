@@ -294,6 +294,10 @@
           "tables": "Specify data tables. e.g. sys_users,sys_tokens",
           "output": "Output path, the project's root directory",
           "auto_mixin": "Whether to automatically import official \"Mixin\""
+        },
+        "schema": {
+          "short": "Generate schema empty file",
+          "model_name": "Model Name"
         }
       },
       "makefile": {
