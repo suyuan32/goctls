@@ -1,6 +1,9 @@
 package schema
 
-import "entgo.io/ent"
+import (
+	"entgo.io/ent"
+	"entgo.io/ent/schema"
+)
 
 // {{.ModelName}} holds the schema definition for the {{.ModelName}} entity.
 type {{.ModelName}} struct {
@@ -25,4 +28,9 @@ func ({{.ModelName}}) Mixin() []ent.Mixin {
 // Indexes of the {{.ModelName}}.
 func ({{.ModelName}}) Indexes() []ent.Index {
     return nil
+}
+
+// Annotations of the {{.ModelName}}
+func ({{.ModelName}}) Annotations() []schema.Annotation {
+	return nil
 }
