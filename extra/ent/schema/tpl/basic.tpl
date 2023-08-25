@@ -12,7 +12,7 @@ type {{.ModelName}} struct {
 
 // Fields of the {{.ModelName}}.
 func ({{.ModelName}}) Fields() []ent.Field {
-	return nil
+	return []ent.Field{}
 }
 
 // Edges of the {{.ModelName}}.
