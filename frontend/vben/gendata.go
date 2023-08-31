@@ -141,7 +141,7 @@ func genData(g *GenContext) error {
 		"formData":            formData.String(),
 		"useBaseInfo":         useBaseInfo,
 		"useUUID":             g.UseUUID,
-		"hasStatus":           g.HasStatus,
+		"hasStatus":           g.HasStatus || g.HasState,
 	},
 		filepath.Join(g.ViewDir, fmt.Sprintf("%s.data.ts", strcase.ToLowerCamel(g.ModelName))), g.Overwrite); err != nil {
 		return err
