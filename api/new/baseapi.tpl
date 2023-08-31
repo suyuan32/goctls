@@ -61,6 +61,13 @@ type IDPathReq {
     Id  uint64 `path:"id"`
 }
 
+// Basic UUID request in path | 基础UUID地址参数请求
+type UUIDPathReq {
+    // ID
+    // Required: true
+    Id  string `path:"id"`
+}
+
 // Basic UUID request | 基础UUID参数请求
 type UUIDReq {
     // ID

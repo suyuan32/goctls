@@ -49,6 +49,10 @@ func genModel(g *GenContext) error {
 						g.HasStatus = true
 					}
 
+					if val.Name == "State" {
+						g.HasState = true
+					}
+
 					infoData.WriteString(fmt.Sprintf("  %s?: %s;\n", strcase.ToLowerCamel(val.Name),
 						ConvertGoTypeToTsType(val.Type.Name())))
 				}
