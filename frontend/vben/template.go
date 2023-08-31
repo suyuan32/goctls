@@ -39,4 +39,7 @@ var (
 
 	//go:embed statusrender.tpl
 	statusRenderTpl string
+
+	//go:embed staterender.tpl
+	stateRenderTpl string
 )

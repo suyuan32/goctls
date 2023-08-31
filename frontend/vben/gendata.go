@@ -35,6 +35,8 @@ func genData(g *GenContext) error {
 	var basicData, searchFormData, formData strings.Builder
 	var useBaseInfo bool
 	var statusBasicColumnData, statusFormColumnData string
+	var stateBasicColumnData, stateFormColumnData string
+
 	// generate basic and search form data
 	for _, v := range g.ApiSpec.Types {
 		if v.Name() == fmt.Sprintf("%sInfo", g.ModelName) {
@@ -65,6 +67,22 @@ func genData(g *GenContext) error {
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
 							strcase.ToLowerCamel(val.Name)),
 					)
+				} else if val.Name == "State" {
+					stateRenderData := bytes.NewBufferString("")
+					protoTmpl, _ := template.New("proto").Parse(stateRenderTpl)
+					_ = protoTmpl.Execute(stateRenderData, map[string]any{
+						"modelName": strings.TrimSuffix(specData.RawName, "Info"),
+					})
+					stateBasicColumnData = stateRenderData.String()
+
+					stateFormColumnData = fmt.Sprintf("\n  {\n    field: '%s',\n    label: t('%s'),\n    component: 'RadioButtonGroup',\n"+
+						"    defaultValue: true,\n    componentProps: {\n      options: [\n        { label: t('common.on'), value: true },\n    "+
+						"    { label: t('common.off'), value: false },\n      ],\n    },\n  },",
+						strcase.ToLowerCamel(val.Name),
+						fmt.Sprintf("%s.%s.%s", g.FolderName,
+							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
+							strcase.ToLowerCamel(val.Name)),
+					)
 				} else {
 					basicData.WriteString(fmt.Sprintf("\n  {\n    title: t('%s'),\n    dataIndex: '%s',\n    width: 100,\n  },",
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
@@ -86,6 +104,12 @@ func genData(g *GenContext) error {
 			if g.HasStatus {
 				basicData.WriteString(statusBasicColumnData)
 				formData.WriteString(statusFormColumnData)
+			}
+
+			// put here in order to put state in the end
+			if g.HasState {
+				basicData.WriteString(stateBasicColumnData)
+				formData.WriteString(stateFormColumnData)
 			}
 		}
 

@@ -57,6 +57,7 @@ type GenContext struct {
 	ApiSpec       *spec.ApiSpec
 	UseUUID       bool
 	HasStatus     bool
+	HasState      bool
 	Overwrite     bool
 }
 
