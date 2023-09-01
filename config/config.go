@@ -15,7 +15,10 @@ const DefaultGoZeroVersion = "v1.5.5"
 const DefaultToolVersion = "v1.5.15"
 
 // GoctlsVersion is goctls version
-const GoctlsVersion = "v1.5.20"
+const GoctlsVersion = "v1.5.21"
+
+// CoreVersion is the core service version.
+const CoreVersion = "v1.1.2"
 
 // LangEnvKey is the environment variable name to control the tools help info language
 const LangEnvKey = "SIMPLE_ADMIN_TOOLS_LANG"

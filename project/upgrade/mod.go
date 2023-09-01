@@ -1,14 +1,11 @@
-package migrate
+package upgrade
 
 import (
 	"errors"
 	"fmt"
-	"os"
-	"time"
-
 	"github.com/suyuan32/goctls/rpc/execx"
-	"github.com/suyuan32/goctls/util/console"
 	"github.com/suyuan32/goctls/util/ctx"
+	"os"
 )
 
 const (
@@ -18,7 +15,7 @@ const (
 
 var errInvalidGoMod = errors.New("it's only working for go module")
 
-func editMod(zeroVersion, toolVersion string, verbose bool) error {
+func editMod(zeroVersion, toolVersion string) error {
 	wd, err := os.Getwd()
 	if err != nil {
 		return err
@@ -31,7 +28,7 @@ func editMod(zeroVersion, toolVersion string, verbose bool) error {
 
 	mod := fmt.Sprintf("%s@%s", goZeroMod, zeroVersion)
 
-	err = addRequire(mod, verbose)
+	err = addRequire(mod)
 	if err != nil {
 		return err
 	}
@@ -39,7 +36,7 @@ func editMod(zeroVersion, toolVersion string, verbose bool) error {
 	// add replace
 	mod = fmt.Sprintf("%s@%s=%s@%s", goZeroMod, zeroVersion, adminTool, toolVersion)
 
-	err = addReplace(mod, verbose)
+	err = addReplace(mod)
 	if err != nil {
 		return err
 	}
@@ -47,11 +44,7 @@ func editMod(zeroVersion, toolVersion string, verbose bool) error {
 	return nil
 }
 
-func addRequire(mod string, verbose bool) error {
-	if verbose {
-		console.Info("adding require %s ...", mod)
-		time.Sleep(200 * time.Millisecond)
-	}
+func addRequire(mod string) error {
 	wd, err := os.Getwd()
 	if err != nil {
 		return err
@@ -66,11 +59,7 @@ func addRequire(mod string, verbose bool) error {
 	return err
 }
 
-func addReplace(mod string, verbose bool) error {
-	if verbose {
-		console.Info("adding replace %s ...", mod)
-		time.Sleep(200 * time.Millisecond)
-	}
+func addReplace(mod string) error {
 	wd, err := os.Getwd()
 	if err != nil {
 		return err
@@ -85,11 +74,7 @@ func addReplace(mod string, verbose bool) error {
 	return err
 }
 
-func tidy(verbose bool) error {
-	if verbose {
-		console.Info("go mod tidy ...")
-		time.Sleep(200 * time.Millisecond)
-	}
+func tidy() error {
 	wd, err := os.Getwd()
 	if err != nil {
 		return err
@@ -100,5 +85,14 @@ func tidy(verbose bool) error {
 	}
 
 	_, err = execx.Run("go mod tidy", wd)
+	if err != nil {
+		return err
+	}
+
+	_, err = execx.Run("go mod edit -fmt", wd)
+	if err != nil {
+		return err
+	}
+
 	return err
 }
