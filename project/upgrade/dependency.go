@@ -40,25 +40,24 @@ func upgradeDependencies(workDir string) error {
 
 func upgradeOfficialDependencies(data, workDir string) (err error) {
 	deps := []struct {
-		Name string
 		Repo string
 	}{
 		{
-			Name: "simple-admin-common",
 			Repo: "github.com/suyuan32/simple-admin-common",
 		},
 		{
-			Name: "simple-admin-core",
 			Repo: "github.com/suyuan32/simple-admin-core",
 		},
 		{
-			Name: "simple-admin-message-center",
 			Repo: "github.com/suyuan32/simple-admin-message-center",
+		},
+		{
+			Repo: "github.com/suyuan32/simple-admin-job",
 		},
 	}
 
 	for _, v := range deps {
-		if strings.Contains(data, v.Name) {
+		if strings.Contains(data, v.Repo) {
 			_, err = execx.Run(fmt.Sprintf("go mod edit -require=%s@%s", v.Repo,
 				config.CoreVersion), workDir)
 			if err != nil {
