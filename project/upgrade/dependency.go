@@ -3,8 +3,10 @@ package upgrade
 import (
 	"errors"
 	"fmt"
+	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/suyuan32/goctls/config"
 	"github.com/suyuan32/goctls/rpc/execx"
+	"path/filepath"
 	"strings"
 )
 
@@ -18,7 +20,7 @@ func upgradeDependencies(workDir string) error {
 		}
 	}
 
-	data, err := execx.Run("go list -json", workDir)
+	data, err := fileutil.ReadFileToString(filepath.Join(workDir, "go.mod"))
 	if err != nil {
 		return err
 	}
