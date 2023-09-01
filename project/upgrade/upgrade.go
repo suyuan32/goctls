@@ -33,6 +33,7 @@ func UpgradeProject(_ *cobra.Command, _ []string) error {
 	}
 
 	if VarBoolUpgradeMakefile {
+		color.Green.Println("Start upgrading Makefile ...")
 		_, err = execx.Run("goctls extra makefile", wd)
 		if err != nil {
 			return errors.New("failed to upgrade makefile")

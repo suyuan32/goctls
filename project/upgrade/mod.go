@@ -85,5 +85,14 @@ func tidy() error {
 	}
 
 	_, err = execx.Run("go mod tidy", wd)
+	if err != nil {
+		return err
+	}
+
+	_, err = execx.Run("go mod edit -fmt", wd)
+	if err != nil {
+		return err
+	}
+
 	return err
 }
