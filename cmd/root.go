@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/suyuan32/goctls/cicd"
 	"github.com/suyuan32/goctls/config"
+	"github.com/suyuan32/goctls/project"
 	"github.com/suyuan32/goctls/upgrade"
 	"os"
 	"runtime"
@@ -16,7 +17,6 @@ import (
 	"github.com/withfig/autocomplete-tools/integrations/cobra"
 
 	"github.com/suyuan32/goctls/api"
-	"github.com/suyuan32/goctls/bug"
 	"github.com/suyuan32/goctls/docker"
 	"github.com/suyuan32/goctls/env"
 	"github.com/suyuan32/goctls/extra"
@@ -26,7 +26,6 @@ import (
 	"github.com/suyuan32/goctls/internal/cobrax"
 	"github.com/suyuan32/goctls/internal/version"
 	"github.com/suyuan32/goctls/kube"
-	"github.com/suyuan32/goctls/migrate"
 	"github.com/suyuan32/goctls/rpc"
 	"github.com/suyuan32/goctls/tpl"
 )
@@ -112,12 +111,13 @@ func init() {
 	})
 
 	rootCmd.Version = fmt.Sprintf(
-		"%s %s/%s - Go Zero Version %s - Simple Admin Tools Version %s", version.BuildVersion,
+		"%s %s/%s - Go Zero %s - Simple Admin Tools %s", version.BuildVersion,
 		runtime.GOOS, runtime.GOARCH, config.DefaultGoZeroVersion, config.DefaultToolVersion)
 
 	rootCmd.SetUsageTemplate(usageTpl)
-	rootCmd.AddCommand(api.Cmd, bug.Cmd, docker.Cmd, kube.Cmd, env.Cmd, gateway.Cmd)
-	rootCmd.AddCommand(migrate.Cmd, rpc.Cmd, tpl.Cmd, frontend.Cmd, extra.ExtraCmd, info.Cmd, upgrade.Cmd, cicd.CicdCmd)
+	rootCmd.AddCommand(api.Cmd, docker.Cmd, kube.Cmd, env.Cmd, gateway.Cmd)
+	rootCmd.AddCommand(rpc.Cmd, tpl.Cmd, frontend.Cmd, extra.ExtraCmd, info.Cmd, upgrade.Cmd, cicd.CicdCmd,
+		project.Cmd)
 	rootCmd.Command.AddCommand(cobracompletefig.CreateCompletionSpecCommand())
 	rootCmd.MustInit()
 }

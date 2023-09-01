@@ -61,10 +61,6 @@ var (
 	VarBoolEnt bool
 	// VarStringModuleName describes the module name
 	VarStringModuleName string
-	// VarStringGoZeroVersion describes the version of Go Zero
-	VarStringGoZeroVersion string
-	// VarStringToolVersion describes the version of Simple Admin Tools
-	VarStringToolVersion string
 	// VarIntServicePort describes the service port exposed
 	VarIntServicePort int
 	// VarBoolGitlab describes whether to use gitlab-ci
@@ -137,8 +133,6 @@ func RPCNew(_ *cobra.Command, args []string) error {
 		ctx.ModuleName = rpcname
 	}
 
-	ctx.GoZeroVersion = VarStringGoZeroVersion
-	ctx.ToolVersion = VarStringToolVersion
 	ctx.Port = VarIntServicePort
 	ctx.MakeFile = true
 	ctx.DockerFile = true

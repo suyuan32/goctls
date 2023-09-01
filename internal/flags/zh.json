@@ -52,8 +52,6 @@
         "style": "{{.global.style}}",
         "casbin": "是否使用 Casbin",
         "i18n": "{{.global.i18n}}",
-        "go_zero_version": "用于替换的 go-zero 版本，例如 v1.5.2，请参见 [https://github.com/zeromicro/go-zero/releases]",
-        "tool_version": "用于迁移的 simple admin tool 版本，例如 v1.5.5，请参见 [https://github.com/suyuan32/simple-admin-tools/releases]",
         "module_name": "go.mod 中的模块名称，例如 github.com/suyuan32/simple-admin-core",
         "trans_err": "是否翻译错误",
         "port": "服务暴露的端口",
@@ -189,14 +187,6 @@
         "short": "从 grpc 服务器生成网关代码"
       }
     },
-    "migrate": {
-      "short": "把 go zero 替换为 tools",
-      "long": "Migrate 目前是一个替换命令，替换 go zero 为 tools",
-      "verbose": "启用额外的日志记录",
-      "version": "要迁移的 github.com/zeromicro/go-zero 的目标版本",
-      "zero_version": "要迁移的 github.com/zeromicro/go-zero 的目标版本",
-      "tool_version": "要迁移的 github.com/suyuan32/simple-admin-tools 的目标版本"
-    },
     "rpc": {
       "short": "生成 rpc 代码",
       "output": "输出样例 proto 文件",
@@ -213,8 +203,6 @@
         "verbose": "启用日志输出",
         "ent": "是否在项目中使用 Ent",
         "module_name": "go.mod 中的模块名称，例如：github.com/suyuan32/simple-admin-core",
-        "go_zero_version": "用于替换的 go zero 版本，例如：v1.5.2，请参见 [https://github.com/zeromicro/go-zero/releases]",
-        "tool_version": "用于迁移的 simple admin 工具版本，例如：v1.5.5，请参见 [https://github.com/suyuan32/simple-admin-tools/releases]",
         "port": "服务公开的端口",
         "gitlab": "是否使用 gitlab-ci",
         "desc": "是否为拆分 proto 文件创建 desc 文件夹",
@@ -370,6 +358,13 @@
     },
     "upgrade": {
       "short": "升级 goctl 到最新版本"
+    },
+    "project": {
+      "short": "项目管理相关命令，如项目升级",
+      "upgrade": {
+        "short": "升级项目",
+        "makefile": "是否更新 Makefile"
+      }
     },
     "frontend": {
       "short": "生成与前端相关的文件",

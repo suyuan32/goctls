@@ -49,8 +49,6 @@ func init() {
 	newCmdFlags.BoolVarP(&cli.VarBoolEnt, "ent", "e")
 	newCmdFlags.BoolVarP(&cli.VarBoolI18n, "i18n", "i")
 	newCmdFlags.StringVarP(&cli.VarStringModuleName, "module_name", "m")
-	newCmdFlags.StringVarPWithDefaultValue(&cli.VarStringGoZeroVersion, "go_zero_version", "z", config.DefaultGoZeroVersion)
-	newCmdFlags.StringVarPWithDefaultValue(&cli.VarStringToolVersion, "tool_version", "t", config.DefaultToolVersion)
 	newCmdFlags.IntVarPWithDefaultValue(&cli.VarIntServicePort, "port", "p", 9110)
 	newCmdFlags.BoolVarP(&cli.VarBoolGitlab, "gitlab", "g")
 	newCmdFlags.BoolVarP(&cli.VarBoolDesc, "desc", "d")

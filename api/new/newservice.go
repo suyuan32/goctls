@@ -47,10 +47,6 @@ var (
 	VarBoolUseCasbin bool
 	// VarBoolUseI18n describe whether to use i18n
 	VarBoolUseI18n bool
-	// VarStringGoZeroVersion describe the version of Go Zero
-	VarStringGoZeroVersion string
-	// VarStringToolVersion describe the version of Simple Admin Tools
-	VarStringToolVersion string
 	// VarModuleName describe the module name
 	VarModuleName string
 	// VarIntServicePort describe the service port exposed
@@ -139,8 +135,6 @@ func CreateServiceCommand(_ *cobra.Command, args []string) error {
 	}
 
 	genCtx := &gogen.GenContext{
-		GoZeroVersion: VarStringGoZeroVersion,
-		ToolVersion:   VarStringToolVersion,
 		UseCasbin:     VarBoolUseCasbin,
 		UseI18n:       VarBoolUseI18n,
 		TransErr:      VarBoolErrorTranslate,

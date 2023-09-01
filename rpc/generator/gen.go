@@ -41,10 +41,6 @@ type ZRpcContext struct {
 	Ent bool
 	// ModuleName is the module name in go mod
 	ModuleName string
-	// GoZeroVersion describes the version of Go Zero
-	GoZeroVersion string
-	// ToolVersion describes the version of Simple Admin Tools
-	ToolVersion string
 	// Port describes the service port exposed
 	Port int
 	// MakeFile describes whether generate makefile
@@ -103,14 +99,6 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 
 	if zctx.ModuleName != "" {
 		_, err = execx.Run("go mod init "+zctx.ModuleName, abs)
-		if err != nil {
-			return err
-		}
-	}
-
-	if zctx.GoZeroVersion != "" && zctx.ToolVersion != "" {
-		_, err := execx.Run(fmt.Sprintf("goctls migrate --zero_version %s --tool_version %s", zctx.GoZeroVersion, zctx.ToolVersion),
-			abs)
 		if err != nil {
 			return err
 		}
@@ -259,6 +247,11 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 		if err != nil {
 			return err
 		}
+	}
+
+	_, err = execx.Run("goctls project upgrade", abs)
+	if err != nil {
+		return err
 	}
 
 	console.NewColorConsole().MarkDone()

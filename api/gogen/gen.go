@@ -94,13 +94,11 @@ func GoCommand(_ *cobra.Command, _ []string) error {
 	remote := VarStringRemote
 	branch := VarStringBranch
 	genCtx := &GenContext{
-		GoZeroVersion: "",
-		ToolVersion:   "",
-		UseCasbin:     VarBoolUseCasbin,
-		UseI18n:       VarBoolUseI18n,
-		TransErr:      VarBoolErrorTranslate,
-		ModuleName:    "",
-		ExtraField:    VarStringExtraField,
+		UseCasbin:  VarBoolUseCasbin,
+		UseI18n:    VarBoolUseI18n,
+		TransErr:   VarBoolErrorTranslate,
+		ModuleName: "",
+		ExtraField: VarStringExtraField,
 	}
 	if len(remote) > 0 {
 		repo, _ := util.CloneIntoGitHome(remote, branch)
@@ -124,8 +122,6 @@ func GoCommand(_ *cobra.Command, _ []string) error {
 
 // GenContext describes the data used for api file generation
 type GenContext struct {
-	GoZeroVersion string
-	ToolVersion   string
 	UseCasbin     bool
 	UseI18n       bool
 	TransErr      bool
@@ -275,12 +271,9 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 		}
 	}
 
-	if g.GoZeroVersion != "" && g.ToolVersion != "" {
-		_, err := execx.Run(fmt.Sprintf("goctls migrate --zero_version %s --tool_version %s", g.GoZeroVersion, g.ToolVersion),
-			dir)
-		if err != nil {
-			return err
-		}
+	_, err = execx.Run("goctls project upgrade", dir)
+	if err != nil {
+		return err
 	}
 
 	if g.UseGitlab {
