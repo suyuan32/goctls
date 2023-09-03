@@ -80,7 +80,7 @@ func GenEntLogic(g *GenEntLogicContext) error {
 }
 
 func genEntLogic(g *GenEntLogicContext) error {
-	color.Green.Println("Generating")
+	color.Green.Println("Generating...")
 
 	outputDir, err := filepath.Abs(g.Output)
 	if err != nil {

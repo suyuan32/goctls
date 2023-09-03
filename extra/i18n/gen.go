@@ -16,6 +16,7 @@ package i18n
 
 import (
 	"errors"
+	"github.com/gookit/color"
 
 	"github.com/spf13/cobra"
 
@@ -52,6 +53,8 @@ func DoGen() error {
 		}
 		return api.GenApiI18n(ctx)
 	}
+
+	color.Green.Println("Generate successfully")
 	return errors.New("invalid target, try \"api\"")
 }
 
