@@ -15,7 +15,7 @@ const DefaultGoZeroVersion = "v1.5.5"
 const DefaultToolVersion = "v1.5.16"
 
 // GoctlsVersion is goctls version
-const GoctlsVersion = "v1.6.0"
+const GoctlsVersion = "v1.6.1"
 
 // CoreVersion is the core service version.
 const CoreVersion = "v1.1.3"
