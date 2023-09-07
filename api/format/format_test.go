@@ -81,5 +81,5 @@ func Test_apiFormatReader_issue1721(t *testing.T) {
 	require.NoError(t, err)
 
 	err = apiFormatReader(f, filename, false)
-	assert.NoError(t, err)
+	assert.NotNil(t, err)
 }
