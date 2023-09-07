@@ -133,6 +133,7 @@ type GenContext struct {
 	ImportPrefix  string
 	UseEnt        bool
 	ExtraField    string
+	IsNewProject  bool
 }
 
 // DoGenProject gen go project files with api file
@@ -271,9 +272,11 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 		}
 	}
 
-	_, err = execx.Run("goctls project upgrade", dir)
-	if err != nil {
-		return err
+	if g.IsNewProject {
+		_, err = execx.Run("goctls project upgrade", dir)
+		if err != nil {
+			return err
+		}
 	}
 
 	if g.UseGitlab {

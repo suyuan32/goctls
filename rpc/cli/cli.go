@@ -142,6 +142,7 @@ func RPCNew(_ *cobra.Command, args []string) error {
 	ctx.Ent = VarBoolEnt
 	ctx.I18n = VarBoolI18n
 	ctx.IsGenClient = VarBoolClient
+	ctx.IsNewProject = true
 
 	if err := pathx.MkdirIfNotExist(ctx.GoOutput); err != nil {
 		return err

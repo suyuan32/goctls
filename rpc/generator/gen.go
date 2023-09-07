@@ -57,6 +57,8 @@ type ZRpcContext struct {
 	I18n bool
 	// Whether to generate rpc client
 	IsGenClient bool
+	// IsNewProject describe whether is new project
+	IsNewProject bool
 }
 
 // Generate generates a rpc service, through the proto file,
@@ -249,9 +251,11 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 		}
 	}
 
-	_, err = execx.Run("goctls project upgrade", abs)
-	if err != nil {
-		return err
+	if zctx.IsNewProject {
+		_, err = execx.Run("goctls project upgrade", abs)
+		if err != nil {
+			return err
+		}
 	}
 
 	console.NewColorConsole().MarkDone()
