@@ -144,6 +144,7 @@ func CreateServiceCommand(_ *cobra.Command, args []string) error {
 		UseMakefile:   true,
 		UseDockerfile: true,
 		UseEnt:        VarBoolEnt,
+		IsNewProject:  true,
 	}
 
 	err = gogen.DoGenProject(apiFilePath, abs, VarStringStyle, genCtx)
