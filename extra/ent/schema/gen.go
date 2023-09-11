@@ -6,6 +6,7 @@ import (
 	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
+	"github.com/suyuan32/goctls/util/format"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -55,7 +56,12 @@ func GenSchema(_ *cobra.Command, _ []string) error {
 		}
 	}
 
-	err = fileutil.WriteStringToFile(filepath.Join(filePath, strings.ToLower(VarStringModelName)+".go"),
+	filename, err := format.FileNamingFormat("go_zero", VarStringModelName)
+	if err != nil {
+		return err
+	}
+
+	err = fileutil.WriteStringToFile(filepath.Join(filePath, filename+".go"),
 		schemaStr.String(), false)
 	if err != nil {
 		return err
