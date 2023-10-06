@@ -26,3 +26,7 @@
 
 # config file avoid exposing private data
 *_dev.yaml
+
+# Build files
+*_api
+*_rpc
