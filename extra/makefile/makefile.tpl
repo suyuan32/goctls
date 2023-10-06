@@ -28,6 +28,9 @@ SWAGGER_TYPE=json{{end}}
 # Ent enabled features | Ent 启用的官方特性
 ENT_FEATURE={{.entFeature}}{{end}}
 
+# The arch of the build | 构建的架构
+GOARCH=amd64
+
 # ---- You may not need to modify the codes below | 下面的代码大概率不需要更改 ----
 
 GO ?= go
@@ -108,17 +111,17 @@ gen-api-ent-logic: # Generate CRUD logic from Ent, need to set model and group |
 {{end}}
 .PHONY: build-win
 build-win: # Build project for Windows | 构建Windows下的可执行文件
-	env CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o $(SERVICE_STYLE)_$(PROJECT_BUILD_SUFFIX).exe $(SERVICE_STYLE).go
+	env CGO_ENABLED=0 GOOS=windows GOARCH=$(GOARCH) go build -ldflags "$(LDFLAGS)" -trimpath -o $(SERVICE_STYLE)_$(PROJECT_BUILD_SUFFIX).exe $(SERVICE_STYLE).go
 	@echo "Build project for Windows successfully"
 
 .PHONY: build-mac
 build-mac: # Build project for MacOS | 构建MacOS下的可执行文件
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o $(SERVICE_STYLE)_$(PROJECT_BUILD_SUFFIX) $(SERVICE_STYLE).go
+	env CGO_ENABLED=0 GOOS=darwin GOARCH=$(GOARCH) go build -ldflags "$(LDFLAGS)" -trimpath -o $(SERVICE_STYLE)_$(PROJECT_BUILD_SUFFIX) $(SERVICE_STYLE).go
 	@echo "Build project for MacOS successfully"
 
 .PHONY: build-linux
 build-linux: # Build project for Linux | 构建Linux下的可执行文件
-	env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "$(LDFLAGS)" -o $(SERVICE_STYLE)_$(PROJECT_BUILD_SUFFIX) $(SERVICE_STYLE).go
+	env CGO_ENABLED=0 GOOS=linux GOARCH=$(GOARCH) go build -ldflags "$(LDFLAGS)" -trimpath -o $(SERVICE_STYLE)_$(PROJECT_BUILD_SUFFIX) $(SERVICE_STYLE).go
 	@echo "Build project for Linux successfully"
 
 .PHONY: help

@@ -12,8 +12,7 @@ import (
 
 func upgradeDependencies(workDir string) error {
 	// drop old replace
-	oldVersion := []string{"v1.5.2", "v1.5.3", "v1.5.4"}
-	for _, v := range oldVersion {
+	for _, v := range config.OldGoZeroVersion {
 		_, err := execx.Run(fmt.Sprintf("go mod edit -dropreplace github.com/zeromicro/go-zero@%s", v), workDir)
 		if err != nil {
 			return errors.New("failed to drop old replace")
