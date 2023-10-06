@@ -17,6 +17,7 @@ package new
 import (
 	_ "embed"
 	"errors"
+	"github.com/duke-git/lancet/v2/fileutil"
 	"html/template"
 	"os"
 	"path/filepath"
@@ -148,5 +149,11 @@ func CreateServiceCommand(_ *cobra.Command, args []string) error {
 	}
 
 	err = gogen.DoGenProject(apiFilePath, abs, VarStringStyle, genCtx)
+
+	err = fileutil.WriteStringToFile(filepath.Join(abs, ".gitignore"), GitIgnoreTmpl, false)
+	if err != nil {
+		return err
+	}
+
 	return err
 }

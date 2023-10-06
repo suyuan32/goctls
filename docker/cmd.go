@@ -3,17 +3,18 @@ package docker
 import "github.com/suyuan32/goctls/internal/cobrax"
 
 var (
-	varServiceName  string
-	varServiceType  string
-	varStringBase   string
-	varIntPort      int
-	varStringHome   string
-	varStringRemote string
-	varStringBranch string
-	varStringImage  string
-	varStringTZ     string
-	varBoolChina    bool
-	varStringAuthor string
+	varServiceName    string
+	varServiceType    string
+	varStringBase     string
+	varIntPort        int
+	varStringHome     string
+	varStringRemote   string
+	varStringBranch   string
+	varStringImage    string
+	varStringTZ       string
+	varBoolChina      bool
+	varStringAuthor   string
+	varBoolLocalBuild bool
 
 	// Cmd describes a docker command.
 	Cmd = cobrax.NewCommand("docker", cobrax.WithRunE(dockerCommand))
@@ -29,6 +30,7 @@ func init() {
 	dockerCmdFlags.StringVarP(&varStringRemote, "remote", "r")
 	dockerCmdFlags.StringVarP(&varStringBranch, "branch", "b")
 	dockerCmdFlags.BoolVarP(&varBoolChina, "china", "c")
+	dockerCmdFlags.BoolVarP(&varBoolLocalBuild, "local_build", "l")
 	dockerCmdFlags.StringVarPWithDefaultValue(&varStringImage, "image", "i", "golang:1.20.5-alpine3.17")
 	dockerCmdFlags.StringVarP(&varStringTZ, "tz", "z")
 	dockerCmdFlags.StringVarPWithDefaultValue(&varStringAuthor, "author", "u", "example@example.com")

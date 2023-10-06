@@ -46,6 +46,7 @@ type GenContext struct {
 	ServiceType string
 	China       bool
 	Author      string
+	LocalBuild  bool
 }
 
 // dockerCommand provides the entry for goctl docker
@@ -81,6 +82,7 @@ func dockerCommand(_ *cobra.Command, _ []string) (err error) {
 		ServiceName: varServiceName,
 		China:       varBoolChina,
 		Author:      varStringAuthor,
+		LocalBuild:  varBoolLocalBuild,
 	}
 
 	if err := generateDockerfile(g); err != nil {
@@ -110,9 +112,18 @@ func generateDockerfile(g *GenContext) error {
 		return err
 	}
 
-	text, err := pathx.LoadTemplate(category, dockerTemplateFile, dockerTemplate)
-	if err != nil {
-		return err
+	var text string
+
+	if g.LocalBuild {
+		text, err = pathx.LoadTemplate(category, dockerLocalbuildTemplateFile, dockerLocalBuildTemplate)
+		if err != nil {
+			return err
+		}
+	} else {
+		text, err = pathx.LoadTemplate(category, dockerTemplateFile, dockerTemplate)
+		if err != nil {
+			return err
+		}
 	}
 
 	t := template.Must(template.New("dockerfile").Parse(text))

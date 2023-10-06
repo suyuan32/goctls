@@ -129,7 +129,8 @@
       "branch": "{{.global.branch}}",
       "image": "The image for building project",
       "tz": "The timezone of the container, such as Asia/Shanghai",
-      "china": "If your server in China, set true"
+      "china": "If your server in China, set true",
+      "local_build": "Whether to build the project locally without using intermediate images"
     },
     "kube": {
       "short": "Generate kubernetes files",

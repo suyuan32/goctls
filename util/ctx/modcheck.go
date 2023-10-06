@@ -17,7 +17,7 @@ func IsGoMod(workDir string) (bool, error) {
 	}
 
 	data, err := execx.Run("go list -m -f '{{.GoMod}}'", workDir)
-	if err != nil || len(data) == 0 {
+	if err != nil || len(data) <= 2 {
 		return false, nil
 	}
 

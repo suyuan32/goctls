@@ -2,6 +2,8 @@ package generator
 
 import (
 	"fmt"
+	"github.com/duke-git/lancet/v2/fileutil"
+	new2 "github.com/suyuan32/goctls/api/new"
 	"os"
 	"path/filepath"
 
@@ -256,6 +258,11 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 		if err != nil {
 			return err
 		}
+	}
+
+	err = fileutil.WriteStringToFile(filepath.Join(abs, ".gitignore"), new2.GitIgnoreTmpl, false)
+	if err != nil {
+		return err
 	}
 
 	console.NewColorConsole().MarkDone()

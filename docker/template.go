@@ -7,12 +7,16 @@ import (
 )
 
 const (
-	category           = "docker"
-	dockerTemplateFile = "docker.tpl"
+	category                     = "docker"
+	dockerTemplateFile           = "docker.tpl"
+	dockerLocalbuildTemplateFile = "docker_local_build.tpl"
 )
 
 //go:embed docker.tpl
 var dockerTemplate string
+
+//go:embed docker_local_build.tpl
+var dockerLocalBuildTemplate string
 
 // Clean deletes all templates files
 func Clean() error {
@@ -46,6 +50,7 @@ func Update() error {
 
 func initTemplate() error {
 	return pathx.InitTemplates(category, map[string]string{
-		dockerTemplateFile: dockerTemplate,
+		dockerTemplateFile:           dockerTemplate,
+		dockerLocalbuildTemplateFile: dockerLocalBuildTemplate,
 	})
 }

@@ -19,6 +19,9 @@ var allApiTmpl string
 //go:embed baseapi.tpl
 var baseApiTmpl string
 
+//go:embed gitignore.tpl
+var GitIgnoreTmpl string
+
 var templates = map[string]string{
 	apiTemplateFile: baseApiTmpl,
 }
