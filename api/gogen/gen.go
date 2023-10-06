@@ -183,7 +183,7 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 			return err
 		}
 
-		_, err = execx.Run(fmt.Sprintf("goctls docker -p %d -s %s -t api", g.Port, service), dir)
+		_, err = execx.Run(fmt.Sprintf("goctls docker -p %d -s %s -t api -l", g.Port, service), dir)
 	}
 
 	if g.UseMakefile {

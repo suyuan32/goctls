@@ -181,7 +181,7 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 	}
 
 	if zctx.DockerFile {
-		_, err = execx.Run(fmt.Sprintf("goctls docker -p %d -s %s -t rpc", zctx.Port, zctx.RpcName), abs)
+		_, err = execx.Run(fmt.Sprintf("goctls docker -p %d -s %s -t rpc -l", zctx.Port, zctx.RpcName), abs)
 	}
 
 	if zctx.Gitlab {

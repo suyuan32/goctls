@@ -61,6 +61,8 @@ func Gen(_ *cobra.Command, _ []string) error {
 }
 
 func DoGen(g *GenContext) error {
+	color.Green.Println("Generating...")
+
 	protoFilePath, err := filepath.Abs(g.ProtoPath)
 	if err != nil {
 		return errors.Wrap(err, "failed to load proto file")
@@ -183,7 +185,7 @@ func DoGen(g *GenContext) error {
 		}
 	}
 
-	color.Green.Println("successful")
+	color.Green.Println("Generate successfully")
 
 	return err
 }

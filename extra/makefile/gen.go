@@ -18,6 +18,7 @@ import (
 	"bytes"
 	_ "embed"
 	"github.com/duke-git/lancet/v2/fileutil"
+	"github.com/gookit/color"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -102,6 +103,8 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 }
 
 func DoGen(g *GenContext) error {
+	color.Green.Println("Generating...")
+
 	serviceNameStyle, err := format.FileNamingFormat(g.Style, g.ServiceName)
 	if err != nil {
 		return errors.Wrap(err, "failed to format service name")

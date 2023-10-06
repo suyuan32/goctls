@@ -13,11 +13,12 @@ WORKDIR /app
 ENV PROJECT=${PROJECT}
 ENV CONFIG_FILE=${CONFIG_FILE}
 {{if .HasTimezone}}
+ENV TZ={{.Timezone}}
 RUN apk update --no-cache && apk add --no-cache tzdata
 {{end}}
 COPY ./${PROJECT}_{{.ServiceType}} ./
 COPY ./etc/${CONFIG_FILE} ./etc/
 {{if .HasPort}}
-    EXPOSE {{.Port}}
+EXPOSE {{.Port}}
 {{end}}
 ENTRYPOINT ./${PROJECT}_{{.ServiceType}} -f etc/${CONFIG_FILE}

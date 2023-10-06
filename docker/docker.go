@@ -93,6 +93,8 @@ func dockerCommand(_ *cobra.Command, _ []string) (err error) {
 }
 
 func generateDockerfile(g *GenContext) error {
+	color.Green.Println("Generating...")
+
 	var projPath string
 	var err error
 
