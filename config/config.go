@@ -11,14 +11,14 @@ const DefaultFormat = "go_zero"
 // DefaultGoZeroVersion defines the default version of go zero for migrate
 const DefaultGoZeroVersion = "v1.5.6"
 
-// OldGoZeroVersion defines the old version of go zero for migrate
+// OldGoZeroVersion defines the old version of go zero for update
 var OldGoZeroVersion = []string{"v1.5.2", "v1.5.3", "v1.5.4", "v1.5.5"}
 
 // DefaultToolVersion defines the default version of simple admin tools for migrate
 const DefaultToolVersion = "v1.5.17"
 
 // GoctlsVersion is goctls version
-const GoctlsVersion = "v1.6.4"
+const GoctlsVersion = "v1.6.5"
 
 // CoreVersion is the core service version.
 const CoreVersion = "v1.1.5"
