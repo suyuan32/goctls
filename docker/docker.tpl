@@ -15,7 +15,7 @@ RUN go env -w GO111MODULE=on \
 {{end}}    && go env -w CGO_ENABLED=0 \
     && go env \
     && go mod tidy \
-    && go build -ldflags="-s -w" -o /build/${PROJECT}_{{.ServiceType}} ${PROJECT}.go
+    && go build -ldflags="-s -w" -trimpath -o /build/${PROJECT}_{{.ServiceType}} ${PROJECT}.go
 
 FROM {{.BaseImage}}
 
