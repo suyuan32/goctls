@@ -129,7 +129,8 @@
       "branch": "{{.global.branch}}",
       "image": "构建项目的镜像",
       "tz": "容器的时区，例如 Asia/Shanghai",
-      "china": "如果您的服务器在中国，请设置为 true"
+      "china": "如果您的服务器在中国，请设置为 true",
+      "local_build": "是否在本地构建项目，不使用中间镜像"
     },
     "kube": {
       "short": "生成 kubernetes 文件",
