@@ -60,6 +60,11 @@ func genModel(g *GenContext) error {
 
 		}
 	}
+
+	if infoData.Len() < 5 {
+		return errors.New("failed to get the fields of the model, please check the api file and your model name")
+	}
+
 	if err := util.With("modelTpl").Parse(modelTpl).SaveTo(map[string]any{
 		"modelName": g.ModelName,
 		"infoData":  infoData.String(),
