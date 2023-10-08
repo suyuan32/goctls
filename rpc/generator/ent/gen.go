@@ -486,11 +486,16 @@ func GenProtoData(schema *load.Schema, g *GenEntLogicContext) (string, string, e
 		schemaNameCamelCase, entx.ConvertIDType(g.UseUUID), idString, createString, updateString))
 	index := 4
 	for i, v := range schema.Fields {
+		var fieldComment string
+		if v.Comment != "" {
+			fieldComment = fmt.Sprintf("  // %s\n", v.Comment)
+		}
+
 		if entx.IsBaseProperty(v.Name) {
 			continue
 		} else if v.Name == "status" {
 			statusString, _ := format.FileNamingFormat(g.ProtoFieldStyle, v.Name)
-			protoMessage.WriteString(fmt.Sprintf("  optional uint32 %s = %d;\n", statusString, index))
+			protoMessage.WriteString(fmt.Sprintf("%s  optional uint32 %s = %d;\n", fieldComment, statusString, index))
 			hasStatus = true
 			index++
 		} else {
@@ -502,9 +507,9 @@ func GenProtoData(schema *load.Schema, g *GenEntLogicContext) (string, string, e
 
 			formatedString, _ := format.FileNamingFormat(g.ProtoFieldStyle, v.Name)
 			if entx.IsTimeProperty(v.Info.Type.String()) {
-				protoMessage.WriteString(fmt.Sprintf("  optional int64  %s = %d;%s", formatedString, index, endString))
+				protoMessage.WriteString(fmt.Sprintf("%s  optional int64  %s = %d;%s", fieldComment, formatedString, index, endString))
 			} else {
-				protoMessage.WriteString(fmt.Sprintf("  optional %s %s = %d;%s", entx.ConvertEntTypeToProtoType(v.Info.Type.String()),
+				protoMessage.WriteString(fmt.Sprintf("%s  optional %s %s = %d;%s", fieldComment, entx.ConvertEntTypeToProtoType(v.Info.Type.String()),
 					formatedString, index, endString))
 			}
 
