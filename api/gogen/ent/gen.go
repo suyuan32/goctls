@@ -393,8 +393,9 @@ func GenApiData(schema *load.Schema, ctx *GenEntLogicContext) (string, error) {
 			optionalStr = "optional"
 		}
 
-		structData = fmt.Sprintf("\n\n        // %s\n        %s  %s%s `json:\"%s,%s\"`",
+		structData = fmt.Sprintf("\n\n        // %s | %s\n        %s  %s%s `json:\"%s,%s\"`",
 			parser.CamelCase(v.Name),
+			v.Comment,
 			parser.CamelCase(v.Name),
 			pointerStr,
 			entx.ConvertEntTypeToGotypeInSingleApi(v.Info.Type.String()),
