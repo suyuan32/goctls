@@ -189,7 +189,12 @@ func genProtoString(data parser.Proto) string {
 				prefixStr = "optional "
 			}
 
-			protoString.WriteString(fmt.Sprintf("  %s%s %s = %d;\n", prefixStr, protox.ProtoField.Type, protox.ProtoField.Name, protox.ProtoField.Sequence))
+			fieldComment := ""
+			if protox.ProtoField.Comment != "" {
+				fieldComment = fmt.Sprintf("  // %s\n", protox.ProtoField.Comment)
+			}
+
+			protoString.WriteString(fmt.Sprintf("%s  %s%s %s = %d;\n", fieldComment, prefixStr, protox.ProtoField.Type, protox.ProtoField.Name, protox.ProtoField.Sequence))
 		}
 		protoString.WriteString("}\n\n")
 	}

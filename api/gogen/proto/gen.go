@@ -345,8 +345,13 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 						return "", err
 					}
 
+					fieldComment := parser.CamelCase(protox.ProtoField.Name)
+					if protox.ProtoField.Comment != "" {
+						fieldComment = strings.Trim(protox.ProtoField.Comment, " ")
+					}
+
 					structData = fmt.Sprintf("\n\n        // %s\n        %s  *%s `json:\"%s,optional\"`",
-						parser.CamelCase(protox.ProtoField.Name),
+						fieldComment,
 						parser.CamelCase(protox.ProtoField.Name),
 						entx.ConvertProtoTypeToGoType(protox.ProtoField.Type),
 						jsonTag)
