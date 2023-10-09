@@ -63,8 +63,6 @@ var (
 	VarStringModuleName string
 	// VarIntServicePort describes the service port exposed
 	VarIntServicePort int
-	// VarBoolGitlab describes whether to use gitlab-ci
-	VarBoolGitlab bool
 	// VarStringGroupName describes whether to use group
 	VarStringGroupName string
 	// VarStringProtoPath describes the output proto file path for ent code generation
@@ -136,7 +134,6 @@ func RPCNew(_ *cobra.Command, args []string) error {
 	ctx.Port = VarIntServicePort
 	ctx.MakeFile = true
 	ctx.DockerFile = true
-	ctx.Gitlab = VarBoolGitlab
 	ctx.UseDescDir = VarBoolDesc
 	ctx.RpcName = rpcname
 	ctx.Ent = VarBoolEnt

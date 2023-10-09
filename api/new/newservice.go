@@ -52,8 +52,6 @@ var (
 	VarModuleName string
 	// VarIntServicePort describe the service port exposed
 	VarIntServicePort int
-	// VarBoolGitlab describes whether to use gitlab-ci
-	VarBoolGitlab bool
 	// VarBoolEnt describes whether to use ent in api
 	VarBoolEnt bool
 )
@@ -141,7 +139,6 @@ func CreateServiceCommand(_ *cobra.Command, args []string) error {
 		TransErr:      VarBoolErrorTranslate,
 		ModuleName:    moduleName,
 		Port:          VarIntServicePort,
-		UseGitlab:     VarBoolGitlab,
 		UseMakefile:   true,
 		UseDockerfile: true,
 		UseEnt:        VarBoolEnt,
