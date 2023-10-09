@@ -65,6 +65,7 @@ func init() {
 	goCmdFlags.BoolVarP(&gogen.VarBoolUseCasbin, "casbin", "c")
 	goCmdFlags.StringVarP(&gogen.VarStringExtraField, "extra_field", "e")
 	goCmdFlags.BoolVarP(&gogen.VarBoolUseI18n, "i18n", "i")
+	goCmdFlags.BoolVar(&gogen.VarBoolDisabledValidator, "disable_validator")
 
 	newCmdFlags.StringVar(&new.VarStringHome, "home")
 	newCmdFlags.StringVar(&new.VarStringRemote, "remote")

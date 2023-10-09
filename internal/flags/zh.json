@@ -41,7 +41,8 @@
         "trans_err": "是否翻译错误",
         "casbin": "是否使用 Casbin",
         "extra_field": "是否生成额外变量，如 userId",
-        "i18n": "{{.global.i18n}}"
+        "i18n": "{{.global.i18n}}",
+        "disable_validator": "是否禁用验证器"
       },
       "new": {
         "short": "快速创建 api 服务",
@@ -62,25 +63,12 @@
         "short": "验证 api 文件",
         "api": "{{.goctl.api.api}}"
       },
-      "kt": {
-        "short": "为提供的 api 文件生成 kotlin 代码",
-        "dir": "{{.goctl.api.dir}}",
-        "api": "{{.goctl.api.api}}",
-        "pkg": "定义 kotlin 文件的包名"
-      },
       "plugin": {
         "short": "自定义文件生成器",
         "plugin": "插件文件",
         "dir": "{{.goctl.api.dir}}",
         "api": "{{.goctl.api.api}}",
         "style": "{{.global.style}}"
-      },
-      "ts": {
-        "short": "为提供的 api 文件生成 ts 文件",
-        "dir": "{{.goctl.api.dir}}",
-        "api": "{{.goctl.api.api}}",
-        "caller": "web api 调用器",
-        "unwrap": "解包 webapi 调用器以进行导入"
       },
       "proto": {
         "short": "从 proto 文件生成 CRUD 模板",

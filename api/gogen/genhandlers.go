@@ -34,9 +34,22 @@ type handlerInfo struct {
 	HasResp            bool
 	HasRequest         bool
 	TransErr           bool
+	UseValidator       bool
 }
 
-func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route spec.Route, trans bool) error {
+func genHandlers(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec, g *GenContext) error {
+	for _, group := range api.Service.Groups {
+		for _, route := range group.Routes {
+			if err := genHandler(dir, rootPkg, cfg, group, route, g); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route spec.Route, g *GenContext) error {
 	handler := getHandlerName(route)
 	handlerPath := getHandlerFolderPath(group, route)
 	pkgName := handlerPath[strings.LastIndex(handlerPath, "/")+1:]
@@ -108,7 +121,8 @@ func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route
 		Call:           cases.Title(language.English, cases.NoLower).String(strings.TrimSuffix(handler, "Handler")),
 		HasResp:        len(route.ResponseTypeName()) > 0,
 		HasRequest:     len(route.RequestTypeName()) > 0,
-		TransErr:       trans,
+		TransErr:       g.TransErr,
+		UseValidator:   g.UseValidator,
 	})
 }
 
@@ -130,18 +144,6 @@ func doGenToFile(dir, handler string, cfg *config.Config, group spec.Group,
 		builtinTemplate: handlerTemplate,
 		data:            handleObj,
 	})
-}
-
-func genHandlers(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec, g *GenContext) error {
-	for _, group := range api.Service.Groups {
-		for _, route := range group.Routes {
-			if err := genHandler(dir, rootPkg, cfg, group, route, g.TransErr); err != nil {
-				return err
-			}
-		}
-	}
-
-	return nil
 }
 
 func genHandlerImports(group spec.Group, route spec.Route, parentPkg string) string {

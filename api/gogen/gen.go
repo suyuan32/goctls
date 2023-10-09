@@ -83,6 +83,8 @@ var (
 	VarStringImportPrefix string
 	// VarStringExtraField describes the extra field for api logic code such as user id
 	VarStringExtraField string
+	// VarBoolDisabledValidator describes whether to disable validator
+	VarBoolDisabledValidator bool
 )
 
 // GoCommand gen go project files from command line
@@ -94,11 +96,12 @@ func GoCommand(_ *cobra.Command, _ []string) error {
 	remote := VarStringRemote
 	branch := VarStringBranch
 	genCtx := &GenContext{
-		UseCasbin:  VarBoolUseCasbin,
-		UseI18n:    VarBoolUseI18n,
-		TransErr:   VarBoolErrorTranslate,
-		ModuleName: "",
-		ExtraField: VarStringExtraField,
+		UseCasbin:    VarBoolUseCasbin,
+		UseI18n:      VarBoolUseI18n,
+		TransErr:     VarBoolErrorTranslate,
+		ModuleName:   "",
+		ExtraField:   VarStringExtraField,
+		UseValidator: !VarBoolDisabledValidator,
 	}
 	if len(remote) > 0 {
 		repo, _ := util.CloneIntoGitHome(remote, branch)
@@ -133,6 +136,7 @@ type GenContext struct {
 	UseEnt        bool
 	ExtraField    string
 	IsNewProject  bool
+	UseValidator  bool
 }
 
 // DoGenProject gen go project files with api file
