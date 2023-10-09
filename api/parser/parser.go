@@ -174,8 +174,8 @@ func (p parser) findDefinedType(name string) (*spec.Type, error) {
 }
 
 func (p parser) fieldToMember(field *ast.TypeField) spec.Member {
-	name := ""
-	tag := ""
+	var name string
+	var tag string
 	if !field.IsAnonymous {
 		name = field.Name.Text()
 		if field.Tag == nil {
