@@ -2,6 +2,7 @@ package upgrade
 
 import (
 	"fmt"
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 	"github.com/suyuan32/goctls/rpc/execx"
 )
@@ -16,5 +17,6 @@ func upgrade(_ *cobra.Command, _ []string) error {
 	}
 
 	fmt.Print(info)
+	color.Green.Println("Upgrade successfully")
 	return nil
 }

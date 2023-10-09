@@ -6,7 +6,8 @@ import (
 	"{{.projectPackage}}{{.importPrefix}}/internal/svc"
 	"{{.projectPackage}}{{.importPrefix}}/internal/types"
 	"{{.rpcPackage}}"
-
+{{if .useI18n}}
+	"github.com/suyuan32/simple-admin-common/i18n"{{end}}
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
