@@ -41,7 +41,8 @@
         "trans_err": "Whether to translate the error",
         "casbin": "Whether to use the Casbin",
         "extra_field": "Whether to generate extra fields for logic, such as userId",
-        "i18n": "{{.global.i18n}}"
+        "i18n": "{{.global.i18n}}",
+        "disable_validator": "Whether to disable validator"
       },
       "new": {
         "short": "Fast create api service",
@@ -55,18 +56,11 @@
         "module_name": "The module name in go.mod. e.g. github.com/suyuan32/simple-admin-core",
         "trans_err": "Whether to translate the error",
         "port": "The service port exposed",
-        "gitlab": "Whether to use gitlab CI/CD",
         "ent": "Whether to use Ent in API service"
       },
       "validate": {
         "short": "Validate api file",
         "api": "{{.goctl.api.api}}"
-      },
-      "kt": {
-        "short": "Generate kotlin code for provided api file",
-        "dir": "{{.goctl.api.dir}}",
-        "api": "{{.goctl.api.api}}",
-        "pkg": "Define package name for kotlin file"
       },
       "plugin": {
         "short": "Custom file generator",
@@ -74,13 +68,6 @@
         "dir": "{{.goctl.api.dir}}",
         "api": "{{.goctl.api.api}}",
         "style": "{{.global.style}}"
-      },
-      "ts": {
-        "short": "Generate ts files for provided api in api file",
-        "dir": "{{.goctl.api.dir}}",
-        "api": "{{.goctl.api.api}}",
-        "caller": "The web api caller",
-        "unwrap": "Unwrap the webapi caller for import"
       },
       "proto": {
         "short": "Generate CRUD template from proto file",
@@ -205,7 +192,6 @@
         "ent": "Whether use Ent in project",
         "module_name": "The module name in go.mod. e.g. github.com/suyuan32/simple-admin-core",
         "port" : "The service port exposed",
-        "gitlab": "Whether to use gitlab-ci",
         "i18n": "{{.global.i18n}}",
         "desc": "Whether to create desc folder for splitting proto files",
         "client": "Whether to generate client"
