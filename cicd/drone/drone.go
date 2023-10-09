@@ -46,28 +46,29 @@ type Dockerfile struct {
 }
 
 func GenDrone(_ *cobra.Command, _ []string) error {
-	fmt.Println(color.Green.Render("verifying params..."))
+	color.Green.Println("verifying parameters...")
 
 	// 校验模版逻辑
-	etcyaml := VarEtcYaml
-	if len(etcyaml) == 0 {
-		return fmt.Errorf("etcyaml is empty!")
+	etcYaml := VarEtcYaml
+	if len(etcYaml) == 0 {
+		return fmt.Errorf("config file not found, please check the etc path and yaml file")
 	}
 
-	dronename := VarDroneName
-	if len(dronename) == 0 {
-		dronename = "drone-greet"
+	droneName := VarDroneName
+	if len(droneName) == 0 {
+		droneName = "drone-greet"
 	}
 
-	goprivate := VarGitGoPrivate
-	if len(strings.Split(goprivate, ".")) <= 1 {
-		return fmt.Errorf("error go private!")
+	goPrivate := VarGitGoPrivate
+	if len(strings.Split(goPrivate, ".")) <= 1 {
+		return fmt.Errorf("wrong private repository address, set like: gitee.com, github.com, gitlab.com")
 	}
 
 	serviceName := VarServiceName
-	if len(strings.Split(serviceName, ".go")) != 1 {
-		return fmt.Errorf("please ignore suffix .go!")
+	if len(serviceName) < 1 {
+		return fmt.Errorf("service name is empty, please set it")
 	}
+	serviceName = strings.TrimSuffix(serviceName, ".go")
 
 	serviceType := VarServiceType
 	if len(serviceType) == 0 {
@@ -80,15 +81,15 @@ func GenDrone(_ *cobra.Command, _ []string) error {
 	}
 	registry := VarRegistry
 	if len(registry) == 0 {
-		return fmt.Errorf("registry is empty!")
+		return fmt.Errorf("registry is empty, please set your docker registry address such as \"registry.cn-beijing.aliyuncs.com\"")
 	}
 
 	repo := VarRepo
 	if len(repo) == 0 {
-		return fmt.Errorf("repo is empty!")
+		return fmt.Errorf("repo is empty, please set your docker repo address such as \"registry.cn-hangzhou.aliyuncs.com/simple_admin/core-api-docker:v1.1.0\" ")
 	}
 
-	fmt.Println(color.Green.Render("loading template..."))
+	color.Green.Render("loading template...")
 
 	// 创建 .drone.yml 前面的点是drone默认加载程序，如果脱离本框架会无法找到路径
 	droneFile, err := os.Create(".drone.yml")
@@ -115,8 +116,8 @@ func GenDrone(_ *cobra.Command, _ []string) error {
 	// 渲染模板
 	t := template.Must(template.New("drone").Parse(droneTpl))
 	t.Execute(droneFile, Drone{
-		DroneName:    dronename,
-		GitGoPrivate: goprivate,
+		DroneName:    droneName,
+		GitGoPrivate: goPrivate,
 		ServiceName:  serviceName,
 		ServiceType:  serviceType,
 		GitBranch:    gitBranch,
@@ -126,9 +127,9 @@ func GenDrone(_ *cobra.Command, _ []string) error {
 
 	t1 := template.Must(template.New("dockerfile").Parse(dockerfileTpl))
 	t1.Execute(dockerfileFile, Dockerfile{
-		EtcYaml: etcyaml,
+		EtcYaml: etcYaml,
 	})
 
-	fmt.Println(color.Green.Render("Done."))
+	color.Green.Println("Done.")
 	return nil
 }

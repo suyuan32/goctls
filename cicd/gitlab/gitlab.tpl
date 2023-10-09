@@ -19,6 +19,7 @@ build-job:
   stage: build
   script:
     - echo "Compiling the code and build the docker image ..."
+    - make build-linux
     - make docker
     - echo "Compilation and build are done."
 

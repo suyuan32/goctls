@@ -127,7 +127,6 @@ type GenContext struct {
 	TransErr      bool
 	ModuleName    string
 	Port          int
-	UseGitlab     bool
 	UseMakefile   bool
 	UseDockerfile bool
 	ImportPrefix  string
@@ -279,10 +278,6 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 		}
 	}
 
-	if g.UseGitlab {
-		logx.Must(genGitlab(dir))
-	}
-
 	if err := backupAndSweep(apiFile); err != nil {
 		return err
 	}
@@ -291,7 +286,7 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 		return err
 	}
 
-	fmt.Println(color.Green.Render("Done."))
+	color.Green.Println("Done.")
 	return nil
 }
 

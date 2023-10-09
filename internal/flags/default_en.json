@@ -331,6 +331,10 @@
         "git_branch": "The branch of the remote repo, default \"main\" ",
         "repo": "The remote Git Repository, if tag is not 'latest' please assign tag such as: git-repo:v0.0.1, if tag is latest you can ignore the tag (required)",
         "etc_yaml":"The Dockerfile with drone used, go-zero project etc yaml file name (required)"
+      },
+      "gitlab": {
+        "short": "Generate gitlab-ci.yml file",
+        "output_dir": "The output directory"
       }
     },
     "template": {

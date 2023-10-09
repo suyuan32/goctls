@@ -331,6 +331,10 @@
         "git_branch": "git仓库分支, 默认 \"main\" 分支",
         "repo": "远程镜像仓库地址, 如果tag不是 'latest' 需要指定，例如: git-repo:v0.0.1, 如果是 'latest' 则需要忽略 (必需)",
         "etc_yaml":"drone在CI过程中使用的dockerfile, go-zero项目中的yaml配置文件名 (必需)"
+      },
+      "gitlab": {
+        "short": "生成 gitlab-ci.yml 文件",
+        "output_dir": "输出目录"
       }
     },
     "template": {

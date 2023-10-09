@@ -49,8 +49,6 @@ type ZRpcContext struct {
 	MakeFile bool
 	// DockerFile describes whether generate dockerfile
 	DockerFile bool
-	// Gitlab describes whether to use gitlab-ci
-	Gitlab bool
 	// DescDir describes whether to create desc folder for splitting proto files
 	UseDescDir bool
 	// RpcName describes the rpc name when create new project
@@ -182,13 +180,6 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 
 	if zctx.DockerFile {
 		_, err = execx.Run(fmt.Sprintf("goctls docker -p %d -s %s -t rpc -l", zctx.Port, zctx.RpcName), abs)
-	}
-
-	if zctx.Gitlab {
-		err = g.GenGitlab(dirCtx, proto, g.cfg, zctx)
-		if err != nil {
-			return err
-		}
 	}
 
 	if zctx.UseDescDir {

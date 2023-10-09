@@ -75,7 +75,6 @@ func init() {
 	newCmdFlags.StringVarP(&new.VarModuleName, "module_name", "m")
 	newCmdFlags.BoolVarP(&new.VarBoolErrorTranslate, "trans_err", "a")
 	newCmdFlags.IntVarPWithDefaultValue(&new.VarIntServicePort, "port", "p", 9100)
-	newCmdFlags.BoolVarP(&new.VarBoolGitlab, "gitlab", "g")
 	newCmdFlags.BoolVarP(&new.VarBoolEnt, "ent", "e")
 
 	pluginCmdFlags.StringVarP(&plugin.VarStringPlugin, "plugin", "p")

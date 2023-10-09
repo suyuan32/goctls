@@ -50,7 +50,6 @@ func init() {
 	newCmdFlags.BoolVarP(&cli.VarBoolI18n, "i18n", "i")
 	newCmdFlags.StringVarP(&cli.VarStringModuleName, "module_name", "m")
 	newCmdFlags.IntVarPWithDefaultValue(&cli.VarIntServicePort, "port", "p", 9110)
-	newCmdFlags.BoolVarP(&cli.VarBoolGitlab, "gitlab", "g")
 	newCmdFlags.BoolVarP(&cli.VarBoolDesc, "desc", "d")
 	newCmdFlags.BoolVarPWithDefaultValue(&cli.VarBoolClient, "client", "c", true)
 
