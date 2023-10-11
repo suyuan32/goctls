@@ -32,8 +32,8 @@ WORKDIR /app
 ENV PROJECT=${PROJECT}
 ENV CONFIG_FILE=${CONFIG_FILE}
 {{if .HasTimezone}}
-COPY --from=builder /usr/share/zoneinfo/{{.Timezone}} /usr/share/zoneinfo/{{.Timezone}}
 ENV TZ={{.Timezone}}
+COPY --from=builder /usr/share/zoneinfo/{{.Timezone}} /usr/share/zoneinfo/{{.Timezone}}
 {{end}}
 COPY --from=builder /build/${PROJECT}_{{.ServiceType}} ./
 COPY --from=builder /build/etc/${CONFIG_FILE} ./etc/
