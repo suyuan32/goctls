@@ -28,7 +28,7 @@ func NewGet{{.modelName}}ByIdLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *Get{{.modelName}}ByIdLogic) Get{{.modelName}}ById(req *types.{{if .useUUID}}UU{{end}}IDReq) (resp *types.{{.modelName}}InfoResp, err error) {
-{{if .optionalService}}	if l.svcCtx.{{.rpcName}}Rpc == nil {
+{{if .optionalService}}	if !l.svcCtx.Config.{{.rpcName}}Rpc.Enabled {
 		return nil, errorx.NewCodeUnavailableError({{if .useI18n}}i18n.ServiceUnavailable{{else}}errormsg.ServiceUnavailable{{end}})
 	}
 {{end}}	data, err := l.svcCtx.{{.rpcName}}Rpc.Get{{.modelName}}ById(l.ctx, &{{.rpcPbPackageName}}.{{if .useUUID}}UU{{end}}IDReq{Id: req.Id})

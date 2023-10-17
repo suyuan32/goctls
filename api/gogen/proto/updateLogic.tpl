@@ -28,7 +28,7 @@ func NewUpdate{{.modelName}}Logic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *Update{{.modelName}}Logic) Update{{.modelName}}(req *types.{{.modelName}}Info) (resp *types.BaseMsgResp, err error) {
-{{if .optionalService}}	if l.svcCtx.{{.rpcName}}Rpc == nil {
+{{if .optionalService}}	if !l.svcCtx.Config.{{.rpcName}}Rpc.Enabled {
 		return nil, errorx.NewCodeUnavailableError({{if .useI18n}}i18n.ServiceUnavailable{{else}}errormsg.ServiceUnavailable{{end}})
 	}
 {{end}}	data, err := l.svcCtx.{{.rpcName}}Rpc.Update{{.modelName}}(l.ctx,
