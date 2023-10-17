@@ -85,7 +85,8 @@
         "json_style": "JSON 标记格式，默认为驼峰式",
         "import_prefix": "{{.global.import_prefix}}",
         "i18n": "{{.global.i18n}}",
-        "overwrite": "是否覆盖文件，它将覆盖所有生成的文件"
+        "overwrite": "是否覆盖文件，它将覆盖所有生成的文件",
+        "optional_service": "是否为可选服务，如果为 true，则会生成判断代码"
       },
       "ent": {
         "short": "从 ent 文件生成 CRUD 业务逻辑文件",

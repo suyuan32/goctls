@@ -85,6 +85,8 @@ var (
 	VarStringExtraField string
 	// VarBoolDisabledValidator describes whether to disable validator
 	VarBoolDisabledValidator bool
+	// VarBoolOptionalService describes whether to generate for optional service
+	VarBoolOptionalService bool
 )
 
 // GoCommand gen go project files from command line
@@ -352,20 +354,21 @@ func sweep() error {
 
 func GenCRUDLogicByProto(_ *cobra.Command, _ []string) error {
 	params := &proto.GenLogicByProtoContext{
-		ProtoDir:       VarStringProto,
-		OutputDir:      VarStringOutput,
-		RPCServiceName: VarStringRPCServiceName,
-		APIServiceName: VarStringAPIServiceName,
-		Style:          VarStringStyle,
-		ModelName:      VarStringModelName,
-		SearchKeyNum:   VarIntSearchKeyNum,
-		RpcName:        VarStringRpcName,
-		GrpcPackage:    VarStringGrpcPbPackage,
-		Multiple:       VarBoolMultiple,
-		JSONStyle:      VarStringJSONStyle,
-		UseI18n:        VarBoolUseI18n,
-		ImportPrefix:   VarStringImportPrefix,
-		Overwrite:      VarBoolOverwrite,
+		ProtoDir:        VarStringProto,
+		OutputDir:       VarStringOutput,
+		RPCServiceName:  VarStringRPCServiceName,
+		APIServiceName:  VarStringAPIServiceName,
+		Style:           VarStringStyle,
+		ModelName:       VarStringModelName,
+		SearchKeyNum:    VarIntSearchKeyNum,
+		RpcName:         VarStringRpcName,
+		GrpcPackage:     VarStringGrpcPbPackage,
+		Multiple:        VarBoolMultiple,
+		JSONStyle:       VarStringJSONStyle,
+		UseI18n:         VarBoolUseI18n,
+		ImportPrefix:    VarStringImportPrefix,
+		Overwrite:       VarBoolOverwrite,
+		OptionalService: VarBoolOptionalService,
 	}
 
 	err := params.Validate()

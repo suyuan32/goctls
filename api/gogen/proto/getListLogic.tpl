@@ -7,7 +7,9 @@ import (
 	"{{.projectPackage}}{{.importPrefix}}/internal/types"
 	"{{.rpcPackage}}"
 {{if .useI18n}}
-	"github.com/suyuan32/simple-admin-common/i18n"{{end}}
+	"github.com/suyuan32/simple-admin-common/i18n"{{end}}{{if .optionalService}}{{if not .useI18n}}
+	"github.com/suyuan32/simple-admin-common/msg/errormsg"{{end}}
+	"github.com/zeromicro/go-zero/core/errorx"{{end}}
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -26,7 +28,10 @@ func NewGet{{.modelName}}ListLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *Get{{.modelName}}ListLogic) Get{{.modelName}}List(req *types.{{.modelName}}ListReq) (resp *types.{{.modelName}}ListResp, err error) {
-	data, err := l.svcCtx.{{.rpcName}}Rpc.Get{{.modelName}}List(l.ctx,
+{{if .optionalService}}	if l.svcCtx.{{.rpcName}}Rpc == nil {
+		return nil, errorx.NewCodeUnavailableError({{if .useI18n}}i18n.ServiceUnavailable{{else}}errormsg.ServiceUnavailable{{end}})
+	}
+{{end}}	data, err := l.svcCtx.{{.rpcName}}Rpc.Get{{.modelName}}List(l.ctx,
 		&{{.rpcPbPackageName}}.{{.modelName}}ListReq{
 			Page:        req.Page,
 			PageSize:    req.PageSize,{{.searchKeys}}

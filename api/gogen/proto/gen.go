@@ -57,6 +57,7 @@ type GenLogicByProtoContext struct {
 	JSONStyle        string
 	UseI18n          bool
 	ImportPrefix     string
+	OptionalService  bool
 	Overwrite        bool
 }
 
@@ -206,6 +207,7 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useUUID":            ctx.UseUUID,
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
+					"optionalService":    ctx.OptionalService,
 				}))
 
 				data = append(data, &ApiLogicData{
@@ -226,6 +228,7 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useUUID":            ctx.UseUUID,
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
+					"optionalService":    ctx.OptionalService,
 				}))
 
 				data = append(data, &ApiLogicData{
@@ -247,6 +250,7 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useUUID":            ctx.UseUUID,
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
+					"optionalService":    ctx.OptionalService,
 				}))
 
 				data = append(data, &ApiLogicData{
@@ -290,6 +294,7 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useUUID":            ctx.UseUUID,
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
+					"optionalService":    ctx.OptionalService,
 				}))
 
 				data = append(data, &ApiLogicData{
@@ -310,6 +315,7 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useUUID":            ctx.UseUUID,
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
+					"optionalService":    ctx.OptionalService,
 				}))
 
 				data = append(data, &ApiLogicData{

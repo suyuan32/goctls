@@ -6,7 +6,10 @@ import (
 	"{{.projectPackage}}{{.importPrefix}}/internal/svc"
 	"{{.projectPackage}}{{.importPrefix}}/internal/types"
 	"{{.rpcPackage}}"
-
+{{if .useI18n}}
+	"github.com/suyuan32/simple-admin-common/i18n"{{end}}{{if .optionalService}}{{if not .useI18n}}
+	"github.com/suyuan32/simple-admin-common/msg/errormsg"{{end}}
+	"github.com/zeromicro/go-zero/core/errorx"{{end}}
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -25,7 +28,10 @@ func NewDelete{{.modelName}}Logic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *Delete{{.modelName}}Logic) Delete{{.modelName}}(req *types.{{if .useUUID}}UU{{end}}IDsReq) (resp *types.BaseMsgResp, err error) {
-	data, err := l.svcCtx.{{.rpcName}}Rpc.Delete{{.modelName}}(l.ctx, &{{.rpcPbPackageName}}.{{if .useUUID}}UU{{end}}IDsReq{
+{{if .optionalService}}	if l.svcCtx.{{.rpcName}}Rpc == nil {
+		return nil, errorx.NewCodeUnavailableError({{if .useI18n}}i18n.ServiceUnavailable{{else}}errormsg.ServiceUnavailable{{end}})
+	}
+{{end}}	data, err := l.svcCtx.{{.rpcName}}Rpc.Delete{{.modelName}}(l.ctx, &{{.rpcPbPackageName}}.{{if .useUUID}}UU{{end}}IDsReq{
 		Ids: req.Ids,
 	})
 	if err != nil {

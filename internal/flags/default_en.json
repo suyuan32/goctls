@@ -84,7 +84,8 @@
         "json_style": "The JSON tag format, default is camelcase",
         "i18n": "{{.global.i18n}}",
         "import_prefix": "{{.global.import_prefix}}",
-        "overwrite": "Whether to overwrite the files, it will overwrite all generated files"
+        "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
+        "optional_service": "Whether it is an optional service, if true, judgment code will be generated"
       },
       "ent": {
         "short": "Generate CRUD logic files from ent file",
