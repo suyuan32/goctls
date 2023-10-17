@@ -3,6 +3,7 @@ package gitea
 import (
 	_ "embed"
 	"github.com/duke-git/lancet/v2/fileutil"
+	"github.com/gookit/color"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"path/filepath"
@@ -29,6 +30,8 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 	if VarStringRepository == "" || !strings.HasSuffix(VarStringRepository, ".git") {
 		return errors.New("wrong repository, please set repository by \"-r\", such as \"-r https://github.com/suyuan32/simple-admin-job.git\"  ")
 	}
+
+	color.Green.Println("Generating...")
 
 	if !fileutil.IsExist(filepath.Join(abs, ".gitea/workflows") + "/") {
 		err := fileutil.CreateDir(filepath.Join(abs, ".gitea/workflows") + "/")
