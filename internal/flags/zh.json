@@ -321,8 +321,14 @@
         "etc_yaml":"drone在CI过程中使用的dockerfile, go-zero项目中的yaml配置文件名 (必需)"
       },
       "gitlab": {
-        "short": "生成 gitlab-ci.yml 文件",
-        "output_dir": "输出目录"
+        "short": "生成 gitlab-ci.yml 文件， 用于构建 docker ",
+        "output_dir": "输出目录，为项目根目录"
+      },
+      "gitea": {
+        "short": "生成 gitea 的 actions 文件, 用于构建 docker",
+        "output_dir": "输出的目录，为项目根目录",
+        "china": "服务器是否在中国",
+        "repository": "代码仓库的地址, 例如 \"https://github.com/suyuan32/simple-admin-job.git\""
       }
     },
     "template": {

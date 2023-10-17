@@ -319,8 +319,14 @@
         "etc_yaml":"The Dockerfile with drone used, go-zero project etc yaml file name (required)"
       },
       "gitlab": {
-        "short": "Generate gitlab-ci.yml file",
+        "short": "Generate gitlab-ci.yml file to build docker images",
         "output_dir": "The output directory"
+      },
+      "gitea": {
+        "short": "Generate actions files for gitea to build docker images",
+        "output_dir": "The output directory, please set the project's root directory",
+        "china": "Whether the server is located in China",
+        "repository": "The address of the code repository, for example, \"https://github.com/suyuan32/simple-admin-job.git\""
       }
     },
     "template": {
