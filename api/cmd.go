@@ -99,6 +99,7 @@ func init() {
 	protoCmdFlags.StringVarP(&gogen.VarStringImportPrefix, "import_prefix", "x")
 	protoCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringJSONStyle, "json_style", "j", "goZero")
 	protoCmdFlags.BoolVarP(&gogen.VarBoolOverwrite, "overwrite", "w")
+	protoCmdFlags.BoolVarP(&gogen.VarBoolOptionalService, "optional_service", "t")
 
 	entCmdFlags.StringVarP(&gogen.VarStringSchema, "schema", "c")
 	entCmdFlags.StringVarP(&gogen.VarStringOutput, "output", "o")

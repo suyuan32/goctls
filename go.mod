@@ -3,10 +3,10 @@ module github.com/suyuan32/goctls
 go 1.20
 
 require (
-	ariga.io/atlas v0.14.1-0.20230918065911-83ad451a4935
+	ariga.io/atlas v0.14.2
 	entgo.io/contrib v0.4.5
 	entgo.io/ent v0.12.4
-	github.com/duke-git/lancet/v2 v2.2.6
+	github.com/duke-git/lancet/v2 v2.2.7
 	github.com/emicklei/proto v1.12.1
 	github.com/fatih/structtag v1.2.0
 	github.com/go-openapi/inflect v0.19.0

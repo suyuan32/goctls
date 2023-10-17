@@ -84,7 +84,8 @@
         "json_style": "The JSON tag format, default is camelcase",
         "i18n": "{{.global.i18n}}",
         "import_prefix": "{{.global.import_prefix}}",
-        "overwrite": "Whether to overwrite the files, it will overwrite all generated files"
+        "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
+        "optional_service": "Whether it is an optional service, if true, judgment code will be generated"
       },
       "ent": {
         "short": "Generate CRUD logic files from ent file",
@@ -319,8 +320,14 @@
         "etc_yaml":"The Dockerfile with drone used, go-zero project etc yaml file name (required)"
       },
       "gitlab": {
-        "short": "Generate gitlab-ci.yml file",
+        "short": "Generate gitlab-ci.yml file to build docker images",
         "output_dir": "The output directory"
+      },
+      "gitea": {
+        "short": "Generate actions files for gitea to build docker images",
+        "output_dir": "The output directory, please set the project's root directory",
+        "china": "Whether the server is located in China",
+        "repository": "The address of the code repository, for example, \"https://github.com/suyuan32/simple-admin-job.git\""
       }
     },
     "template": {

@@ -6,7 +6,10 @@ import (
 	"{{.projectPackage}}{{.importPrefix}}/internal/svc"
 	"{{.projectPackage}}{{.importPrefix}}/internal/types"
 	"{{.rpcPackage}}"
-
+{{if .useI18n}}
+	"github.com/suyuan32/simple-admin-common/i18n"{{end}}{{if .optionalService}}{{if not .useI18n}}
+	"github.com/suyuan32/simple-admin-common/msg/errormsg"{{end}}
+	"github.com/zeromicro/go-zero/core/errorx"{{end}}
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -25,7 +28,10 @@ func NewCreate{{.modelName}}Logic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *Create{{.modelName}}Logic) Create{{.modelName}}(req *types.{{.modelName}}Info) (resp *types.BaseMsgResp, err error) {
-	data, err := l.svcCtx.{{.rpcName}}Rpc.Create{{.modelName}}(l.ctx,
+{{if .optionalService}}	if !l.svcCtx.Config.{{.rpcName}}Rpc.Enabled {
+		return nil, errorx.NewCodeUnavailableError({{if .useI18n}}i18n.ServiceUnavailable{{else}}errormsg.ServiceUnavailable{{end}})
+	}
+{{end}}	data, err := l.svcCtx.{{.rpcName}}Rpc.Create{{.modelName}}(l.ctx,
 		&{{.rpcPbPackageName}}.{{.modelName}}Info{ {{.setLogic}}
 		})
 	if err != nil {
