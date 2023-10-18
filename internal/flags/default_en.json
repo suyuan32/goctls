@@ -355,7 +355,7 @@
       }
     },
     "upgrade": {
-      "short": "Upgrade goctl to latest version"
+      "short": "Upgrade goctls to latest version"
     },
     "project": {
       "short": "Project management related commands, such as project upgrade",
@@ -390,7 +390,7 @@
     }
   },
   "global": {
-    "home": "The goctl home path of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority",
+    "home": "The goctls home path of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority",
     "remote": "The remote git repo of the template, --home and --remote cannot be set at the same time, if they are, --remote has higher priority\nThe git repo directory must be consistent with the https://github.com/zeromicro/go-zero-template directory structure",
     "branch": "The branch of the remote repo, it does work with --remote",
     "style": "The file naming format, see [https://github.com/zeromicro/go-zero/blob/master/tools/goctl/config/readme.md]",
