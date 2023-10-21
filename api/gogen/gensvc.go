@@ -63,6 +63,7 @@ func genServiceContext(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpe
 			"configImport":         configImport,
 			"config":               "config.Config",
 			"middleware":           middlewareStr,
+			"hasMiddleware":        len(middlewares) > 3,
 			"middlewareAssignment": middlewareAssignment,
 			"useCasbin":            g.UseCasbin,
 			"useI18n":              g.UseI18n,
