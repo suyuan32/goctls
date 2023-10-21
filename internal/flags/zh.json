@@ -304,7 +304,8 @@
         "reset_workspace": "清空工作区配置",
         "size": "显示的消息数量，默认为10条，倒序显示",
         "log_type": "日志类型，需配合 workspace 使用，支持 error，stat，access，severe，slow",
-        "list": "显示所有 workspace 配置"
+        "list": "显示所有 workspace 配置",
+        "delete_config": "删除配置，输入配置名称，多个配置用逗号分隔，例如 \"core,fms\""
       }
     },
     "cicd": {

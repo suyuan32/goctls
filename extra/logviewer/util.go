@@ -12,7 +12,7 @@ func getWorkspaceConfigDir() (string, error) {
 		return "", errors.Join(err, errors.New("failed to get the user directory"))
 	}
 
-	configFile := filepath.Join(userDir.HomeDir, ".goctl/log_workspace_config.txt")
+	configFile := filepath.Join(userDir.HomeDir, ".goctls/log_workspace_config.txt")
 
 	return configFile, nil
 }
