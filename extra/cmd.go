@@ -97,6 +97,7 @@ func init() {
 	logViewerCmdFlags.BoolVarP(&logviewer.VarBoolResetWorkspace, "reset_workspace", "r")
 	logViewerCmdFlags.BoolVarP(&logviewer.VarBoolList, "list", "l")
 	logViewerCmdFlags.IntVarPWithDefaultValue(&logviewer.VarIntMessageCapacity, "size", "s", 10)
+	logViewerCmdFlags.StringVarP(&logviewer.VarStringRemoveConfig, "delete_config", "d")
 
 	ExtraCmd.AddCommand(i18nCmd)
 	ExtraCmd.AddCommand(initCmd)

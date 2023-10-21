@@ -302,7 +302,8 @@
         "reset_workspace": "Clear workspace configurations",
         "size": "Number of messages to display. The default is 10, displayed in reverse order",
         "log_type": "Log Type. Use with \"workspace\" param. Support error, stat, access, severe, slow",
-        "list": "Show all workspace configurations"
+        "list": "Show all workspace configurations",
+        "delete_config": "Delete configuration, enter configuration name, separate multiple configurations with commas, for example \"core, fms\""
       }
     },
     "cicd": {

@@ -35,6 +35,7 @@ var (
 	VarStringLogType          string
 	VarBoolResetWorkspace     bool
 	VarBoolList               bool
+	VarStringRemoveConfig     string
 )
 
 func Gen(_ *cobra.Command, _ []string) (err error) {
@@ -149,6 +150,19 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 		}
 
 		fmt.Println(strings.ReplaceAll(configData, ",", "    "))
+	} else if VarStringRemoveConfig != "" {
+		configFile, err := getWorkspaceConfigDir()
+		if err != nil {
+			return err
+		}
+
+		err = removeConfig(VarStringRemoveConfig, configFile)
+		if err != nil {
+			return err
+		}
+
+		color.Green.Println(fmt.Sprintf("Remove %s configuration successfully", VarStringRemoveConfig))
+		return nil
 	}
 
 	err = prettierJsonData(logData, VarIntMessageCapacity)
@@ -193,4 +207,36 @@ func beautifyJsonData(data string) (string, error) {
 	result = strings.ReplaceAll(result, "\"@timestamp\"", color.Green.Sprintf("\"@timestamp\""))
 	result = strings.ReplaceAll(result, "\"content\"", color.Red.Sprintf("\"content\""))
 	return result, nil
+}
+
+func removeConfig(target, configPath string) error {
+	removeTarget := strings.Split(target, ",")
+	originalData, err := fileutil.ReadFileToString(configPath)
+	if err != nil {
+		return err
+	}
+
+	originConfigs := strings.Split(originalData, "\n")
+
+	var output []string
+
+	for _, v := range originConfigs {
+		isRemove := false
+		for _, v1 := range removeTarget {
+			if strings.Contains(v, v1) {
+				isRemove = true
+			}
+		}
+
+		if !isRemove {
+			output = append(output, v)
+		}
+	}
+
+	err = fileutil.WriteStringToFile(configPath, strings.Join(output, "\n"), false)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
