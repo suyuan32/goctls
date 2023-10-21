@@ -15,7 +15,7 @@ ADD go.mod .
 ADD go.sum .
 RUN go mod download
 COPY . .
-RUN go build -ldflags="-s -w" -o /app/goctl ./goctl.go
+RUN go build -ldflags="-s -w" -o /app/goctls ./goctls.go
 
 
 FROM golang:alpine
@@ -29,6 +29,6 @@ COPY --from=builder /go/bin/protoc-gen-go-grpc /usr/bin/protoc-gen-go-grpc
 ENV TZ Asia/Shanghai
 
 WORKDIR /app
-COPY --from=builder /app/goctl /usr/bin/goctl
+COPY --from=builder /app/goctls /usr/bin/goctls
 
-CMD ["goctl"]
+CMD ["goctls"]

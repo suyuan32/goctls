@@ -66,9 +66,9 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 			return errors.Join(err, errors.New("failed to get the user directory to store data"))
 		}
 
-		configFile := filepath.Join(userDir.HomeDir, ".goctl/log_workspace_config.txt")
+		configFile := filepath.Join(userDir.HomeDir, ".goctls/log_workspace_config.txt")
 		if !fileutil.IsExist(configFile) {
-			err = fileutil.CreateDir(filepath.Join(userDir.HomeDir, ".goctl") + "/")
+			err = fileutil.CreateDir(filepath.Join(userDir.HomeDir, ".goctls") + "/")
 			if err != nil {
 				return err
 			}
