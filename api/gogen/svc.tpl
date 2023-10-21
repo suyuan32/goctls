@@ -13,8 +13,9 @@ import (
 )
 
 type ServiceContext struct {
-	Config {{.config}}
-	{{.middleware}}{{if .useCasbin}}Casbin    *casbin.Enforcer
+	Config {{.config}}{{if .hasMiddleware}}
+	{{.middleware}}{{end}}{{if .useCasbin}}
+	Casbin    *casbin.Enforcer
 	Authority rest.Middleware{{end}}{{if .useEnt}}
 	DB         *ent.Client{{end}}{{if .useI18n}}
 	Trans     *i18n.Translator{{end}}
@@ -24,7 +25,7 @@ func NewServiceContext(c {{.config}}) *ServiceContext {
 {{if .useCasbin}}
     rds := redis.MustNewRedis(c.RedisConf)
 
-    cbn := c.CasbinConf.MustNewCasbinWithRedisWatcher(c.DatabaseConf.Type, c.DatabaseConf.GetDSN(), c.RedisConf)
+    cbn := c.CasbinConf.MustNewCasbinWithRedisWatcher(c.CasbinDatabaseConf.Type, c.CasbinDatabaseConf.GetDSN(), c.RedisConf)
 {{end}}
 {{if .useI18n}}
     trans := i18n.NewTranslator(i18n2.LocaleFS)
@@ -37,8 +38,8 @@ func NewServiceContext(c {{.config}}) *ServiceContext {
 	)
 {{end}}
 	return &ServiceContext{
-		Config: c,
-		{{if .useCasbin}}Authority: middleware.NewAuthorityMiddleware(cbn, rds{{if .useTrans}}, trans{{end}}).Handle,{{end}}{{if .useI18n}}
+		Config: c,{{if .useCasbin}}
+		Authority: middleware.NewAuthorityMiddleware(cbn, rds{{if .useTrans}}, trans{{end}}).Handle,{{end}}{{if .useI18n}}
 		Trans:     trans,{{end}}{{if .useEnt}}
 		DB:     db,{{end}}
 	}

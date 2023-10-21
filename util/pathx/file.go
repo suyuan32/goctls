@@ -20,7 +20,7 @@ import (
 // NL defines a new line.
 const (
 	NL              = "\n"
-	goctlDir        = ".goctl"
+	goctlDir        = ".goctls"
 	gitDir          = ".git"
 	autoCompleteDir = ".auto_complete"
 	cacheDir        = "cache"
