@@ -70,8 +70,17 @@
         {{ $newPager := print "new" $node.Name "Pager" -}}
         {{- $defaultOrder := print "Default" $node.Name "Order" }}
 
+		{{ range $f :=  $node.Fields -}}
+		   {{- if eq $node.HasOneFieldID true}}
         // {{ $defaultOrder }} is the default ordering of {{ $node.Name }}.
         var {{ $defaultOrder }} = Desc({{ lower $node.Name }}.FieldID)
+		    {{- break}}
+		    {{- else}}
+        // {{ $defaultOrder }} is the default ordering of {{ $node.Name }}.
+        var {{ $defaultOrder }} = Desc({{ lower $node.Name }}.Field{{ $f.StructField }})
+		    {{- break}}
+		    {{- end}}
+		{{end}}
 
         func {{ $newPager }}(opts []{{ $opt }}) (*{{ $pager }}, error) {
             pager := &{{ $pager }}{}
