@@ -3,27 +3,27 @@ module github.com/suyuan32/goctls
 go 1.20
 
 require (
-	ariga.io/atlas v0.14.2
+	ariga.io/atlas v0.15.0
 	entgo.io/contrib v0.4.5
 	entgo.io/ent v0.12.4
 	github.com/duke-git/lancet/v2 v2.2.7
-	github.com/emicklei/proto v1.12.1
+	github.com/emicklei/proto v1.12.2
 	github.com/fatih/structtag v1.2.0
 	github.com/go-openapi/inflect v0.19.0
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gookit/color v1.5.4
 	github.com/iancoleman/strcase v0.3.0
-	github.com/jedib0t/go-pretty/v6 v6.4.8
+	github.com/jedib0t/go-pretty/v6 v6.4.9
 	github.com/lib/pq v1.10.9
 	github.com/pkg/errors v0.9.1
-	github.com/spf13/cobra v1.7.0
+	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.8.4
-	github.com/suyuan32/simple-admin-common v1.2.0
+	github.com/suyuan32/simple-admin-common v1.2.2
 	github.com/withfig/autocomplete-tools/integrations/cobra v1.2.1
 	github.com/zeromicro/antlr v0.0.1
 	github.com/zeromicro/go-zero v1.6.0
-	golang.org/x/text v0.13.0
+	golang.org/x/text v0.14.0
 )
 
 require (
@@ -55,7 +55,7 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
-	golang.org/x/mod v0.10.0 // indirect
+	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/tools v0.8.1-0.20230428195545-5283a0178901 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
