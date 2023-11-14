@@ -68,8 +68,8 @@ func (g GenEntLogicContext) Validate() error {
 		return errors.New("please input correct schema directory e.g. ./ent/schema ")
 	} else if g.ServiceName == "" {
 		return errors.New("please set the API service name via --api_service_name")
-	} else if g.ModelName == "" {
-		return errors.New("please set the model name via --model ")
+	// } else if g.ModelName == "" {
+	// 	return errors.New("please set the model name via --model ")
 	}
 	return nil
 }
@@ -106,6 +106,7 @@ func genEntLogic(g *GenEntLogicContext) error {
 
 	for _, s := range schemas.Schemas {
 		if g.ModelName == s.Name || g.ModelName == "" {
+			color.Green.Printf("\tGenerating %s...\n", s.Name)
 			// generate logic file
 			apiLogicData := GenCRUDData(g, projectCtx, s)
 
