@@ -5,7 +5,7 @@ go 1.20
 require (
 	ariga.io/atlas v0.15.0
 	entgo.io/contrib v0.4.5
-	entgo.io/ent v0.12.4
+	entgo.io/ent v0.12.5
 	github.com/duke-git/lancet/v2 v2.2.7
 	github.com/emicklei/proto v1.12.2
 	github.com/fatih/structtag v1.2.0
