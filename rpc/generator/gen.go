@@ -5,6 +5,7 @@ import (
 	"github.com/duke-git/lancet/v2/fileutil"
 	new2 "github.com/suyuan32/goctls/api/new"
 	"path/filepath"
+	"strings"
 
 	"github.com/gookit/color"
 
@@ -216,6 +217,12 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 		}
 
 		_, err = execx.Run("goctls extra ent template -a set_not_nil", abs)
+		if err != nil {
+			return err
+		}
+
+		err = fileutil.RemoveFile(filepath.Join(abs, fmt.Sprintf("/ent/schema/%s.go",
+			strings.ReplaceAll(dirCtx.GetServiceName().Lower(), "_", ""))))
 		if err != nil {
 			return err
 		}

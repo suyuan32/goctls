@@ -3,6 +3,7 @@ package gogen
 import (
 	"errors"
 	"fmt"
+	"github.com/duke-git/lancet/v2/fileutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -250,6 +251,11 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 		}
 
 		_, err = execx.Run("goctls extra ent template -a set_not_nil", dir)
+		if err != nil {
+			return err
+		}
+
+		err = fileutil.RemoveFile(filepath.Join(dir, fmt.Sprintf("/ent/schema/%s.go", strings.ToLower(api.Service.Name))))
 		if err != nil {
 			return err
 		}
