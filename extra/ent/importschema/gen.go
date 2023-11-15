@@ -27,17 +27,19 @@ import (
 )
 
 var (
-	VarStringDSN       string
-	VarStringOutputDir string
-	VarStringTables    string
-	VarBoolAutoMixin   bool
+	VarStringDSN           string
+	VarStringOutputDir     string
+	VarStringTables        string
+	VarStringExcludeTables string
+	VarBoolAutoMixin       bool
 )
 
 type GenContext struct {
-	Dsn       string
-	OutputDir string
-	Tables    []string
-	AutoMixin bool
+	Dsn           string
+	OutputDir     string
+	Tables        []string
+	ExcludeTables []string
+	AutoMixin     bool
 }
 
 func Gen(_ *cobra.Command, _ []string) (err error) {
@@ -78,14 +80,26 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 	ctx.OutputDir = outputDir
 	ctx.Dsn = VarStringDSN
 	ctx.AutoMixin = VarBoolAutoMixin
-	ctx.Tables = strings.Split(VarStringTables, ",")
+	if len(VarStringTables) == 0 {
+		ctx.Tables = nil
+	} else {
+		ctx.Tables = strings.Split(VarStringTables, ",")
+	}
+
+	if len(VarStringExcludeTables) == 0 {
+		ctx.ExcludeTables = nil
+	} else {
+		ctx.ExcludeTables = strings.Split(VarStringExcludeTables, ",")
+	}
 
 	drv, err := mux.Default.OpenImport(ctx.Dsn)
 	if err != nil {
 		return fmt.Errorf("failed to create import driver - %v", err)
 	}
+
 	i, err := NewImport(
 		WithTables(ctx.Tables),
+		WithExcludedTables(ctx.ExcludeTables),
 		WithDriver(drv),
 	)
 	if err != nil {

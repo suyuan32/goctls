@@ -19,6 +19,7 @@ import (
 	_ "embed"
 	"errors"
 	"fmt"
+	"github.com/gookit/color"
 	"os"
 	"path"
 	"path/filepath"
@@ -74,8 +75,6 @@ func (g GenEntLogicContext) Validate() error {
 		return errors.New("please input correct schema directory e.g. ./ent/schema ")
 	} else if g.ServiceName == "" {
 		return errors.New("please set the service name via --service_name")
-	} else if g.ModelName == "" {
-		return errors.New("please set the model name via --model ")
 	} else if g.ModuleName == g.ProjectName {
 		return errors.New("do not set the module name if it is the same as project name ")
 	}
@@ -88,6 +87,7 @@ func GenEntLogic(g *GenEntLogicContext) error {
 }
 
 func genEntLogic(g *GenEntLogicContext) error {
+	color.Green.Println("Generating...")
 	outputDir, err := filepath.Abs(g.Output)
 	if err != nil {
 		return err
@@ -121,7 +121,8 @@ func genEntLogic(g *GenEntLogicContext) error {
 	}
 
 	for _, s := range schemas.Schemas {
-		if g.ModelName == s.Name || g.ModelName == "" {
+		if g.ModelName == s.Name || g.ModelName == "all" {
+			color.Blue.Printf("Generating %s...\n", s.Name)
 			// generate logic file
 			rpcLogicData := GenCRUDData(g, projectCtx, s)
 
@@ -133,7 +134,10 @@ func genEntLogic(g *GenEntLogicContext) error {
 
 				// group
 				var filename string
-				if g.GroupName != "" {
+				if g.GroupName != "" || g.ModelName == "all" {
+					if g.ModelName == "all" {
+						g.GroupName = strings.ToLower(s.Name)
+					}
 					if err = pathx.MkdirIfNotExist(filepath.Join(logicDir, g.GroupName)); err != nil {
 						return err
 					}

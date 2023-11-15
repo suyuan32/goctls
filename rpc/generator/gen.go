@@ -4,12 +4,11 @@ import (
 	"fmt"
 	"github.com/duke-git/lancet/v2/fileutil"
 	new2 "github.com/suyuan32/goctls/api/new"
-	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/gookit/color"
 
-	"github.com/suyuan32/goctls/extra/ent/template"
 	"github.com/suyuan32/goctls/rpc/execx"
 	proto2 "github.com/suyuan32/goctls/rpc/generator/proto"
 	"github.com/suyuan32/goctls/rpc/parser"
@@ -212,18 +211,20 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 			return err
 		}
 
-		paginationTplPath := filepath.Join(abs, "ent", "template", "pagination.tmpl")
-		notNilTplPath := filepath.Join(abs, "ent", "template", "set_not_nil.tmpl")
-		if !pathx.FileExists(paginationTplPath) {
-			err = os.WriteFile(paginationTplPath, []byte(template.PaginationTmpl), os.ModePerm)
-			if err != nil {
-				return err
-			}
+		_, err = execx.Run("goctls extra ent template -a pagination", abs)
+		if err != nil {
+			return err
+		}
 
-			err = os.WriteFile(notNilTplPath, []byte(template.NotNilTmpl), os.ModePerm)
-			if err != nil {
-				return err
-			}
+		_, err = execx.Run("goctls extra ent template -a set_not_nil", abs)
+		if err != nil {
+			return err
+		}
+
+		err = fileutil.RemoveFile(filepath.Join(abs, fmt.Sprintf("/ent/schema/%s.go",
+			strings.ReplaceAll(dirCtx.GetServiceName().Lower(), "_", ""))))
+		if err != nil {
+			return err
 		}
 
 		// gen ent error handler
