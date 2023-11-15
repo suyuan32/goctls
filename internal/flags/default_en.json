@@ -94,7 +94,7 @@
         "api_service_name": "The API service name",
         "import_prefix": "{{.global.import_prefix}}",
         "style": "The file name format style",
-        "model": "The model name for generating e.g. user, if it is empty, generate codes for all models in schema directory",
+        "model": "The model name for generating e.g. user, if it is  \"all\", generate codes for all models in schema directory",
         "search_key_num": "The max number of search keys",
         "group": "The group name for logic. e.g. user",
         "i18n": "{{.global.i18n}}",
@@ -223,7 +223,7 @@
         "project_name": "The project name",
         "multiple": "Generated in multiple rpc service mode",
         "style": "The file name format style",
-        "model": "The model name for generating e.g. user, if it is empty, generate codes for all models in schema directory",
+        "model": "The model name for generating e.g. user, if it is  \"all\", generate codes for all models in schema directory",
         "search_key_num": "The max number of search keys",
         "group": "The group name for logic. e.g. user",
         "proto_out": "The output proto file path",
@@ -266,7 +266,7 @@
         },
         "import": {
           "short": "Generate Ent Schema from database",
-          "dsn": "Database DSN address, supports mysql and postgres. e.g. \"mysql://user:pass@tcp(localhost:3306)/dbname\"\n\"postgres://user:pass@host:port/dbname\"",
+          "dsn": "Database DSN address, supports mysql and postgres. e.g. \"mysql://user:pass@tcp(localhost:3306)/dbname\"\n\"postgres://user:pass@host:port/dbname?sslmode=disable\"",
           "tables": "Specify data tables. e.g. sys_users,sys_tokens",
           "output": "Output path, the project's root directory",
           "auto_mixin": "Whether to automatically import official \"Mixin\""

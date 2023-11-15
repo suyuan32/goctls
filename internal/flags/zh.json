@@ -94,7 +94,7 @@
         "output": "输出路径",
         "api_service_name": "API 服务名称",
         "style": "文件名格式样式",
-        "model": "用于生成的模型名称，例如 user，如果为空，则为 schema 目录中的所有模型生成代码",
+        "model": "用于生成的模型名称，例如 user，如果为 \"all\"，则为 schema 目录中的所有模型生成代码",
         "search_key_num": "搜索条件的最大数量，只支持 String 类型",
         "group": "业务逻辑代码的分组名称，例如 user",
         "i18n": "{{.global.i18n}}",
@@ -226,7 +226,7 @@
         "import_prefix": "{{.global.import_prefix}}",
         "multiple": "在多个 rpc 服务模式下生成",
         "style": "文件名格式样式",
-        "model": "生成的模型名称，例如：user，如果为空，则为 schema 目录中所有模型生成代码",
+        "model": "生成的模型名称，例如：user，如果为 \"all\"，则为 schema 目录中所有模型生成代码",
         "search_key_num": "搜索键的最大数量",
         "group": "逻辑的组名称，例如：user",
         "proto_out": "输出 proto 文件路径",
@@ -268,7 +268,7 @@
         },
         "import": {
           "short": "从数据库生成 Ent Schema",
-          "dsn": "数据库的 DSN 地址，支持 mysql 和 postgres。 例子：\"mysql://user:pass@tcp(localhost:3306)/dbname\"\n\"postgres://user:pass@host:port/dbname\"",
+          "dsn": "数据库的 DSN 地址，支持 mysql 和 postgres。 例子：\"mysql://user:pass@tcp(localhost:3306)/dbname\"\n\"postgres://user:pass@host:port/dbname?sslmode=disable\"",
           "tables": "指定数据表，例子： sys_users,sys_tokens",
           "output": "输出路径，为项目根目录",
           "auto_mixin": "是否自动引入官方 Mixin"
