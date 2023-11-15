@@ -87,6 +87,7 @@ func init() {
 	entImportCmdFlags.StringVarP(&importschema.VarStringTables, "tables", "t")
 	entImportCmdFlags.StringVarP(&importschema.VarStringOutputDir, "output", "o")
 	//entImportCmdFlags.BoolVarP(&importschema.VarBoolAutoMixin, "auto_mixin", "a")
+	entImportCmdFlags.StringVarP(&importschema.VarStringExcludeTables, "exclude_tables", "e")
 
 	entSchemaCmdFlags.StringVarP(&schema.VarStringModelName, "model_name", "m")
 

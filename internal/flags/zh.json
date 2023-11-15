@@ -270,6 +270,7 @@
           "short": "从数据库生成 Ent Schema",
           "dsn": "数据库的 DSN 地址，支持 mysql 和 postgres。 例子：\"mysql://user:pass@tcp(localhost:3306)/dbname\"\n\"postgres://user:pass@host:port/dbname?sslmode=disable\"",
           "tables": "指定数据表，例子： sys_users,sys_tokens",
+          "exclude_tables": "排除的数据表，用于导出所有表时，需指定所有中间表及没有 primary key 的表，例子： role_menu,user_roles",
           "output": "输出路径，为项目根目录",
           "auto_mixin": "是否自动引入官方 Mixin"
         },
