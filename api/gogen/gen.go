@@ -17,7 +17,6 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/suyuan32/goctls/api/gogen/ent"
-	"github.com/suyuan32/goctls/extra/ent/template"
 	"github.com/suyuan32/goctls/util/format"
 
 	apiformat "github.com/suyuan32/goctls/api/format"
@@ -245,18 +244,14 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 			return err
 		}
 
-		paginationTplPath := filepath.Join(dir, "ent", "template", "pagination.tmpl")
-		notNilTplPath := filepath.Join(dir, "ent", "template", "set_not_nil.tmpl")
-		if !pathx.FileExists(paginationTplPath) {
-			err = os.WriteFile(paginationTplPath, []byte(template.PaginationTmpl), os.ModePerm)
-			if err != nil {
-				return err
-			}
+		_, err = execx.Run("goctls extra ent template -a pagination", dir)
+		if err != nil {
+			return err
+		}
 
-			err = os.WriteFile(notNilTplPath, []byte(template.NotNilTmpl), os.ModePerm)
-			if err != nil {
-				return err
-			}
+		_, err = execx.Run("goctls extra ent template -a set_not_nil", dir)
+		if err != nil {
+			return err
 		}
 
 		// gen ent error handler
