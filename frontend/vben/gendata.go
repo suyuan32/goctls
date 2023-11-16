@@ -157,7 +157,7 @@ func getComponent(dataType string) string {
 		"*int", "*uint", "*int8", "*uint8", "*int16", "*uint16", "*int32", "*int64", "*uint32", "*uint64", "*float32", "*float64":
 		return "component: 'InputNumber',"
 	case "bool", "*bool":
-		return "component: 'RadioButtonGroup',\n    defaultValue: false,\n    componentProps: {\n      options: [\n        { label: t('common.on'), value: false },\n        { label: t('common.off'), value: true },\n      ],\n    },"
+		return "component: 'RadioButtonGroup',\n    defaultValue: true,\n    componentProps: {\n      options: [\n        { label: t('common.on'), value: true },\n        { label: t('common.off'), value: false },\n      ],\n    },"
 	default:
 		return "component: 'Input',"
 	}
