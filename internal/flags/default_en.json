@@ -86,7 +86,8 @@
         "i18n": "{{.global.i18n}}",
         "import_prefix": "{{.global.import_prefix}}",
         "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
-        "optional_service": "Whether it is an optional service, if true, judgment code will be generated"
+        "optional_service": "Whether it is an optional service, if true, judgment code will be generated",
+        "api_data": "Whether to automatically generate API initialization code, CoreRpc is required"
       },
       "ent": {
         "short": "Generate CRUD logic files from ent file",
@@ -100,7 +101,8 @@
         "group": "The group name for logic. e.g. user",
         "i18n": "{{.global.i18n}}",
         "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
-        "json_style": "The JSON tag format, default is camelcase"
+        "json_style": "The JSON tag format, default is camelcase",
+        "api_data": "Whether to automatically generate API initialization code, CoreRpc is required"
       }
     },
     "bug": {

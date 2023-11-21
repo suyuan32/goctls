@@ -87,7 +87,7 @@ var (
 	VarBoolDisabledValidator bool
 	// VarBoolOptionalService describes whether to generate for optional service
 	VarBoolOptionalService bool
-	// VarBoolGenCoreApiInit
+	// VarBoolGenCoreApiInit describes whether to auto gen core api init code
 	VarBoolGenCoreApiInit bool
 )
 
