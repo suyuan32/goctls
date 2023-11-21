@@ -87,6 +87,8 @@ var (
 	VarBoolDisabledValidator bool
 	// VarBoolOptionalService describes whether to generate for optional service
 	VarBoolOptionalService bool
+	// VarBoolGenCoreApiInit
+	VarBoolGenCoreApiInit bool
 )
 
 // GoCommand gen go project files from command line
@@ -404,6 +406,7 @@ func GenCRUDLogicByEnt(_ *cobra.Command, _ []string) error {
 		UseI18n:      VarBoolUseI18n,
 		ImportPrefix: VarStringImportPrefix,
 		Overwrite:    VarBoolOverwrite,
+		GenApiData:   VarBoolGenCoreApiInit,
 	}
 
 	err := params.Validate()

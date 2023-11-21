@@ -111,6 +111,7 @@ func init() {
 	entCmdFlags.StringVarP(&gogen.VarStringGroupName, "group", "g")
 	entCmdFlags.BoolVarP(&gogen.VarBoolOverwrite, "overwrite", "w")
 	entCmdFlags.BoolVarP(&gogen.VarBoolUseI18n, "i18n", "i")
+	entCmdFlags.BoolVarP(&gogen.VarBoolGenCoreApiInit, "api_data", "p")
 	entCmdFlags.StringVarP(&gogen.VarStringImportPrefix, "import_prefix", "x")
 	entCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringJSONStyle, "json_style", "j", "goZero")
 
