@@ -36,9 +36,6 @@ var templates = map[string]string{
 	rpcTemplateFile:           rpcTemplateText,
 }
 
-//go:embed init_ent_code.tpl
-var initEntCode string
-
 // GenTemplates is the entry for command goctl template,
 // it will create the specified category
 func GenTemplates() error {

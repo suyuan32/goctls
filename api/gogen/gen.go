@@ -284,6 +284,11 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 		if err != nil {
 			return err
 		}
+
+		err = GenEntInitCode(dir, cfg, g)
+		if err != nil {
+			return err
+		}
 	}
 
 	if err := backupAndSweep(apiFile); err != nil {
