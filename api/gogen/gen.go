@@ -139,6 +139,7 @@ type GenContext struct {
 	ExtraField    string
 	IsNewProject  bool
 	UseValidator  bool
+	UseCoreRpc    bool
 }
 
 // DoGenProject gen go project files with api file

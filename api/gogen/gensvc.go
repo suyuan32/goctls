@@ -70,6 +70,7 @@ func genServiceContext(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpe
 			"useEnt":               g.UseEnt,
 			"projectPackage":       rootPkg,
 			"useTrans":             g.TransErr,
+			"useCoreRpc":           g.UseCoreRpc,
 		},
 	})
 }

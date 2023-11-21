@@ -55,9 +55,10 @@ func genConfig(dir string, cfg *config.Config, api *spec.ApiSpec, g *GenContext)
 		templateFile:    configTemplateFile,
 		builtinTemplate: configTemplate,
 		data: map[string]any{
-			"jwtTrans":  strings.Join(jwtTransList, "\n"),
-			"useCasbin": g.UseCasbin,
-			"useEnt":    g.UseEnt,
+			"jwtTrans":   strings.Join(jwtTransList, "\n"),
+			"useCasbin":  g.UseCasbin,
+			"useEnt":     g.UseEnt,
+			"useCoreRpc": g.UseCoreRpc,
 		},
 	})
 }

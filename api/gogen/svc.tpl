@@ -3,13 +3,15 @@ package svc
 import (
 	{{.configImport}}
 	{{if .useI18n}}
-	"github.com/suyuan32/simple-admin-common/i18n"{{end}}{{if .useEnt}}
+	"github.com/suyuan32/simple-admin-common/i18n"{{end}}{{if .useCoreRpc}}
+	"github.com/suyuan32/simple-admin-core/rpc/coreclient"{{end}}{{if .useEnt}}
 	"{{.projectPackage}}/ent"
 	"github.com/zeromicro/go-zero/core/logx"{{end}}
     {{if .useCasbin}}
 	"github.com/zeromicro/go-zero/core/stores/redis"
     "github.com/zeromicro/go-zero/rest"
-    "github.com/casbin/casbin/v2"{{end}}
+    "github.com/casbin/casbin/v2"{{end}}{{if .useCoreRpc}}
+	"github.com/zeromicro/go-zero/zrpc"{{end}}
 )
 
 type ServiceContext struct {
@@ -18,7 +20,8 @@ type ServiceContext struct {
 	Casbin    *casbin.Enforcer
 	Authority rest.Middleware{{end}}{{if .useEnt}}
 	DB         *ent.Client{{end}}{{if .useI18n}}
-	Trans     *i18n.Translator{{end}}
+	Trans     *i18n.Translator{{end}}{{if .useCoreRpc}}
+	CoreRpc   coreclient.Core{{end}}
 }
 
 func NewServiceContext(c {{.config}}) *ServiceContext {
@@ -41,6 +44,7 @@ func NewServiceContext(c {{.config}}) *ServiceContext {
 		Config: c,{{if .useCasbin}}
 		Authority: middleware.NewAuthorityMiddleware(cbn, rds{{if .useTrans}}, trans{{end}}).Handle,{{end}}{{if .useI18n}}
 		Trans:     trans,{{end}}{{if .useEnt}}
-		DB:     db,{{end}}
+		DB:     db,{{end}}{{if .useCoreRpc}}
+		CoreRpc:   coreclient.NewCore(zrpc.NewClientIfEnable(c.CoreRpc)),{{end}}
 	}
 }

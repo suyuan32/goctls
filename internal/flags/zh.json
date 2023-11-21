@@ -57,7 +57,8 @@
         "trans_err": "是否翻译错误",
         "port": "服务暴露的端口",
         "gitlab": "是否使用 gitlab CI/CD",
-        "ent": "API 服务中是否使用 Ent"
+        "ent": "API 服务中是否使用 Ent",
+        "use_core_rpc": "是否使用 CoreRpc, 生成 CoreRpc 配置"
       },
       "validate": {
         "short": "验证 api 文件",

@@ -56,7 +56,8 @@
         "module_name": "The module name in go.mod. e.g. github.com/suyuan32/simple-admin-core",
         "trans_err": "Whether to translate the error",
         "port": "The service port exposed",
-        "ent": "Whether to use Ent in API service"
+        "ent": "Whether to use Ent in API service",
+        "use_core_rpc": "Whether to use \"CoreRpc\", if true will generate \"CoreRpc\" configuration"
       },
       "validate": {
         "short": "Validate api file",

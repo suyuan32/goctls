@@ -77,6 +77,7 @@ func init() {
 	newCmdFlags.BoolVarP(&new.VarBoolErrorTranslate, "trans_err", "a")
 	newCmdFlags.IntVarPWithDefaultValue(&new.VarIntServicePort, "port", "p", 9100)
 	newCmdFlags.BoolVarP(&new.VarBoolEnt, "ent", "e")
+	newCmdFlags.BoolVarP(&new.VarBoolCore, "use_core_rpc", "r")
 
 	pluginCmdFlags.StringVarP(&plugin.VarStringPlugin, "plugin", "p")
 	pluginCmdFlags.StringVar(&plugin.VarStringDir, "dir")

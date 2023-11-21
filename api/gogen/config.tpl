@@ -4,7 +4,8 @@ import (
     {{if .useCasbin}}"github.com/suyuan32/simple-admin-common/plugins/casbin"
     "github.com/suyuan32/simple-admin-common/config"
     "github.com/zeromicro/go-zero/core/stores/redis"{{else}}{{if .useEnt}}"github.com/suyuan32/simple-admin-common/config"{{end}}{{end}}
-    "github.com/zeromicro/go-zero/rest"
+    "github.com/zeromicro/go-zero/rest"{{if .useCoreRpc}}
+	"github.com/zeromicro/go-zero/zrpc"{{end}}
 )
 
 type Config struct {
@@ -14,6 +15,7 @@ type Config struct {
 	{{if .useCasbin}}CasbinDatabaseConf config.DatabaseConf
     RedisConf    redis.RedisConf
 	CasbinConf   casbin.CasbinConf{{end}}{{if .useEnt}}
-	DatabaseConf config.DatabaseConf{{end}}
+	DatabaseConf config.DatabaseConf{{end}}{{if .useCoreRpc}}
+	CoreRpc      zrpc.RpcClientConf{{end}}
 	{{.jwtTrans}}
 }
