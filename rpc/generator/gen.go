@@ -1,6 +1,7 @@
 package generator
 
 import (
+	"errors"
 	"fmt"
 	"github.com/duke-git/lancet/v2/fileutil"
 	new2 "github.com/suyuan32/goctls/api/new"
@@ -249,6 +250,11 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 		_, err = execx.Run("goctls project upgrade", abs)
 		if err != nil {
 			return err
+		}
+
+		err = g.GenEntInitCode(zctx, abs)
+		if err != nil {
+			return errors.New("failed to generate ent init code")
 		}
 	}
 

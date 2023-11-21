@@ -1,6 +1,7 @@
 package generator
 
 import (
+	_ "embed"
 	"fmt"
 
 	"github.com/suyuan32/goctls/util/pathx"
@@ -34,6 +35,9 @@ var templates = map[string]string{
 	svcTemplateFile:           svcTemplate,
 	rpcTemplateFile:           rpcTemplateText,
 }
+
+//go:embed init_ent_code.tpl
+var initEntCode string
 
 // GenTemplates is the entry for command goctl template,
 // it will create the specified category
