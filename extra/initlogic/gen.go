@@ -28,6 +28,8 @@ var (
 	VarStringModelName string
 	// VarStringOutputPath describes the output directory
 	VarStringOutputPath string
+	// VarStringStyle describes the file naming style
+	VarStringStyle string
 )
 
 func Gen(_ *cobra.Command, _ []string) error {
@@ -40,6 +42,7 @@ func Gen(_ *cobra.Command, _ []string) error {
 		Target:    VarStringTarget,
 		ModelName: VarStringModelName,
 		Output:    VarStringOutputPath,
+		Style:     VarStringStyle,
 	}
 
 	return DoGen(ctx)

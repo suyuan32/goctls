@@ -16,6 +16,8 @@ package initlogic
 
 import (
 	_ "embed"
+	"fmt"
+	"github.com/duke-git/lancet/v2/fileutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -25,7 +27,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/suyuan32/goctls/util/console"
-	"github.com/suyuan32/goctls/util/pathx"
 )
 
 //go:embed core.tpl
@@ -35,6 +36,7 @@ type CoreGenContext struct {
 	Target    string
 	ModelName string
 	Output    string
+	Style     string
 }
 
 func GenCore(g *CoreGenContext) error {
@@ -60,8 +62,11 @@ func GenCore(g *CoreGenContext) error {
 			return errors.Wrap(err, "failed to find the output file")
 		}
 
-		if !pathx.Exists(absPath) {
-			return errors.New("the output file does not exist")
+		if g.Output == "." {
+			absPath = filepath.Join(absPath, "internal/logic/base/init_database_api_data.go")
+			if !fileutil.IsExist(absPath) {
+				return fmt.Errorf("failed to find the target file: %s", absPath)
+			}
 		}
 
 		apiData, err := os.ReadFile(absPath)

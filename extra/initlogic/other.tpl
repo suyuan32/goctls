@@ -1,4 +1,4 @@
-        _, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
 		Path:        pointy.GetPointer("/{{.modelNameSnake}}/create"),
 		Description: pointy.GetPointer("apiDesc.create{{.modelName}}"),
 		ApiGroup:    pointy.GetPointer("{{.modelNameSnake}}"),

@@ -16,17 +16,24 @@ package initlogic
 
 import (
 	_ "embed"
+	"fmt"
+	"github.com/duke-git/lancet/v2/fileutil"
+	"github.com/pkg/errors"
+	"github.com/suyuan32/goctls/util/format"
+	"path/filepath"
 	"strings"
 	"text/template"
 
 	"github.com/iancoleman/strcase"
-	"github.com/pkg/errors"
 
 	"github.com/suyuan32/goctls/util/console"
 )
 
 //go:embed other.tpl
 var otherTpl string
+
+//go:embed init.tpl
+var initTpl string
 
 func OtherGen(g *CoreGenContext) error {
 	var otherString strings.Builder
@@ -44,7 +51,55 @@ func OtherGen(g *CoreGenContext) error {
 		return err
 	}
 
-	console.Info(otherString.String())
+	if g.Target == "console" {
+		console.Info(otherString.String())
+	} else {
+		absPath, err := filepath.Abs(g.Output)
+		if err != nil {
+			return errors.Wrap(err, "failed to find the output file")
+		}
+
+		apiFileName, err := format.FileNamingFormat(g.Style, "init_api_data.go")
+		if err != nil {
+			return err
+		}
+
+		if g.Output == "." {
+			if fileutil.IsExist(filepath.Join(absPath, "internal/logic/base")) {
+				path := filepath.Join(absPath, "internal/logic/base/", apiFileName)
+				if !fileutil.IsExist(path) {
+					err := fileutil.WriteStringToFile(path, initTpl, false)
+					if err != nil {
+						return errors.Wrap(err, fmt.Sprintf("failed to create API initialization file to path: %s", path))
+					}
+				}
+
+				originalFileStr, err := fileutil.ReadFileToString(path)
+				if err != nil {
+					return err
+				}
+
+				if strings.Contains(originalFileStr, fmt.Sprintf("/%s/", strcase.ToSnake(g.ModelName))) {
+					return errors.New("the init code already exist, if you still want to generate, use \"-o console\" instead")
+				}
+
+				index := strings.Index(originalFileStr, "insertApiData")
+
+				if index == -1 {
+					return fmt.Errorf("failed to find \"insertApiData\" function in file: %s", path)
+				}
+
+				newFileStr := originalFileStr[:index+29] + fmt.Sprintf("\n\t//%s\n", strings.ToUpper(g.ModelName)) + otherString.String() + originalFileStr[index+29:]
+
+				err = fileutil.WriteStringToFile(path, newFileStr, false)
+				if err != nil {
+					return err
+				}
+			}
+
+		}
+
+	}
 
 	return err
 }
