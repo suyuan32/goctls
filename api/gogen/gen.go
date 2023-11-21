@@ -377,6 +377,7 @@ func GenCRUDLogicByProto(_ *cobra.Command, _ []string) error {
 		UseI18n:         VarBoolUseI18n,
 		ImportPrefix:    VarStringImportPrefix,
 		Overwrite:       VarBoolOverwrite,
+		GenApiData:      VarBoolGenCoreApiInit,
 		OptionalService: VarBoolOptionalService,
 	}
 

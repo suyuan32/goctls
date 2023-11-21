@@ -19,6 +19,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gookit/color"
+	"github.com/suyuan32/goctls/rpc/execx"
 	"os"
 	"path"
 	"path/filepath"
@@ -49,7 +50,6 @@ type GenLogicByProtoContext struct {
 	RPCPbPackageName string
 	Style            string
 	ModelName        string
-	SearchKeyNum     int
 	RpcName          string
 	GrpcPackage      string
 	UseUUID          bool
@@ -58,6 +58,7 @@ type GenLogicByProtoContext struct {
 	UseI18n          bool
 	ImportPrefix     string
 	OptionalService  bool
+	GenApiData       bool
 	Overwrite        bool
 }
 
@@ -178,6 +179,13 @@ func GenLogicByProto(p *GenLogicByProtoContext) error {
 	err = os.WriteFile(allApiFile, []byte(allApiString), regularPerm)
 	if err != nil {
 		return err
+	}
+
+	if p.GenApiData {
+		_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other", p.ModelName), p.OutputDir)
+		if err != nil {
+			color.Red.Printf("the init code of %s already exist, skip... \n", p.ModelName)
+		}
 	}
 
 	color.Green.Println("Generate logic files from proto successfully")
