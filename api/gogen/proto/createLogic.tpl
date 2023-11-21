@@ -6,7 +6,7 @@ import (
 	"{{.projectPackage}}{{.importPrefix}}/internal/svc"
 	"{{.projectPackage}}{{.importPrefix}}/internal/types"
 	"{{.rpcPackage}}"
-{{if .useI18n}}
+{{if and .useI18n .optionalService}}
 	"github.com/suyuan32/simple-admin-common/i18n"{{end}}{{if .optionalService}}{{if not .useI18n}}
 	"github.com/suyuan32/simple-admin-common/msg/errormsg"{{end}}
 	"github.com/zeromicro/go-zero/core/errorx"{{end}}

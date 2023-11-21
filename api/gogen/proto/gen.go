@@ -116,75 +116,85 @@ func GenLogicByProto(p *GenLogicByProtoContext) error {
 		return err
 	}
 
-	// generate logic file
-	apiLogicData := GenCRUDData(p, &protoData, projectCtx)
+	models := strings.Split(p.ModelName, ",")
 
-	for _, v := range apiLogicData {
-		logicFilename, err := format.FileNamingFormat(p.Style, v.LogicName)
+	for _, v := range models {
+		genCtx := *p
+
+		genCtx.ModelName = v
+
+		color.Blue.Printf("Generating %s ...\n", v)
+
+		// generate logic file
+		apiLogicData := GenCRUDData(&genCtx, &protoData, projectCtx)
+
+		for _, v := range apiLogicData {
+			logicFilename, err := format.FileNamingFormat(genCtx.Style, v.LogicName)
+			if err != nil {
+				return err
+			}
+
+			filename := filepath.Join(logicDir, strings.ToLower(genCtx.ModelName), logicFilename+".go")
+			if err = pathx.MkdirIfNotExist(filepath.Join(logicDir, strings.ToLower(genCtx.ModelName))); err != nil {
+				return err
+			}
+
+			if pathx.FileExists(filename) && !genCtx.Overwrite {
+				continue
+			}
+
+			err = os.WriteFile(filename, []byte(v.LogicCode), regularPerm)
+			if err != nil {
+				return err
+			}
+		}
+
+		// generate api file
+		apiData, err := GenApiData(&genCtx, &protoData)
 		if err != nil {
 			return err
 		}
 
-		filename := filepath.Join(logicDir, strings.ToLower(p.ModelName), logicFilename+".go")
-		if err = pathx.MkdirIfNotExist(filepath.Join(logicDir, strings.ToLower(p.ModelName))); err != nil {
-			return err
-		}
-
-		if pathx.FileExists(filename) && !p.Overwrite {
-			continue
-		}
-
-		err = os.WriteFile(filename, []byte(v.LogicCode), regularPerm)
+		err = pathx.MkdirIfNotExist(filepath.Join(workDir, "desc", strings.ToLower(genCtx.RPCServiceName)))
 		if err != nil {
 			return err
 		}
-	}
 
-	// generate api file
-	apiData, err := GenApiData(p, &protoData)
-	if err != nil {
-		return err
-	}
+		apiFilePath := filepath.Join(workDir, "desc", fmt.Sprintf("%s/%s.api", strings.ToLower(genCtx.RPCServiceName),
+			strcase.ToSnake(genCtx.ModelName)))
 
-	err = pathx.MkdirIfNotExist(filepath.Join(workDir, "desc", strings.ToLower(p.RPCServiceName)))
-	if err != nil {
-		return err
-	}
+		if pathx.FileExists(apiFilePath) && !genCtx.Overwrite {
+			return nil
+		}
 
-	apiFilePath := filepath.Join(workDir, "desc", fmt.Sprintf("%s/%s.api", strings.ToLower(p.RPCServiceName),
-		strcase.ToSnake(p.ModelName)))
-
-	if pathx.FileExists(apiFilePath) && !p.Overwrite {
-		return nil
-	}
-
-	err = os.WriteFile(apiFilePath, []byte(apiData), regularPerm)
-	if err != nil {
-		return err
-	}
-
-	allApiFile := filepath.Join(workDir, "desc", "all.api")
-	allApiData, err := os.ReadFile(allApiFile)
-	if err != nil {
-		return err
-	}
-	allApiString := string(allApiData)
-
-	if !strings.Contains(allApiString, fmt.Sprintf("%s.api", strcase.ToSnake(p.ModelName))) {
-		allApiString += fmt.Sprintf("\nimport \"%s\"", fmt.Sprintf("./%s/%s.api",
-			strings.ToLower(p.RPCServiceName),
-			strcase.ToSnake(p.ModelName)))
-	}
-
-	err = os.WriteFile(allApiFile, []byte(allApiString), regularPerm)
-	if err != nil {
-		return err
-	}
-
-	if p.GenApiData {
-		_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other", p.ModelName), p.OutputDir)
+		err = os.WriteFile(apiFilePath, []byte(apiData), regularPerm)
 		if err != nil {
-			color.Red.Printf("the init code of %s already exist, skip... \n", p.ModelName)
+			return err
+		}
+
+		allApiFile := filepath.Join(workDir, "desc", "all.api")
+		allApiData, err := os.ReadFile(allApiFile)
+		if err != nil {
+			return err
+		}
+		allApiString := string(allApiData)
+
+		if !strings.Contains(allApiString, fmt.Sprintf("%s.api", strcase.ToSnake(genCtx.ModelName))) {
+			allApiString += fmt.Sprintf("\nimport \"%s\"", fmt.Sprintf("./%s/%s.api",
+				strings.ToLower(genCtx.RPCServiceName),
+				strcase.ToSnake(genCtx.ModelName)))
+		}
+
+		err = os.WriteFile(allApiFile, []byte(allApiString), regularPerm)
+		if err != nil {
+			return err
+		}
+
+		if genCtx.GenApiData {
+			_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other", genCtx.ModelName), genCtx.OutputDir)
+			if err != nil {
+				color.Red.Printf("the init code of %s already exist, skip... \n", genCtx.ModelName)
+			}
 		}
 	}
 

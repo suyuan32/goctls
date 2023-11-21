@@ -78,7 +78,7 @@
         "api_service_name": "API 服务名称",
         "rpc_service_name": "RPC 服务名称",
         "style": "文件名格式样式",
-        "model": "用于生成的模型名称，例如 user，如果为空，则为 schema 目录中的所有模型生成代码",
+        "model": "用于生成的模型名称，例如 User, 支持同时生成多个模型, 使用逗号分隔，如 User,Member",
         "search_key_num": "搜索条件的最大数量，只支持 String 类型",
         "rpc_name": "RPC 服务名称，用于调用，例如 CoreRpc 需要配置为 Core",
         "grpc_package": "存储 pb 文件的 rpc 包，例如 github.com/suyuan32/simple-admin-job/types/job",
