@@ -92,7 +92,6 @@ func init() {
 	protoCmdFlags.StringVarP(&gogen.VarStringRPCServiceName, "rpc_service_name", "r")
 	protoCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringStyle, "style", "s", config.DefaultFormat)
 	protoCmdFlags.StringVarP(&gogen.VarStringModelName, "model", "m")
-	protoCmdFlags.IntVarPWithDefaultValue(&gogen.VarIntSearchKeyNum, "search_key_num", "k", 3)
 	protoCmdFlags.StringVarP(&gogen.VarStringRpcName, "rpc_name", "n")
 	protoCmdFlags.StringVarP(&gogen.VarStringGrpcPbPackage, "grpc_package", "g")
 	protoCmdFlags.BoolVar(&gogen.VarBoolMultiple, "multiple")

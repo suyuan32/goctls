@@ -369,7 +369,6 @@ func GenCRUDLogicByProto(_ *cobra.Command, _ []string) error {
 		APIServiceName:  VarStringAPIServiceName,
 		Style:           VarStringStyle,
 		ModelName:       VarStringModelName,
-		SearchKeyNum:    VarIntSearchKeyNum,
 		RpcName:         VarStringRpcName,
 		GrpcPackage:     VarStringGrpcPbPackage,
 		Multiple:        VarBoolMultiple,
