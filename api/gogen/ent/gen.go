@@ -187,7 +187,7 @@ func genEntLogic(g *GenEntLogicContext) error {
 			if genCtx.GenApiData {
 				_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other", genCtx.ModelName), g.Output)
 				if err != nil {
-					return errors.Join(err, errors.New("failed to generate API init codes"))
+					color.Red.Printf("the init code of %s already exist, skip... \n", genCtx.ModelName)
 				}
 			}
 		}

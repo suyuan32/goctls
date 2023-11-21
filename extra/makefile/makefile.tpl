@@ -26,7 +26,10 @@ PROJECT_BUILD_SUFFIX={{if .isRpc}}rpc{{else}}api{{end}}
 SWAGGER_TYPE=json{{end}}
 {{if .useEnt}}
 # Ent enabled features | Ent 启用的官方特性
-ENT_FEATURE={{.entFeature}}{{end}}
+ENT_FEATURE={{.entFeature}}
+
+# Auto generate API data for initialization | 自动生成 API 初始化数据
+AUTO_API_INIT_DATA=true{{end}}
 
 # The arch of the build | 构建的架构
 GOARCH=amd64
@@ -106,7 +109,7 @@ gen-rpc-ent-logic: # Generate logic code from Ent, need model and group params |
 {{end}}{{if and .useEnt .isSingle}}
 .PHONY: gen-api-ent-logic
 gen-api-ent-logic: # Generate CRUD logic from Ent, need to set model and group | 根据 Ent 生成 CRUD 代码，需要设置 model 和 group
-	goctls api ent --schema=./ent/schema --style=$(PROJECT_STYLE) --api_service_name=$(SERVICE) --output=./ --model=$(model) --group=$(group) --i18n=$(PROJECT_I18N) --overwrite=true
+	goctls api ent --schema=./ent/schema --style=$(PROJECT_STYLE) --api_service_name=$(SERVICE) --output=./ --model=$(model) --group=$(group) --i18n=$(PROJECT_I18N) --overwrite=true --api_data=$(AUTO_API_INIT_DATA)
 	@echo "Generate CRUD codes from Ent successfully"
 {{end}}
 .PHONY: build-win
