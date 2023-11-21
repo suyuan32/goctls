@@ -123,31 +123,34 @@ func genEntLogic(g *GenEntLogicContext) error {
 	for _, s := range schemas.Schemas {
 		if g.ModelName == s.Name || g.ModelName == "all" {
 			color.Blue.Printf("Generating %s...\n", s.Name)
+			genCtx := *g
+			if g.ModelName == "all" {
+				genCtx.GroupName = strings.ToLower(s.Name)
+				genCtx.ModelName = s.Name
+			}
+
 			// generate logic file
-			rpcLogicData := GenCRUDData(g, projectCtx, s)
+			rpcLogicData := GenCRUDData(&genCtx, projectCtx, s)
 
 			for _, v := range rpcLogicData {
-				logicFilename, err := format.FileNamingFormat(g.Style, v.LogicName)
+				logicFilename, err := format.FileNamingFormat(genCtx.Style, v.LogicName)
 				if err != nil {
 					return err
 				}
 
 				// group
 				var filename string
-				if g.GroupName != "" || g.ModelName == "all" {
-					if g.ModelName == "all" {
-						g.GroupName = strings.ToLower(s.Name)
-					}
-					if err = pathx.MkdirIfNotExist(filepath.Join(logicDir, g.GroupName)); err != nil {
+				if genCtx.GroupName != "" {
+					if err = pathx.MkdirIfNotExist(filepath.Join(logicDir, genCtx.GroupName)); err != nil {
 						return err
 					}
 
-					filename = filepath.Join(logicDir, g.GroupName, logicFilename+".go")
+					filename = filepath.Join(logicDir, genCtx.GroupName, logicFilename+".go")
 				} else {
 					filename = filepath.Join(logicDir, logicFilename+".go")
 				}
 
-				if pathx.FileExists(filename) && !g.Overwrite {
+				if pathx.FileExists(filename) && !genCtx.Overwrite {
 					continue
 				}
 
@@ -158,25 +161,28 @@ func genEntLogic(g *GenEntLogicContext) error {
 			}
 
 			// generate proto file
-			protoMessage, protoFunctions, err := GenProtoData(s, g)
+			protoMessage, protoFunctions, err := GenProtoData(s, genCtx)
 			if err != nil {
 				return err
 			}
 
 			var protoFileName string
-			if g.ProtoOut == "" {
-				protoFileName = filepath.Join(outputDir, g.ProjectName+".proto")
+			if genCtx.ProtoOut == "" {
+				protoFileName = filepath.Join(outputDir, genCtx.ProjectName+".proto")
 				if !pathx.FileExists(protoFileName) {
 					continue
 				}
 			} else {
-				protoFileName, err = filepath.Abs(g.ProtoOut)
+				if g.ModelName == "all" {
+					genCtx.ProtoOut = strings.ReplaceAll(genCtx.ProtoOut, "all", genCtx.GroupName)
+				}
+				protoFileName, err = filepath.Abs(genCtx.ProtoOut)
 				if err != nil {
 					return err
 				}
-				if !pathx.FileExists(protoFileName) || g.Overwrite {
+				if !pathx.FileExists(protoFileName) || genCtx.Overwrite {
 					err = os.WriteFile(protoFileName, []byte(fmt.Sprintf("syntax = \"proto3\";\n\nservice %s {\n}",
-						strcase.ToCamel(g.ServiceName))), os.ModePerm)
+						strcase.ToCamel(genCtx.ServiceName))), os.ModePerm)
 					if err != nil {
 						return fmt.Errorf("failed to create proto file : %s", err.Error())
 					}
@@ -196,15 +202,15 @@ func genEntLogic(g *GenEntLogicContext) error {
 
 			// generate new proto file
 			newProtoData := strings.Builder{}
-			serviceBeginIndex, _, serviceEndIndex := protox.FindBeginEndOfService(protoDataString, strcase.ToCamel(g.ServiceName))
+			serviceBeginIndex, _, serviceEndIndex := protox.FindBeginEndOfService(protoDataString, strcase.ToCamel(genCtx.ServiceName))
 			if serviceBeginIndex == -1 {
 				continue
 			}
 			newProtoData.WriteString(protoDataString[:serviceBeginIndex-1])
-			newProtoData.WriteString(fmt.Sprintf("\n// %s message\n\n", g.ModelName))
+			newProtoData.WriteString(fmt.Sprintf("\n// %s message\n\n", genCtx.ModelName))
 			newProtoData.WriteString(fmt.Sprintf("%s\n", protoMessage))
 			newProtoData.WriteString(protoDataString[serviceBeginIndex-1 : serviceEndIndex-1])
-			newProtoData.WriteString(fmt.Sprintf("\n\n  // %s management\n", g.ModelName))
+			newProtoData.WriteString(fmt.Sprintf("\n\n  // %s management\n", genCtx.ModelName))
 			newProtoData.WriteString(fmt.Sprintf("%s\n", protoFunctions))
 			newProtoData.WriteString(protoDataString[serviceEndIndex-1:])
 
@@ -222,7 +228,7 @@ func genEntLogic(g *GenEntLogicContext) error {
 
 func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *load.Schema) []*RpcLogicData {
 	var data []*RpcLogicData
-	hasTime, hasUUID, hasSingle, NoNormalField := false, false, false, true
+	hasTime, hasUUID, hasSingle, NoNormalField, hasPointy := false, false, false, true, false
 	// end string means whether to use \n
 	endString := ""
 	var packageName string
@@ -310,6 +316,10 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		NoNormalField = false
 	}
 
+	if strings.Contains(setLogic.String(), "pointy") {
+		hasPointy = true
+	}
+
 	createLogic := bytes.NewBufferString("")
 	createLogicTmpl, _ := template.New("create").Parse(createTpl)
 	_ = createLogicTmpl.Execute(createLogic, map[string]any{
@@ -325,6 +335,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"importPrefix":  g.ImportPrefix,
 		"hasSingle":     hasSingle,
 		"noNormalField": !NoNormalField,
+		"hasPointy":     hasPointy,
 	})
 
 	data = append(data, &RpcLogicData{
@@ -347,6 +358,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"importPrefix":  g.ImportPrefix,
 		"hasSingle":     hasSingle,
 		"noNormalField": !NoNormalField,
+		"hasPointy":     hasPointy,
 	})
 
 	data = append(data, &RpcLogicData{
@@ -475,7 +487,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 	return data
 }
 
-func GenProtoData(schema *load.Schema, g *GenEntLogicContext) (string, string, error) {
+func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, error) {
 	var protoMessage strings.Builder
 	schemaNameCamelCase := parser.CamelCase(schema.Name)
 	// hasStatus means it has status field
