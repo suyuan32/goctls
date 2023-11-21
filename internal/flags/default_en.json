@@ -79,7 +79,7 @@
         "style": "The file name format style",
         "model": "The model name for generating e.g. user, if it is empty, generate codes for all models in schema directory",
         "search_key_num": "The max number of search keys",
-        "rpc_name": "The rpc name in service context. e.g. CoreRpc",
+        "rpc_name": "The rpc name in service context. e.g. Core means CoreRpc",
         "grpc_package": "The rpc package which stores pb file. e.g. github.com/suyuan32/simple-admin-job/types/job",
         "multiple": "Whether the proto contains multiple services",
         "json_style": "The JSON tag format, default is camelcase",
