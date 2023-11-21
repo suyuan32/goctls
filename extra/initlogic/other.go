@@ -89,7 +89,7 @@ func OtherGen(g *CoreGenContext) error {
 					return fmt.Errorf("failed to find \"insertApiData\" function in file: %s", path)
 				}
 
-				newFileStr := originalFileStr[:index+29] + fmt.Sprintf("\n\t//%s\n", strings.ToUpper(g.ModelName)) + otherString.String() + originalFileStr[index+29:]
+				newFileStr := originalFileStr[:index+29] + otherString.String() + originalFileStr[index+29:]
 
 				err = fileutil.WriteStringToFile(path, newFileStr, false)
 				if err != nil {
