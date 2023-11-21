@@ -27,9 +27,9 @@ SWAGGER_TYPE=json{{end}}
 {{if .useEnt}}
 # Ent enabled features | Ent 启用的官方特性
 ENT_FEATURE={{.entFeature}}
-
+{{if .isSingle}}
 # Auto generate API data for initialization | 自动生成 API 初始化数据
-AUTO_API_INIT_DATA=true{{end}}
+AUTO_API_INIT_DATA=true{{end}}{{end}}
 
 # The arch of the build | 构建的架构
 GOARCH=amd64
