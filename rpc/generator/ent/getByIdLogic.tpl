@@ -34,8 +34,8 @@ func (l *Get{{.modelName}}ByIdLogic) Get{{.modelName}}ById(in *{{.projectName}}.
 
 	return &{{.projectName}}.{{.modelName}}Info{
 		Id:          {{if .useUUID}}pointy.GetPointer(result.ID.String()){{else}}&result.ID{{end}},
-		CreatedAt:    pointy.GetPointer(result.CreatedAt.Unix()),
-		UpdatedAt:    pointy.GetPointer(result.UpdatedAt.Unix()),
+		CreatedAt:    pointy.GetPointer(result.CreatedAt.UnixMilli()),
+		UpdatedAt:    pointy.GetPointer(result.UpdatedAt.UnixMilli()),
 {{.listData}}
 	}, nil
 }

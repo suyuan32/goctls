@@ -1,4 +1,4 @@
-// {{.modelNameUpper}}
+    // {{.modelNameUpper}}
 
     apis = append(apis, l.svcCtx.DB.API.Create().
         SetPath("/{{.modelNameSnake}}/create").

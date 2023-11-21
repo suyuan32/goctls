@@ -87,6 +87,8 @@ var (
 	VarBoolDisabledValidator bool
 	// VarBoolOptionalService describes whether to generate for optional service
 	VarBoolOptionalService bool
+	// VarBoolGenCoreApiInit describes whether to auto gen core api init code
+	VarBoolGenCoreApiInit bool
 )
 
 // GoCommand gen go project files from command line
@@ -139,6 +141,7 @@ type GenContext struct {
 	ExtraField    string
 	IsNewProject  bool
 	UseValidator  bool
+	UseCoreRpc    bool
 }
 
 // DoGenProject gen go project files with api file
@@ -283,6 +286,11 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 		if err != nil {
 			return err
 		}
+
+		err = GenEntInitCode(dir, cfg, g)
+		if err != nil {
+			return err
+		}
 	}
 
 	if err := backupAndSweep(apiFile); err != nil {
@@ -361,7 +369,6 @@ func GenCRUDLogicByProto(_ *cobra.Command, _ []string) error {
 		APIServiceName:  VarStringAPIServiceName,
 		Style:           VarStringStyle,
 		ModelName:       VarStringModelName,
-		SearchKeyNum:    VarIntSearchKeyNum,
 		RpcName:         VarStringRpcName,
 		GrpcPackage:     VarStringGrpcPbPackage,
 		Multiple:        VarBoolMultiple,
@@ -369,6 +376,7 @@ func GenCRUDLogicByProto(_ *cobra.Command, _ []string) error {
 		UseI18n:         VarBoolUseI18n,
 		ImportPrefix:    VarStringImportPrefix,
 		Overwrite:       VarBoolOverwrite,
+		GenApiData:      VarBoolGenCoreApiInit,
 		OptionalService: VarBoolOptionalService,
 	}
 
@@ -398,6 +406,7 @@ func GenCRUDLogicByEnt(_ *cobra.Command, _ []string) error {
 		UseI18n:      VarBoolUseI18n,
 		ImportPrefix: VarStringImportPrefix,
 		Overwrite:    VarBoolOverwrite,
+		GenApiData:   VarBoolGenCoreApiInit,
 	}
 
 	err := params.Validate()

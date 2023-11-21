@@ -46,8 +46,8 @@ func (l *Get{{.modelName}}ListLogic) Get{{.modelName}}List(req *types.{{.modelNa
 		types.{{.modelName}}Info{
             Base{{if .useUUID}}UU{{end}}IDInfo:    types.Base{{if .useUUID}}UU{{end}}IDInfo{
 				Id:          {{if .useUUID}}pointy.GetPointer(v.ID.String()){{else}}&v.ID{{end}},
-				CreatedAt:    pointy.GetPointer(v.CreatedAt.Unix()),
-				UpdatedAt:    pointy.GetPointer(v.UpdatedAt.Unix()),
+				CreatedAt:    pointy.GetPointer(v.CreatedAt.UnixMilli()),
+				UpdatedAt:    pointy.GetPointer(v.UpdatedAt.UnixMilli()),
             },
 {{.listData}}
 		})

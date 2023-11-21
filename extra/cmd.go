@@ -57,7 +57,8 @@ func init() {
 
 	initCmdFlags.StringVarP(&initlogic.VarStringTarget, "target", "t")
 	initCmdFlags.StringVarP(&initlogic.VarStringModelName, "model_name", "m")
-	initCmdFlags.StringVarP(&initlogic.VarStringOutputPath, "output", "o")
+	initCmdFlags.StringVarPWithDefaultValue(&initlogic.VarStringOutputPath, "output", "o", ".")
+	initCmdFlags.StringVarPWithDefaultValue(&initlogic.VarStringStyle, "style", "s", "go_zero")
 
 	templateCmdFlags.StringVarP(&template.VarStringDir, "dir", "d")
 	templateCmdFlags.StringVarP(&template.VarStringAdd, "add", "a")

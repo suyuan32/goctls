@@ -57,7 +57,8 @@
         "trans_err": "是否翻译错误",
         "port": "服务暴露的端口",
         "gitlab": "是否使用 gitlab CI/CD",
-        "ent": "API 服务中是否使用 Ent"
+        "ent": "API 服务中是否使用 Ent",
+        "use_core_rpc": "是否使用 CoreRpc, 生成 CoreRpc 配置"
       },
       "validate": {
         "short": "验证 api 文件",
@@ -77,16 +78,17 @@
         "api_service_name": "API 服务名称",
         "rpc_service_name": "RPC 服务名称",
         "style": "文件名格式样式",
-        "model": "用于生成的模型名称，例如 user，如果为空，则为 schema 目录中的所有模型生成代码",
+        "model": "用于生成的模型名称，例如 User, 支持同时生成多个模型, 使用逗号分隔，如 User,Member",
         "search_key_num": "搜索条件的最大数量，只支持 String 类型",
-        "rpc_name": "RPC 服务名称，用于调用，例如 CoreRpc",
+        "rpc_name": "RPC 服务名称，用于调用，例如 CoreRpc 需要配置为 Core",
         "grpc_package": "存储 pb 文件的 rpc 包，例如 github.com/suyuan32/simple-admin-job/types/job",
         "multiple": "proto 是否包含多个服务",
         "json_style": "JSON 标记格式，默认为驼峰式",
         "import_prefix": "{{.global.import_prefix}}",
         "i18n": "{{.global.i18n}}",
         "overwrite": "是否覆盖文件，它将覆盖所有生成的文件",
-        "optional_service": "是否为可选服务，如果为 true，则会生成判断代码"
+        "optional_service": "是否为可选服务，如果为 true，则会生成判断代码",
+        "api_data": "是否自动生成 API 初始化代码，需要 CoreRpc"
       },
       "ent": {
         "short": "从 ent 文件生成 CRUD 业务逻辑文件",
@@ -100,7 +102,8 @@
         "i18n": "{{.global.i18n}}",
         "overwrite": "是否覆盖文件，它将覆盖所有生成的文件",
         "import_prefix": "{{.global.import_prefix}}",
-        "json_style": "JSON 标记格式，默认为驼峰式"
+        "json_style": "JSON 标记格式，默认为驼峰式",
+        "api_data": "是否自动生成 API 初始化代码，需要 CoreRpc"
       }
     },
     "bug": {
@@ -248,7 +251,8 @@
         "short": "生成初始化代码",
         "target": "目标类型，现在支持 core , other",
         "model_name": "模型名称，应该是驼峰式的，例如：StudentInfo",
-        "output": "输出路径，只支持 core 服务生成到文件, 例如：./rpc/internal/logic/base/init_database_api_data.go"
+        "output": "输出路径, 项目根目录",
+        "style": "{{.global.style}}"
       },
       "ent": {
         "short": "生成额外的 ent 代码",

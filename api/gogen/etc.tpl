@@ -34,6 +34,11 @@ Prometheus:
   MaxOpenConn: 100
   SSLMode: disable
   CacheTime: 5
+{{end}}{{if .useCoreRpc}}
+CoreRpc:
+  Endpoints:
+  - core-rpc:9101
+  Enabled: true
 {{end}}
 {{if .useCasbin}}RedisConf:
   Host: 127.0.0.1:6379

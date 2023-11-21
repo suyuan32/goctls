@@ -19,6 +19,7 @@ import (
 	_ "embed"
 	"errors"
 	"fmt"
+	"github.com/suyuan32/goctls/rpc/execx"
 	"os"
 	"path"
 	"path/filepath"
@@ -58,6 +59,7 @@ type GenEntLogicContext struct {
 	JSONStyle    string
 	UseI18n      bool
 	ImportPrefix string
+	GenApiData   bool
 	Overwrite    bool
 }
 
@@ -105,31 +107,33 @@ func genEntLogic(g *GenEntLogicContext) error {
 	for _, s := range schemas.Schemas {
 		if g.ModelName == s.Name || g.ModelName == "all" {
 			color.Blue.Printf("Generating %s...\n", s.Name)
+			genCtx := *g
+			if g.ModelName == "all" {
+				genCtx.GroupName = strings.ToLower(s.Name)
+				genCtx.ModelName = s.Name
+			}
 			// generate logic file
-			apiLogicData := GenCRUDData(g, projectCtx, s)
+			apiLogicData := GenCRUDData(&genCtx, projectCtx, s)
 
 			for _, v := range apiLogicData {
-				logicFilename, err := format.FileNamingFormat(g.Style, v.LogicName)
+				logicFilename, err := format.FileNamingFormat(genCtx.Style, v.LogicName)
 				if err != nil {
 					return err
 				}
 
 				// group
 				var filename string
-				if g.GroupName != "" || g.ModelName == "all" {
-					if g.ModelName == "all" {
-						g.GroupName = strings.ToLower(s.Name)
-					}
-					if err = pathx.MkdirIfNotExist(filepath.Join(logicDir, g.GroupName)); err != nil {
+				if genCtx.GroupName != "" {
+					if err = pathx.MkdirIfNotExist(filepath.Join(logicDir, genCtx.GroupName)); err != nil {
 						return err
 					}
 
-					filename = filepath.Join(logicDir, g.GroupName, logicFilename+".go")
+					filename = filepath.Join(logicDir, genCtx.GroupName, logicFilename+".go")
 				} else {
 					filename = filepath.Join(logicDir, logicFilename+".go")
 				}
 
-				if pathx.FileExists(filename) && !g.Overwrite {
+				if pathx.FileExists(filename) && !genCtx.Overwrite {
 					continue
 				}
 
@@ -140,20 +144,20 @@ func genEntLogic(g *GenEntLogicContext) error {
 			}
 
 			// generate api file
-			apiData, err := GenApiData(s, g)
+			apiData, err := GenApiData(s, genCtx)
 			if err != nil {
 				return err
 			}
 
-			err = pathx.MkdirIfNotExist(filepath.Join(workDir, "desc", strings.ToLower(g.ServiceName)))
+			err = pathx.MkdirIfNotExist(filepath.Join(workDir, "desc", strings.ToLower(genCtx.ServiceName)))
 			if err != nil {
 				return err
 			}
 
-			apiFilePath := filepath.Join(workDir, "desc", fmt.Sprintf("%s/%s.api", strings.ToLower(g.ServiceName),
-				strcase.ToSnake(g.ModelName)))
+			apiFilePath := filepath.Join(workDir, "desc", fmt.Sprintf("%s/%s.api", strings.ToLower(genCtx.ServiceName),
+				strcase.ToSnake(genCtx.ModelName)))
 
-			if pathx.FileExists(apiFilePath) && !g.Overwrite {
+			if pathx.FileExists(apiFilePath) && !genCtx.Overwrite {
 				return nil
 			}
 
@@ -169,15 +173,22 @@ func genEntLogic(g *GenEntLogicContext) error {
 			}
 			allApiString := string(allApiData)
 
-			if !strings.Contains(allApiString, fmt.Sprintf("%s.api", strcase.ToSnake(g.ModelName))) {
+			if !strings.Contains(allApiString, fmt.Sprintf("%s.api", strcase.ToSnake(genCtx.ModelName))) {
 				allApiString += fmt.Sprintf("\nimport \"%s\"", fmt.Sprintf("./%s/%s.api",
-					strings.ToLower(g.ServiceName),
-					strcase.ToSnake(g.ModelName)))
+					strings.ToLower(genCtx.ServiceName),
+					strcase.ToSnake(genCtx.ModelName)))
 			}
 
 			err = os.WriteFile(allApiFile, []byte(allApiString), regularPerm)
 			if err != nil {
 				return err
+			}
+
+			if genCtx.GenApiData {
+				_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other", genCtx.ModelName), g.Output)
+				if err != nil {
+					color.Red.Printf("the init code of %s already exist, skip... \n", genCtx.ModelName)
+				}
 			}
 		}
 	}
@@ -370,7 +381,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 	return data
 }
 
-func GenApiData(schema *load.Schema, ctx *GenEntLogicContext) (string, error) {
+func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 	infoData := strings.Builder{}
 	listData := strings.Builder{}
 	searchKeyNum := ctx.SearchKeyNum

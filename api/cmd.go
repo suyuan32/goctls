@@ -77,6 +77,7 @@ func init() {
 	newCmdFlags.BoolVarP(&new.VarBoolErrorTranslate, "trans_err", "a")
 	newCmdFlags.IntVarPWithDefaultValue(&new.VarIntServicePort, "port", "p", 9100)
 	newCmdFlags.BoolVarP(&new.VarBoolEnt, "ent", "e")
+	newCmdFlags.BoolVarP(&new.VarBoolCore, "use_core_rpc", "r")
 
 	pluginCmdFlags.StringVarP(&plugin.VarStringPlugin, "plugin", "p")
 	pluginCmdFlags.StringVar(&plugin.VarStringDir, "dir")
@@ -91,7 +92,6 @@ func init() {
 	protoCmdFlags.StringVarP(&gogen.VarStringRPCServiceName, "rpc_service_name", "r")
 	protoCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringStyle, "style", "s", config.DefaultFormat)
 	protoCmdFlags.StringVarP(&gogen.VarStringModelName, "model", "m")
-	protoCmdFlags.IntVarPWithDefaultValue(&gogen.VarIntSearchKeyNum, "search_key_num", "k", 3)
 	protoCmdFlags.StringVarP(&gogen.VarStringRpcName, "rpc_name", "n")
 	protoCmdFlags.StringVarP(&gogen.VarStringGrpcPbPackage, "grpc_package", "g")
 	protoCmdFlags.BoolVar(&gogen.VarBoolMultiple, "multiple")
@@ -100,6 +100,7 @@ func init() {
 	protoCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringJSONStyle, "json_style", "j", "goZero")
 	protoCmdFlags.BoolVarP(&gogen.VarBoolOverwrite, "overwrite", "w")
 	protoCmdFlags.BoolVarP(&gogen.VarBoolOptionalService, "optional_service", "t")
+	protoCmdFlags.BoolVarP(&gogen.VarBoolGenCoreApiInit, "api_data", "d")
 
 	entCmdFlags.StringVarP(&gogen.VarStringSchema, "schema", "c")
 	entCmdFlags.StringVarP(&gogen.VarStringOutput, "output", "o")
@@ -110,6 +111,7 @@ func init() {
 	entCmdFlags.StringVarP(&gogen.VarStringGroupName, "group", "g")
 	entCmdFlags.BoolVarP(&gogen.VarBoolOverwrite, "overwrite", "w")
 	entCmdFlags.BoolVarP(&gogen.VarBoolUseI18n, "i18n", "i")
+	entCmdFlags.BoolVarP(&gogen.VarBoolGenCoreApiInit, "api_data", "p")
 	entCmdFlags.StringVarP(&gogen.VarStringImportPrefix, "import_prefix", "x")
 	entCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringJSONStyle, "json_style", "j", "goZero")
 

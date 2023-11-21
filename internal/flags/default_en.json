@@ -56,7 +56,8 @@
         "module_name": "The module name in go.mod. e.g. github.com/suyuan32/simple-admin-core",
         "trans_err": "Whether to translate the error",
         "port": "The service port exposed",
-        "ent": "Whether to use Ent in API service"
+        "ent": "Whether to use Ent in API service",
+        "use_core_rpc": "Whether to use \"CoreRpc\", if true will generate \"CoreRpc\" configuration"
       },
       "validate": {
         "short": "Validate api file",
@@ -76,16 +77,17 @@
         "api_service_name": "The API service name",
         "rpc_service_name": "The RPC service name",
         "style": "The file name format style",
-        "model": "The model name for generating e.g. user, if it is empty, generate codes for all models in schema directory",
+        "model": "Model name used for generation, such as User, supports generating multiple models at the same time, separated by commas, such as User, Member",
         "search_key_num": "The max number of search keys",
-        "rpc_name": "The rpc name in service context. e.g. CoreRpc",
+        "rpc_name": "The rpc name in service context. e.g. Core means CoreRpc",
         "grpc_package": "The rpc package which stores pb file. e.g. github.com/suyuan32/simple-admin-job/types/job",
         "multiple": "Whether the proto contains multiple services",
         "json_style": "The JSON tag format, default is camelcase",
         "i18n": "{{.global.i18n}}",
         "import_prefix": "{{.global.import_prefix}}",
         "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
-        "optional_service": "Whether it is an optional service, if true, judgment code will be generated"
+        "optional_service": "Whether it is an optional service, if true, judgment code will be generated",
+        "api_data": "Whether to automatically generate API initialization code, CoreRpc is required"
       },
       "ent": {
         "short": "Generate CRUD logic files from ent file",
@@ -99,7 +101,8 @@
         "group": "The group name for logic. e.g. user",
         "i18n": "{{.global.i18n}}",
         "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
-        "json_style": "The JSON tag format, default is camelcase"
+        "json_style": "The JSON tag format, default is camelcase",
+        "api_data": "Whether to automatically generate API initialization code, CoreRpc is required"
       }
     },
     "bug": {
@@ -246,7 +249,8 @@
         "short": "Generating initialize code",
         "target": "The target type, now support core and other",
         "model_name": "The model name, it should be camelcase, such as StudentInfo",
-        "output": "The output path, only support core generating to file, such as ./rpc/internal/logic/base/init_database_api_data.go"
+        "output": "The output path, the project's root directory ",
+        "style": "{{.global.style}}"
       },
       "ent": {
         "short": "Generating extra ent codes",

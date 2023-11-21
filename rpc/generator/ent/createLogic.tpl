@@ -11,8 +11,8 @@ import (
 {{else}}    "github.com/suyuan32/simple-admin-common/msg/errormsg"
 {{end}}{{if .hasUUID}}    "github.com/suyuan32/simple-admin-common/utils/uuidx"
 {{end}}
-	"github.com/suyuan32/simple-admin-common/utils/pointy"
-	"github.com/zeromicro/go-zero/core/logx"
+{{if .hasPointy}}	"github.com/suyuan32/simple-admin-common/utils/pointy"
+{{end}}	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type Create{{.modelName}}Logic struct {

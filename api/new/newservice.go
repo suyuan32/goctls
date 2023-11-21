@@ -54,6 +54,8 @@ var (
 	VarIntServicePort int
 	// VarBoolEnt describes whether to use ent in api
 	VarBoolEnt bool
+	// VarBoolCore describes whether to generate core rpc code
+	VarBoolCore bool
 )
 
 // CreateServiceCommand fast create service
@@ -143,6 +145,7 @@ func CreateServiceCommand(_ *cobra.Command, args []string) error {
 		UseDockerfile: true,
 		UseEnt:        VarBoolEnt,
 		IsNewProject:  true,
+		UseCoreRpc:    VarBoolCore,
 	}
 
 	err = gogen.DoGenProject(apiFilePath, abs, VarStringStyle, genCtx)
