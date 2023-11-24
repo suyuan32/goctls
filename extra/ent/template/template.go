@@ -22,4 +22,7 @@ var (
 
 	//go:embed tmpl/set_not_nil.tmpl
 	NotNilTmpl string
+
+	//go:embed tmpl/set_or_clear.tmpl
+	SetOrClearTmpl string
 )
