@@ -149,6 +149,8 @@ func GetTmpl(name string) string {
 		return PaginationTmpl
 	case "set_not_nil.tmpl", "set_not_nil":
 		return NotNilTmpl
+	case "set_or_clear.tmpl", "set_or_clear":
+		return SetOrClearTmpl
 	}
 	return ""
 }
@@ -174,6 +176,10 @@ func ListAllTemplate() {
 				"pagination",
 				"Ent 分页模板",
 			},
+			{
+				"set_or_clear",
+				"Ent 若输入值为 nil 则设置为 null 的模板,使用方法: SetOrClear",
+			},
 		}
 	} else {
 		color.Green.Println("The templates supported:\n")
@@ -181,11 +187,15 @@ func ListAllTemplate() {
 		data = []Info{
 			{
 				"set_not_nil",
-				"The template for updating the values when it is not nil",
+				"The template for updating the value when it is not nil",
 			},
 			{
 				"pagination",
 				"The template for paginating the data",
+			},
+			{
+				"set_or_clear",
+				"The template for update the values to null when the input value is nil. Usage: SetOrClear",
 			},
 		}
 	}
