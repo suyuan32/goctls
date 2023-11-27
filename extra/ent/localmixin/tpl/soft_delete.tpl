@@ -1,4 +1,4 @@
-package mixins
+package localmixin
 
 import (
 	"context"

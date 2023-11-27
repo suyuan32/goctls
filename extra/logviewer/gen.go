@@ -137,7 +137,7 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 			return errors.Join(err, errors.New("failed to reset config file"))
 		}
 
-		color.Green.Println("reset workspace configuration successfully")
+		color.Green.Println("Reset workspace configuration successfully")
 	} else if VarBoolList {
 		configFile, err := getWorkspaceConfigDir()
 		if err != nil {
