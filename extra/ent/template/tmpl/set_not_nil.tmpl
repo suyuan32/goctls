@@ -14,9 +14,9 @@
 
             {{ range $updater := list $n.UpdateName $n.UpdateOneName $n.CreateName}}
                 // set field if value's pointer is not nil.
-                func ({{ $n.Receiver }} *{{ $updater }}) SetNotNil{{ $f.StructField }}(value *{{ $f.Type }}) *{{ $updater }} {
+                func ({{ $n.Receiver }} *{{ $updater }}) SetNotNil{{ $f.StructField }}(value {{if not (hasPrefix $f.Type.String "[]") }}*{{end}}{{ $f.Type }}) *{{ $updater }} {
                 if value != nil  {
-                return {{ $n.Receiver }}.{{ $set }}(*value)
+                return {{ $n.Receiver }}.{{ $set }}({{if not (hasPrefix $f.Type.String "[]") }}*{{end}}value)
                 }
                 return {{ $n.Receiver }}
                 }
