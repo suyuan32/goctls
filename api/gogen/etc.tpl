@@ -36,8 +36,7 @@ Prometheus:
   CacheTime: 5
 {{end}}{{if .useCoreRpc}}
 CoreRpc:
-  Endpoints:
-  - core-rpc:9101
+  Target: k8s://default/core-rpc-svc:9101
   Enabled: true
 {{end}}
 {{if .useCasbin}}RedisConf:
