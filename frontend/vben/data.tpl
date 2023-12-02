@@ -26,6 +26,5 @@ export const formSchema: FormSchema[] = [
     label: 'ID',
     component: 'Input',
     show: false,
-  },
-{{.formData}}
+  },{{.formData}}
 ];
