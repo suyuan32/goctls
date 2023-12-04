@@ -310,8 +310,13 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.String()),%s", nameCamelCase,
 					entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
 			} else if entx.IsTimeProperty(v.Info.Type.String()) {
-				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.UnixMilli()),%s", nameCamelCase,
-					entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+				if v.Optional {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetUnixMilliPointer(v.%s.UnixMilli()),%s", nameCamelCase,
+						entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+				} else {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.UnixMilli()),%s", nameCamelCase,
+						entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+				}
 			} else {
 				if entx.IsUpperProperty(v.Name) {
 					listData.WriteString(fmt.Sprintf("\t\t\t%s:\t&v.%s,%s", nameCamelCase,

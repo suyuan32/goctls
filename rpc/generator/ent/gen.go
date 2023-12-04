@@ -403,8 +403,13 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 					entx.ConvertOnlyEntTypeToGoType(v.Info.Type.String()),
 					entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
 			} else if entx.IsTimeProperty(v.Info.Type.String()) {
-				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.UnixMilli()),%s", nameCamelCase,
-					entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+				if v.Optional {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetUnixMilliPointer(v.%s.UnixMilli()),%s", nameCamelCase,
+						entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+				} else {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.UnixMilli()),%s", nameCamelCase,
+						entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+				}
 			} else {
 				if entx.IsUpperProperty(v.Name) {
 					if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
