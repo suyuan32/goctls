@@ -24,7 +24,7 @@ func init() {
 	dockerCmdFlags := Cmd.Flags()
 	dockerCmdFlags.StringVarP(&varServiceName, "service_name", "s")
 	dockerCmdFlags.StringVarPWithDefaultValue(&varServiceType, "service_type", "t", "rpc")
-	dockerCmdFlags.StringVarPWithDefaultValue(&varStringBase, "base", "a", "alpine:3.18.4")
+	dockerCmdFlags.StringVarPWithDefaultValue(&varStringBase, "base", "a", "alpine:3.18.5")
 	dockerCmdFlags.IntVarP(&varIntPort, "port", "p")
 	dockerCmdFlags.StringVarP(&varStringHome, "home", "m")
 	dockerCmdFlags.StringVarP(&varStringRemote, "remote", "r")
