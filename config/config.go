@@ -24,7 +24,7 @@ const GoctlsVersion = "v1.6.15"
 const CoreVersion = "v1.2.4"
 
 // LangEnvKey is the environment variable name to control the tools help info language
-const LangEnvKey = "SIMPLE_ADMIN_TOOLS_LANG"
+const LangEnvKey = "SIMPLE_LANG"
 
 // Config defines the file naming style
 type Config struct {
