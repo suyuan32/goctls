@@ -8,7 +8,7 @@ import (
 	"{{.projectPackage}}/ent"
 	"github.com/zeromicro/go-zero/core/logx"{{end}}
     {{if .useCasbin}}
-	"github.com/zeromicro/go-zero/core/stores/redis"
+	"github.com/redis/go-redis/v9"
     "github.com/zeromicro/go-zero/rest"
     "github.com/casbin/casbin/v2"{{end}}{{if .useCoreRpc}}
 	"github.com/zeromicro/go-zero/zrpc"{{end}}
@@ -26,9 +26,9 @@ type ServiceContext struct {
 
 func NewServiceContext(c {{.config}}) *ServiceContext {
 {{if .useCasbin}}
-    rds := redis.MustNewRedis(c.RedisConf)
+    rds := c.RedisConf.MustNewRedis()
 
-    cbn := c.CasbinConf.MustNewCasbinWithRedisWatcher(c.CasbinDatabaseConf.Type, c.CasbinDatabaseConf.GetDSN(), c.RedisConf)
+    cbn := c.CasbinConf.MustNewCasbinWithOriginalRedisWatcher(c.CasbinDatabaseConf.Type, c.CasbinDatabaseConf.GetDSN(), c.RedisConf)
 {{end}}
 {{if .useI18n}}
     trans := i18n.NewTranslator(i18n2.LocaleFS)
