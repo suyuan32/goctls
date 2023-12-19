@@ -34,12 +34,12 @@ func toolEnvInfo() string {
 	if lang {
 		envInfo.AppendHeader(table.Row{"环境变量名称", "环境变量介绍"})
 		envInfo.AppendRows([]table.Row{
-			{"SIMPLE_ADMIN_TOOLS_LANG", "控制台中goctls的帮助信息语言类型，支持zh和en，默认为en"},
+			{"SIMPLE_LANG", "控制台中goctls的帮助信息语言类型，支持zh和en，默认为en"},
 		})
 	} else {
 		envInfo.AppendHeader(table.Row{"Key", "Introduction"})
 		envInfo.AppendRows([]table.Row{
-			{"SIMPLE_ADMIN_TOOLS_LANG", "The goctls' help message language type in console, support zh and en, default is en"},
+			{"SIMPLE_LANG", "The goctls' help message language type in console, support zh and en, default is en"},
 		})
 	}
 	return envInfo.Render()
