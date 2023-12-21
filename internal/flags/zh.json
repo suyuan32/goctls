@@ -252,6 +252,7 @@
         "target": "目标类型，现在支持 core , other",
         "model_name": "模型名称，应该是驼峰式的，例如：StudentInfo",
         "output": "输出路径, 项目根目录",
+        "service_name": "服务名称，如 Core",
         "style": "{{.global.style}}"
       },
       "ent": {
