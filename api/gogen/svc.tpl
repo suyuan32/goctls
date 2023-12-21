@@ -8,7 +8,6 @@ import (
 	"{{.projectPackage}}/ent"
 	"github.com/zeromicro/go-zero/core/logx"{{end}}
     {{if .useCasbin}}
-	"github.com/redis/go-redis/v9"
     "github.com/zeromicro/go-zero/rest"
     "github.com/casbin/casbin/v2"{{end}}{{if .useCoreRpc}}
 	"github.com/zeromicro/go-zero/zrpc"{{end}}
