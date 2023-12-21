@@ -191,7 +191,7 @@ func GenLogicByProto(p *GenLogicByProtoContext) error {
 		}
 
 		if genCtx.GenApiData {
-			_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other", genCtx.ModelName), genCtx.OutputDir)
+			_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other -n %s", genCtx.ModelName, genCtx.RPCServiceName), genCtx.OutputDir)
 			if err != nil {
 				color.Red.Printf("the init code of %s already exist, skip... \n", genCtx.ModelName)
 			}
