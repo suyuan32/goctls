@@ -33,10 +33,11 @@ import (
 var coreTpl string
 
 type CoreGenContext struct {
-	Target    string
-	ModelName string
-	Output    string
-	Style     string
+	Target      string
+	ModelName   string
+	Output      string
+	Style       string
+	ServiceName string
 }
 
 func GenCore(g *CoreGenContext) error {
@@ -51,6 +52,7 @@ func GenCore(g *CoreGenContext) error {
 		"modelNameSnake": strcase.ToSnake(g.ModelName),
 		"modelNameLower": strings.ToLower(g.ModelName),
 		"modelNameUpper": strings.ToUpper(g.ModelName),
+		"serviceName":    g.ServiceName,
 	})
 	if err != nil {
 		return err

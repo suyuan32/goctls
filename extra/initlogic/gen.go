@@ -30,6 +30,8 @@ var (
 	VarStringOutputPath string
 	// VarStringStyle describes the file naming style
 	VarStringStyle string
+	// VarServiceName describes the service name
+	VarServiceName string
 )
 
 func Gen(_ *cobra.Command, _ []string) error {
@@ -39,10 +41,11 @@ func Gen(_ *cobra.Command, _ []string) error {
 	}
 
 	ctx := &CoreGenContext{
-		Target:    VarStringTarget,
-		ModelName: VarStringModelName,
-		Output:    VarStringOutputPath,
-		Style:     VarStringStyle,
+		Target:      VarStringTarget,
+		ModelName:   VarStringModelName,
+		Output:      VarStringOutputPath,
+		Style:       VarStringStyle,
+		ServiceName: VarServiceName,
 	}
 
 	return DoGen(ctx)
