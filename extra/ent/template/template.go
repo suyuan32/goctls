@@ -25,4 +25,7 @@ var (
 
 	//go:embed tmpl/set_or_clear.tmpl
 	SetOrClearTmpl string
+
+	//go:embed tmpl/cache.tmpl
+	CacheTmpl string
 )

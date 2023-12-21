@@ -2,13 +2,15 @@ package parser
 
 import (
 	"fmt"
+	"github.com/suyuan32/goctls/api/spec"
+	"github.com/suyuan32/goctls/pkg/parser/api/ast"
+	"github.com/suyuan32/goctls/pkg/parser/api/importstack"
+	"github.com/suyuan32/goctls/pkg/parser/api/placeholder"
+	"github.com/suyuan32/goctls/pkg/parser/api/token"
 	"sort"
 	"strings"
 
-	"github.com/suyuan32/goctls/api/spec"
-	"github.com/suyuan32/goctls/pkg/parser/api/ast"
-	"github.com/suyuan32/goctls/pkg/parser/api/placeholder"
-	"github.com/suyuan32/goctls/pkg/parser/api/token"
+	"github.com/zeromicro/go-zero/core/lang"
 )
 
 // Analyzer analyzes the ast and converts it to spec.
@@ -390,9 +392,14 @@ func Parse(filename string, src interface{}) (*spec.ApiSpec, error) {
 		return nil, err
 	}
 
-	var importManager = make(map[string]placeholder.Type)
-	importManager[ast.Filename] = placeholder.PlaceHolder
-	api, err := convert2API(ast, importManager)
+	is := importstack.New()
+	err := is.Push(ast.Filename)
+	if err != nil {
+		return nil, err
+	}
+
+	importSet := map[string]lang.PlaceholderType{}
+	api, err := convert2API(ast, importSet, is)
 	if err != nil {
 		return nil, err
 	}

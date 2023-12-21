@@ -151,6 +151,8 @@ func GetTmpl(name string) string {
 		return NotNilTmpl
 	case "set_or_clear.tmpl", "set_or_clear":
 		return SetOrClearTmpl
+	case "cache.tmpl", "cache":
+		return CacheTmpl
 	}
 	return ""
 }
@@ -180,6 +182,10 @@ func ListAllTemplate() {
 				"set_or_clear",
 				"Ent 若输入值为 nil 则设置为 null 的模板,使用方法: SetOrClear",
 			},
+			{
+				"cache",
+				"Ent 数据库缓存模板",
+			},
 		}
 	} else {
 		color.Green.Println("The templates supported:\n")
@@ -196,6 +202,10 @@ func ListAllTemplate() {
 			{
 				"set_or_clear",
 				"The template for update the values to null when the input value is nil. Usage: SetOrClear",
+			},
+			{
+				"cache",
+				"Ent cache template",
 			},
 		}
 	}

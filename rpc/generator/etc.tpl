@@ -13,8 +13,7 @@ DatabaseConf:
   CacheTime: 5
 
 RedisConf:
-  Host: 127.0.0.1:6379
-  Type: node{{end}}
+  Host: 127.0.0.1:6379{{end}}
 
 Log:
   ServiceName: {{.serviceName}}RpcLogger
@@ -25,8 +24,3 @@ Log:
   Compress: false
   KeepDays: 7
   StackCoolDownMillis: 100
-
-Prometheus:
-  Host: 0.0.0.0
-  Port: 4001
-  Path: /metrics

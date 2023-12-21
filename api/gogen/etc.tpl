@@ -19,11 +19,6 @@ Log:
   KeepDays: 7
   StackCoolDownMillis: 100
 
-Prometheus:
-  Host: 0.0.0.0
-  Port: 4000
-  Path: /metrics
-
 {{if .useEnt}}DatabaseConf:
   Type: mysql
   Host: 127.0.0.1
@@ -41,7 +36,6 @@ CoreRpc:
 {{end}}
 {{if .useCasbin}}RedisConf:
   Host: 127.0.0.1:6379
-  Type: node
 
 CasbinDatabaseConf:
   Type: mysql
