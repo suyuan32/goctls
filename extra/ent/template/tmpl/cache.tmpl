@@ -18,7 +18,7 @@ in the LICENSE file in the root directory of this source tree.
 	{{ range $n := $.Nodes }}
 		{{ $dbPrefix := print "DB:CACHE:"}}
 		// GetCache returns a {{$n.Name}} entity by its id, use cache if it exists.
-		func ({{ receiver $n.QueryName }} *{{ $n.QueryName }}) GetCache(ctx context.Context, rds *redis.UniversalClient, predicates predicate.{{$n.Name}}, keyVal string, expire time.Duration) (*{{ $n.Name }}, error) {
+		func ({{ receiver $n.QueryName }} *{{ $n.QueryName }}) GetCache(ctx context.Context, rds redis.UniversalClient, predicates predicate.{{$n.Name}}, keyVal string, expire time.Duration) (*{{ $n.Name }}, error) {
 			var key strings.Builder
 			key.WriteString("{{$dbPrefix}}{{$n.Name}}:")
 			key.WriteString(keyVal)
