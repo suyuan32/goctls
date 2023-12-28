@@ -20,11 +20,11 @@ import ({{if .useTrans}}
 
 type AuthorityMiddleware struct {
 	Cbn   *casbin.Enforcer
-	Rds   *redis.Client{{if .useTrans}}
+	Rds   redis.UniversalClient{{if .useTrans}}
 	Trans *i18n.Translator{{end}}
 }
 
-func NewAuthorityMiddleware(cbn *casbin.Enforcer, rds *redis.Client{{if .useTrans}}, trans *i18n.Translator{{end}}) *AuthorityMiddleware {
+func NewAuthorityMiddleware(cbn *casbin.Enforcer, rds redis.UniversalClient{{if .useTrans}}, trans *i18n.Translator{{end}}) *AuthorityMiddleware {
 	return &AuthorityMiddleware{
 		Cbn:   cbn,
 		Rds:   rds,{{if .useTrans}}

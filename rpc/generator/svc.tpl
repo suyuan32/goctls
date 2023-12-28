@@ -7,7 +7,7 @@ import (
 type ServiceContext struct {
 	Config config.Config
     {{if .isEnt}}DB     *ent.Client
-    Redis  *redis.Client
+    Redis  redis.UniversalClient
 {{end}}
 
 }
@@ -21,8 +21,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
     
     {{end}}
 	return &ServiceContext{
-		Config:c,
+		Config: c,
 		{{if .isEnt}}DB:     db,
-		Redis:  c.RedisConf.MustNewRedis(),{{end}}
+		Redis:  c.RedisConf.MustNewUniversalRedis(),{{end}}
 	}
 }
