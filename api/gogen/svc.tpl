@@ -25,7 +25,7 @@ type ServiceContext struct {
 
 func NewServiceContext(c {{.config}}) *ServiceContext {
 {{if .useCasbin}}
-    rds := c.RedisConf.MustNewRedis()
+    rds := c.RedisConf.MustNewUniversalRedis()
 
     cbn := c.CasbinConf.MustNewCasbinWithOriginalRedisWatcher(c.CasbinDatabaseConf.Type, c.CasbinDatabaseConf.GetDSN(), c.RedisConf)
 {{end}}
