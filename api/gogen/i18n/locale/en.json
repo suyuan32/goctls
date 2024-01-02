@@ -1,7 +1,7 @@
 {
 	"common": {
-		"success": "successfully",
-		"failed": "failed",
+		"success": "Successfully",
+		"failed": "Failed",
 		"updateSuccess": "Update successfully",
 		"updateFailed": "Update failed",
 		"createSuccess": "Create successfully",
