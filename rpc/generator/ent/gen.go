@@ -248,7 +248,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 			}
 			continue
 		} else if entx.IsOnlyEntType(v.Info.Type.String()) {
-			singleSets = append(singleSets, fmt.Sprintf("\t\t\tif in.%s != nil {\n\t\t\t\tquery.SetNotNil%s(pointy.GetPointer(%s(*in.%s)))\n\t\t\t}\n",
+			singleSets = append(singleSets, fmt.Sprintf("\tif in.%s != nil {\n\t\tquery.SetNotNil%s(pointy.GetPointer(%s(*in.%s)))\n\t}\n",
 				parser.CamelCase(v.Name),
 				parser.CamelCase(v.Name),
 				v.Info.Type.String(),
@@ -267,7 +267,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 							parser.CamelCase(v.Name)))
 						hasUUID = true
 					} else {
-						singleSets = append(singleSets, fmt.Sprintf("\t\t\tif in.%s != nil {\n\t\t\t\tquery.SetNotNil%s(pointy.GetPointer(%s(*in.%s)))\n\t\t\t}\n",
+						singleSets = append(singleSets, fmt.Sprintf("\tif in.%s != nil {\n\t\tquery.SetNotNil%s(pointy.GetPointer(%s(*in.%s)))\n\t}\n",
 							parser.CamelCase(v.Name),
 							entx.ConvertSpecificNounToUpper(v.Name),
 							v.Info.Type.String(),
@@ -281,7 +281,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 				}
 			} else {
 				if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
-					singleSets = append(singleSets, fmt.Sprintf("\t\t\tif in.%s != nil {\n\t\t\t\tquery.SetNotNil%s(pointy.GetPointer(%s(*in.%s)))\n\t\t\t}\n",
+					singleSets = append(singleSets, fmt.Sprintf("\tif in.%s != nil {\n\t\tquery.SetNotNil%s(pointy.GetPointer(%s(*in.%s)))\n\t}\n",
 						parser.CamelCase(v.Name),
 						parser.CamelCase(v.Name),
 						v.Info.Type.String(),
@@ -307,7 +307,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 			setLogic.WriteString(v)
 		}
 
-		setLogic.WriteString("\n\t\tresult, err := query.Exec(l.ctx)")
+		setLogic.WriteString("\n\tresult, err := query.Exec(l.ctx)")
 	} else {
 		setLogic.WriteString("\t\t\tExec(l.ctx)")
 	}
@@ -452,11 +452,14 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		LogicCode: getListLogic.String(),
 	})
 
+	listDataConv := strings.Replace(listData.String(), "v.", "result.", -1)
+	listDataConv = strings.ReplaceAll(listDataConv, "\t\t\t", "\t\t")
+
 	getByIdLogic := bytes.NewBufferString("")
 	getByIdLogicTmpl, _ := template.New("getById").Parse(getByIdLogicTpl)
 	_ = getByIdLogicTmpl.Execute(getByIdLogic, map[string]any{
 		"modelName":          schema.Name,
-		"listData":           strings.Replace(listData.String(), "v.", "result.", -1),
+		"listData":           listDataConv,
 		"projectName":        strings.ToLower(g.ProjectName),
 		"projectPath":        projectCtx.Path,
 		"modelNameLowerCase": strings.ToLower(schema.Name),
