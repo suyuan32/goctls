@@ -15,7 +15,7 @@ const DefaultGoZeroVersion = "v1.6.1"
 var OldGoZeroVersion = []string{"v1.5.2", "v1.5.3", "v1.5.4", "v1.5.5", "v1.5.6", "v1.6.0"}
 
 // DefaultToolVersion defines the default version of simple admin tools for migrate
-const DefaultToolVersion = "v1.6.3"
+const DefaultToolVersion = "v1.6.4"
 
 // GoctlsVersion is goctls version
 const GoctlsVersion = "v1.6.21"
