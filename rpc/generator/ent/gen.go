@@ -258,7 +258,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		} else {
 			if entx.IsTimeProperty(v.Info.Type.String()) {
 				hasTime = true
-				setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(pointy.GetTimePointer(in.%s, 0)).\n", parser.CamelCase(v.Name),
+				setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(pointy.GetTimeMilliPointer(in.%s, 0)).\n", parser.CamelCase(v.Name),
 					parser.CamelCase(v.Name)))
 			} else if entx.IsUpperProperty(v.Name) {
 				if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
