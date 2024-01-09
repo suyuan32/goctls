@@ -17,6 +17,7 @@ package initlogic
 import (
 	_ "embed"
 	"errors"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -26,6 +27,8 @@ var (
 	VarStringTarget string
 	// VarStringModelName describes the model name
 	VarStringModelName string
+	// VarStringRoutePrefix describes the prefix of route path
+	VarStringRoutePrefix string
 	// VarStringOutputPath describes the output directory
 	VarStringOutputPath string
 	// VarStringStyle describes the file naming style
@@ -40,12 +43,22 @@ func Gen(_ *cobra.Command, _ []string) error {
 		return err
 	}
 
+	routePrefix := ""
+	if VarStringRoutePrefix != "" {
+		if strings.HasPrefix(VarStringRoutePrefix, "/") {
+			routePrefix = VarStringRoutePrefix
+		} else {
+			routePrefix = "/" + VarStringRoutePrefix
+		}
+	}
+
 	ctx := &CoreGenContext{
 		Target:      VarStringTarget,
 		ModelName:   VarStringModelName,
 		Output:      VarStringOutputPath,
 		Style:       VarStringStyle,
 		ServiceName: VarServiceName,
+		RoutePrefix: routePrefix,
 	}
 
 	return DoGen(ctx)

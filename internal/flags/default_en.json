@@ -251,7 +251,8 @@
         "model_name": "The model name, it should be camelcase, such as StudentInfo",
         "output": "The output path, the project's root directory ",
         "service_name": "Service name，such as \"Core\"",
-        "style": "{{.global.style}}"
+        "style": "{{.global.style}}",
+        "route_prefix": "The prefix of the route path"
       },
       "ent": {
         "short": "Generating extra ent codes",
