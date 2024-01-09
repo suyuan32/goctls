@@ -38,6 +38,7 @@ type CoreGenContext struct {
 	Output      string
 	Style       string
 	ServiceName string
+	RoutePrefix string
 }
 
 func GenCore(g *CoreGenContext) error {
@@ -53,6 +54,7 @@ func GenCore(g *CoreGenContext) error {
 		"modelNameLower": strings.ToLower(g.ModelName),
 		"modelNameUpper": strings.ToUpper(g.ModelName),
 		"serviceName":    g.ServiceName,
+		"routePrefix":    g.RoutePrefix,
 	})
 	if err != nil {
 		return err

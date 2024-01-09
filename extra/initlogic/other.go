@@ -47,6 +47,7 @@ func OtherGen(g *CoreGenContext) error {
 		"modelNameSnake": strcase.ToSnake(g.ModelName),
 		"modelNameUpper": strings.ToUpper(g.ModelName),
 		"serviceName":    g.ServiceName,
+		"routePrefix":    g.RoutePrefix,
 	})
 	if err != nil {
 		return err

@@ -57,6 +57,7 @@ func init() {
 
 	initCmdFlags.StringVarP(&initlogic.VarStringTarget, "target", "t")
 	initCmdFlags.StringVarP(&initlogic.VarStringModelName, "model_name", "m")
+	initCmdFlags.StringVarP(&initlogic.VarStringRoutePrefix, "route_prefix", "p")
 	initCmdFlags.StringVarPWithDefaultValue(&initlogic.VarStringOutputPath, "output", "o", ".")
 	initCmdFlags.StringVarPWithDefaultValue(&initlogic.VarServiceName, "service_name", "n", "Other")
 	initCmdFlags.StringVarPWithDefaultValue(&initlogic.VarStringStyle, "style", "s", "go_zero")
