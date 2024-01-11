@@ -77,7 +77,7 @@
         "api_service_name": "The API service name",
         "rpc_service_name": "The RPC service name",
         "style": "The file name format style",
-        "model": "Model name used for generation, such as User, supports generating multiple models at the same time, separated by commas, such as User, Member",
+        "model": "Model name used for generation, the same as the struct name in schema. such as User, supports generating multiple models at the same time, separated by commas, such as User, Member",
         "search_key_num": "The max number of search keys",
         "rpc_name": "The rpc name in service context. e.g. Core means CoreRpc",
         "grpc_package": "The rpc package which stores pb file. e.g. github.com/suyuan32/simple-admin-job/types/job",
@@ -87,7 +87,8 @@
         "import_prefix": "{{.global.import_prefix}}",
         "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
         "optional_service": "Whether it is an optional service, if true, judgment code will be generated",
-        "api_data": "Whether to automatically generate API initialization code, CoreRpc is required"
+        "api_data": "Whether to automatically generate API initialization code, CoreRpc is required",
+        "route_prefix": "Route prefix,  must begin with \"/\""
       },
       "ent": {
         "short": "Generate CRUD logic files from ent file",
@@ -96,13 +97,14 @@
         "api_service_name": "The API service name",
         "import_prefix": "{{.global.import_prefix}}",
         "style": "The file name format style",
-        "model": "The model name for generating e.g. user, if it is  \"all\", generate codes for all models in schema directory",
+        "model": "The model name for generating, the same as the struct name in schema. e.g. User. If it is  \"all\", generate codes for all models in schema directory",
         "search_key_num": "The max number of search keys",
         "group": "The group name for logic. e.g. user",
         "i18n": "{{.global.i18n}}",
         "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
         "json_style": "The JSON tag format, default is camelcase",
-        "api_data": "Whether to automatically generate API initialization code, CoreRpc is required"
+        "api_data": "Whether to automatically generate API initialization code, CoreRpc is required",
+        "route_prefix": "Route prefix,  must begin with \"/\""
       }
     },
     "bug": {
@@ -226,7 +228,7 @@
         "project_name": "The project name",
         "multiple": "Generated in multiple rpc service mode",
         "style": "The file name format style",
-        "model": "The model name for generating e.g. user, if it is  \"all\", generate codes for all models in schema directory",
+        "model": "The model name for generating, the same as the struct name in schema. e.g. User. If it is  \"all\", generate codes for all models in schema directory",
         "search_key_num": "The max number of search keys",
         "group": "The group name for logic. e.g. user",
         "proto_out": "The output proto file path",

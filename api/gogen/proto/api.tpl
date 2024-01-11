@@ -39,7 +39,8 @@ type (
 @server(
     jwt: Auth
     group: {{.modelNameLowerCase}}
-    middleware: Authority
+    middleware: Authority{{if .hasRoutePrefix}}
+    prefix: {{.routePrefix}}{{end}}
 )
 
 service {{.apiServiceName}} {

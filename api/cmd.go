@@ -87,6 +87,7 @@ func init() {
 	validateCmdFlags.StringVar(&validate.VarStringAPI, "api")
 
 	protoCmdFlags.StringVarP(&gogen.VarStringProto, "proto", "p")
+	protoCmdFlags.StringVarP(&gogen.VarStringRoutePrefix, "route_prefix", "f")
 	protoCmdFlags.StringVarP(&gogen.VarStringOutput, "output", "o")
 	protoCmdFlags.StringVarP(&gogen.VarStringAPIServiceName, "api_service_name", "a")
 	protoCmdFlags.StringVarP(&gogen.VarStringRPCServiceName, "rpc_service_name", "r")
@@ -103,6 +104,7 @@ func init() {
 	protoCmdFlags.BoolVarP(&gogen.VarBoolGenCoreApiInit, "api_data", "d")
 
 	entCmdFlags.StringVarP(&gogen.VarStringSchema, "schema", "c")
+	entCmdFlags.StringVarP(&gogen.VarStringRoutePrefix, "route_prefix", "f")
 	entCmdFlags.StringVarP(&gogen.VarStringOutput, "output", "o")
 	entCmdFlags.StringVarP(&gogen.VarStringAPIServiceName, "api_service_name", "a")
 	entCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringStyle, "style", "s", config.DefaultFormat)
