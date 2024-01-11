@@ -78,7 +78,7 @@
         "api_service_name": "API 服务名称",
         "rpc_service_name": "RPC 服务名称",
         "style": "文件名格式样式",
-        "model": "用于生成的模型名称，例如 User, 支持同时生成多个模型, 使用逗号分隔，如 User,Member",
+        "model": "用于生成的模型名称，和 schema 的 struct 名称一致，首字母大写，例如 User, 支持同时生成多个模型, 使用逗号分隔，如 User,Member",
         "search_key_num": "搜索条件的最大数量，只支持 String 类型",
         "rpc_name": "RPC 服务名称，用于调用，例如 CoreRpc 需要配置为 Core",
         "grpc_package": "存储 pb 文件的 rpc 包，例如 github.com/suyuan32/simple-admin-job/types/job",
@@ -88,7 +88,8 @@
         "i18n": "{{.global.i18n}}",
         "overwrite": "是否覆盖文件，它将覆盖所有生成的文件",
         "optional_service": "是否为可选服务，如果为 true，则会生成判断代码",
-        "api_data": "是否自动生成 API 初始化代码，需要 CoreRpc"
+        "api_data": "是否自动生成 API 初始化代码，需要 CoreRpc",
+        "route_prefix": "路由前缀，需要以 \"/\" 开头"
       },
       "ent": {
         "short": "从 ent 文件生成 CRUD 业务逻辑文件",
@@ -96,14 +97,15 @@
         "output": "输出路径",
         "api_service_name": "API 服务名称",
         "style": "文件名格式样式",
-        "model": "用于生成的模型名称，例如 user，如果为 \"all\"，则为 schema 目录中的所有模型生成代码",
+        "model": "用于生成的模型名称，和 schema 的 struct 名称一致，首字母大写，例如 User，如果为 \"all\"，则为 schema 目录中的所有模型生成代码",
         "search_key_num": "搜索条件的最大数量，只支持 String 类型",
         "group": "业务逻辑代码的分组名称，例如 user",
         "i18n": "{{.global.i18n}}",
         "overwrite": "是否覆盖文件，它将覆盖所有生成的文件",
         "import_prefix": "{{.global.import_prefix}}",
         "json_style": "JSON 标记格式，默认为驼峰式",
-        "api_data": "是否自动生成 API 初始化代码，需要 CoreRpc"
+        "api_data": "是否自动生成 API 初始化代码，需要 CoreRpc",
+        "route_prefix": "路由前缀，需要以 \"/\" 开头"
       }
     },
     "bug": {
@@ -229,7 +231,7 @@
         "import_prefix": "{{.global.import_prefix}}",
         "multiple": "在多个 rpc 服务模式下生成",
         "style": "文件名格式样式",
-        "model": "生成的模型名称，例如：user，如果为 \"all\"，则为 schema 目录中所有模型生成代码",
+        "model": "生成的模型名称，和 schema 的 struct 名称一致，首字母大写，例如：User，如果为 \"all\"，则为 schema 目录中所有模型生成代码",
         "search_key_num": "搜索键的最大数量",
         "group": "逻辑的组名称，例如：user",
         "proto_out": "输出 proto 文件路径",

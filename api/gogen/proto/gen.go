@@ -60,6 +60,7 @@ type GenLogicByProtoContext struct {
 	OptionalService  bool
 	GenApiData       bool
 	Overwrite        bool
+	RoutePrefix      string
 }
 
 func (g GenLogicByProtoContext) Validate() error {
@@ -191,7 +192,11 @@ func GenLogicByProto(p *GenLogicByProtoContext) error {
 		}
 
 		if genCtx.GenApiData {
-			_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other -n %s", genCtx.ModelName, genCtx.RPCServiceName), genCtx.OutputDir)
+			prefixStr := ""
+			if genCtx.RoutePrefix != "" {
+				prefixStr = fmt.Sprintf(" -p %s", genCtx.RoutePrefix)
+			}
+			_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other -n %s%s", genCtx.ModelName, genCtx.RPCServiceName, prefixStr), genCtx.OutputDir)
 			if err != nil {
 				color.Red.Printf("the init code of %s already exist, skip... \n", genCtx.ModelName)
 			}
@@ -352,6 +357,12 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 	infoData := strings.Builder{}
 	listData := strings.Builder{}
 	var data string
+	var hasRoutePrefix bool
+	if ctx.RoutePrefix != "" {
+		hasRoutePrefix = true
+	} else {
+		hasRoutePrefix = false
+	}
 
 	for _, v := range p.Message {
 		if strings.Contains(v.Name, ctx.ModelName) {
@@ -427,6 +438,8 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 		"listData":           listData.String(),
 		"apiServiceName":     ctx.APIServiceName,
 		"useUUID":            ctx.UseUUID,
+		"hasRoutePrefix":     hasRoutePrefix,
+		"routePrefix":        ctx.RoutePrefix,
 	}))
 	data = apiTemplateData.String()
 

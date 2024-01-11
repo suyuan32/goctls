@@ -89,6 +89,8 @@ var (
 	VarBoolOptionalService bool
 	// VarBoolGenCoreApiInit describes whether to auto gen core api init code
 	VarBoolGenCoreApiInit bool
+	// VarStringRoutePrefix describes the route prefix for api
+	VarStringRoutePrefix string
 )
 
 // GoCommand gen go project files from command line
@@ -378,6 +380,7 @@ func GenCRUDLogicByProto(_ *cobra.Command, _ []string) error {
 		Overwrite:       VarBoolOverwrite,
 		GenApiData:      VarBoolGenCoreApiInit,
 		OptionalService: VarBoolOptionalService,
+		RoutePrefix:     VarStringRoutePrefix,
 	}
 
 	err := params.Validate()
@@ -407,6 +410,7 @@ func GenCRUDLogicByEnt(_ *cobra.Command, _ []string) error {
 		ImportPrefix: VarStringImportPrefix,
 		Overwrite:    VarBoolOverwrite,
 		GenApiData:   VarBoolGenCoreApiInit,
+		RoutePrefix:  VarStringRoutePrefix,
 	}
 
 	err := params.Validate()

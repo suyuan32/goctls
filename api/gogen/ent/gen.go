@@ -61,6 +61,7 @@ type GenEntLogicContext struct {
 	ImportPrefix string
 	GenApiData   bool
 	Overwrite    bool
+	RoutePrefix  string
 }
 
 func (g GenEntLogicContext) Validate() error {
@@ -185,7 +186,11 @@ func genEntLogic(g *GenEntLogicContext) error {
 			}
 
 			if genCtx.GenApiData {
-				_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other -n %s", genCtx.ModelName, genCtx.ServiceName), g.Output)
+				prefixStr := ""
+				if genCtx.RoutePrefix != "" {
+					prefixStr = fmt.Sprintf(" -p %s", genCtx.RoutePrefix)
+				}
+				_, err := execx.Run(fmt.Sprintf("goctls extra init_code -m %s -t other -n %s%s", genCtx.ModelName, genCtx.ServiceName, prefixStr), g.Output)
 				if err != nil {
 					color.Red.Printf("the init code of %s already exist, skip... \n", genCtx.ModelName)
 				}
@@ -391,6 +396,12 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 	listData := strings.Builder{}
 	searchKeyNum := ctx.SearchKeyNum
 	var data string
+	var hasRoutePrefix bool
+	if ctx.RoutePrefix != "" {
+		hasRoutePrefix = true
+	} else {
+		hasRoutePrefix = false
+	}
 
 	for _, v := range schema.Fields {
 		if entx.IsBaseProperty(v.Name) {
@@ -443,6 +454,8 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 		"listData":       listData.String(),
 		"apiServiceName": strcase.ToCamel(ctx.ServiceName),
 		"useUUID":        ctx.UseUUID,
+		"hasRoutePrefix": hasRoutePrefix,
+		"routePrefix":    ctx.RoutePrefix,
 	}))
 	data = apiTemplateData.String()
 
