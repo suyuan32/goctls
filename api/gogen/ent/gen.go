@@ -417,7 +417,7 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 
 		pointerStr := ""
 		optionalStr := ""
-		if !strings.Contains(strings.ToLower(v.Name), "page") {
+		if entx.IsPageProperty(strings.ToLower(v.Name)) {
 			pointerStr = "*"
 			optionalStr = "optional"
 		}

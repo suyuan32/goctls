@@ -77,3 +77,12 @@ func IsOnlyEntType(t string) bool {
 		return false
 	}
 }
+
+// IsPageProperty returns true when prop name is
+// pageNo, pageSize
+func IsPageProperty(prop string) bool {
+	if prop == "page" || prop == "pagesize" || prop == "page_size" {
+		return true
+	}
+	return false
+}
