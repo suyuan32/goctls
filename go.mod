@@ -5,7 +5,7 @@ go 1.21.0
 toolchain go1.21.5
 
 require (
-	ariga.io/atlas v0.17.0
+	ariga.io/atlas v0.18.0
 	entgo.io/contrib v0.4.5
 	entgo.io/ent v0.12.5
 	github.com/duke-git/lancet/v2 v2.2.8
@@ -15,13 +15,13 @@ require (
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gookit/color v1.5.4
 	github.com/iancoleman/strcase v0.3.0
-	github.com/jedib0t/go-pretty/v6 v6.5.2
+	github.com/jedib0t/go-pretty/v6 v6.5.3
 	github.com/lib/pq v1.10.9
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.8.4
-	github.com/suyuan32/simple-admin-common v1.3.1
+	github.com/suyuan32/simple-admin-common v1.3.2
 	github.com/withfig/autocomplete-tools/integrations/cobra v1.2.1
 	github.com/zeromicro/antlr v0.0.1
 	github.com/zeromicro/go-zero v1.6.1
