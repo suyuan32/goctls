@@ -162,7 +162,8 @@
       },
       "check": {
         "short": "Detect goctl env and dependency tools",
-        "install": "Install dependencies if not found"
+        "install": "Install dependencies if not found",
+        "clear_cache": "Clear local cache and reinstall all tools"
       }
     },
     "gateway": {

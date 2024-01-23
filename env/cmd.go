@@ -7,6 +7,7 @@ var (
 	boolVarForce       bool
 	boolVarVerbose     bool
 	boolVarInstall     bool
+	boolVarClearCache  bool
 
 	// Cmd describes an env command.
 	Cmd        = cobrax.NewCommand("env", cobrax.WithRunE(write))
@@ -22,6 +23,7 @@ func init() {
 
 	// The sub-command flags
 	checkCmd.Flags().BoolVarP(&boolVarInstall, "install", "i")
+	checkCmd.Flags().BoolVarP(&boolVarClearCache, "clear_cache", "c")
 
 	// Add sub-command
 	Cmd.AddCommand(checkCmd, installCmd)
