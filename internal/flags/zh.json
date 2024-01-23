@@ -163,7 +163,8 @@
       },
       "check": {
         "short": "检测 goctls 环境和依赖工具",
-        "install": "如果未找到，则安装依赖项"
+        "install": "如果未找到，则安装依赖项",
+        "clear_cache": "清空本地缓存并重新安装所有依赖工具"
       }
     },
     "gateway": {

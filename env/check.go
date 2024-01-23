@@ -2,6 +2,9 @@ package env
 
 import (
 	"fmt"
+	"github.com/duke-git/lancet/v2/fileutil"
+	"github.com/suyuan32/goctls/util/pathx"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -45,10 +48,17 @@ var bins = []bin{
 }
 
 func check(_ *cobra.Command, _ []string) error {
-	return Prepare(boolVarInstall, boolVarForce, boolVarVerbose)
+	return Prepare(boolVarInstall, boolVarForce, boolVarVerbose, boolVarClearCache)
 }
 
-func Prepare(install, force, verbose bool) error {
+func Prepare(install, force, verbose, clear bool) error {
+	if clear {
+		err := clearCache()
+		if err != nil {
+			return err
+		}
+	}
+
 	log := console.NewColorConsole(verbose)
 	pending := true
 	log.Info("[goctl-env]: preparing to check env")
@@ -70,7 +80,7 @@ command 'goctl env check --install' to install it, for details, please execute c
 		time.Sleep(200 * time.Millisecond)
 		log.Info("")
 		log.Info("[goctl-env]: looking up %q", e.name)
-		if e.exists {
+		if e.exists && !clear {
 			log.Success("[goctl-env]: %q is installed", e.name)
 			continue
 		}
@@ -114,5 +124,26 @@ command 'goctl env check --install' to install it, for details, please execute c
 			pending = false
 		}
 	}
+	return nil
+}
+
+func clearCache() error {
+	dir, err := pathx.GetCacheDir()
+	if err != nil {
+		return err
+	}
+
+	files, err := fileutil.ListFileNames(dir)
+	if err != nil {
+		return err
+	}
+
+	for _, v := range files {
+		err := fileutil.RemoveFile(filepath.Join(dir, v))
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
