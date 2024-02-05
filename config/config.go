@@ -12,7 +12,7 @@ const DefaultFormat = "go_zero"
 const DefaultGoZeroVersion = "v1.6.2"
 
 // OldGoZeroVersion defines the old version of go zero for update
-var OldGoZeroVersion = []string{"v1.5.5", "v1.5.6", "v1.6.0"}
+var OldGoZeroVersion = []string{"v1.5.5", "v1.5.6", "v1.6.0", "v1.6.1"}
 
 // DefaultToolVersion defines the default version of simple admin tools for migrate
 const DefaultToolVersion = "v1.6.5"
