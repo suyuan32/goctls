@@ -5,9 +5,9 @@ go 1.21.0
 toolchain go1.21.5
 
 require (
-	ariga.io/atlas v0.19.0
+	ariga.io/atlas v0.19.1-0.20240203083654-5948b60a8e43
 	entgo.io/contrib v0.4.5
-	entgo.io/ent v0.12.5
+	entgo.io/ent v0.13.0
 	github.com/duke-git/lancet/v2 v2.2.9
 	github.com/emicklei/proto v1.13.2
 	github.com/fatih/structtag v1.2.0
@@ -57,9 +57,9 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
-	golang.org/x/mod v0.12.0 // indirect
+	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
-	golang.org/x/tools v0.8.1-0.20230428195545-5283a0178901 // indirect
+	golang.org/x/tools v0.17.0 // indirect
 	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
