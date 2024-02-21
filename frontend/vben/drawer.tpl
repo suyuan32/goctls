@@ -12,12 +12,12 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
-  import { BasicForm, useForm } from '/@/components/Form/index';
+  import { BasicForm, useForm } from '@/components/Form/index';
   import { formSchema } from './{{.modelNameLowerCamel}}.data';
-  import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
+  import { BasicDrawer, useDrawerInner } from '@/components/Drawer';
   import { useI18n } from 'vue-i18n';
 
-  import { create{{.modelName}}, update{{.modelName}} } from '/@/api/{{.folderName}}/{{.modelNameLowerCamel}}';
+  import { create{{.modelName}}, update{{.modelName}} } from '@/api/{{.folderName}}/{{.modelNameLowerCamel}}';
 
   export default defineComponent({
     name: '{{.modelName}}Drawer',
