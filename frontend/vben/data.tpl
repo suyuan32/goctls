@@ -1,7 +1,7 @@
-import { BasicColumn, FormSchema } from '/@/components/Table';
-import { useI18n } from '/@/hooks/web/useI18n';
-import { formatToDateTime } from '/@/utils/dateUtil';
-{{if .hasStatus}}import { update{{.modelName}} } from '/@/api/{{.folderName}}/{{.modelNameLowerCamel}}';
+import { BasicColumn, FormSchema } from '@/components/Table';
+import { useI18n } from '@/hooks/web/useI18n';
+import { formatToDateTime } from '@/utils/dateUtil';
+{{if .hasStatus}}import { update{{.modelName}} } from '@/api/{{.folderName}}/{{.modelNameLowerCamel}}';
 import { Switch } from 'ant-design-vue';
 import { h } from 'vue';{{end}}
 const { t } = useI18n();

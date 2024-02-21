@@ -1,6 +1,6 @@
-import { defHttp } from '/@/utils/http/axios';
+import { defHttp } from '@/utils/http/axios';
 import { ErrorMessageMode } from '/#/axios';
-import { BaseDataResp, BaseListReq, BaseResp, Base{{if .useUUID}}UU{{end}}IDsReq, Base{{if .useUUID}}UU{{end}}IDReq } from '/@/api/model/baseModel';
+import { BaseDataResp, BaseListReq, BaseResp, Base{{if .useUUID}}UU{{end}}IDsReq, Base{{if .useUUID}}UU{{end}}IDReq } from '@/api/model/baseModel';
 import { {{.modelName}}Info, {{.modelName}}ListResp } from './model/{{.modelNameLowerCamel}}Model';
 
 enum Api {
