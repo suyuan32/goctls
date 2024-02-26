@@ -6,6 +6,7 @@ import (
 	"github.com/suyuan32/simple-admin-common/i18n"{{end}}{{if .useCoreRpc}}
 	"github.com/suyuan32/simple-admin-core/rpc/coreclient"{{end}}{{if .useEnt}}
 	"{{.projectPackage}}/ent"
+	_ "{{.projectPackage}}/ent/runtime"
 	"github.com/zeromicro/go-zero/core/logx"{{end}}
     {{if .useCasbin}}
     "github.com/zeromicro/go-zero/rest"

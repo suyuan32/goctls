@@ -235,12 +235,12 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 			return err
 		}
 
-		_, err = execx.Run("go mod tidy", dir)
+		_, err = execx.Run("go run -mod=mod entgo.io/ent/cmd/ent generate ./ent/schema", dir)
 		if err != nil {
 			return err
 		}
 
-		_, err = execx.Run("go run -mod=mod entgo.io/ent/cmd/ent generate ./ent/schema", dir)
+		_, err = execx.Run("go mod tidy", dir)
 		if err != nil {
 			return err
 		}
