@@ -197,12 +197,12 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 			return err
 		}
 
-		_, err = execx.Run("go mod tidy", abs)
+		_, err = execx.Run("go run -mod=mod entgo.io/ent/cmd/ent generate ./ent/schema", abs)
 		if err != nil {
 			return err
 		}
 
-		_, err = execx.Run("go run -mod=mod entgo.io/ent/cmd/ent generate ./ent/schema", abs)
+		_, err = execx.Run("go mod tidy", abs)
 		if err != nil {
 			return err
 		}
