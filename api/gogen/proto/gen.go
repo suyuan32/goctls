@@ -61,6 +61,8 @@ type GenLogicByProtoContext struct {
 	GenApiData       bool
 	Overwrite        bool
 	RoutePrefix      string
+	IdType           string
+	HasCreated       bool
 }
 
 func (g GenLogicByProtoContext) Validate() error {
@@ -231,6 +233,8 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
 					"optionalService":    ctx.OptionalService,
+					"IdType":             ctx.IdType,
+					"HasCreated":         ctx.HasCreated,
 				}))
 
 				data = append(data, &ApiLogicData{
@@ -252,6 +256,8 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
 					"optionalService":    ctx.OptionalService,
+					"IdType":             ctx.IdType,
+					"HasCreated":         ctx.HasCreated,
 				}))
 
 				data = append(data, &ApiLogicData{
@@ -274,6 +280,8 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
 					"optionalService":    ctx.OptionalService,
+					"IdType":             ctx.IdType,
+					"HasCreated":         ctx.HasCreated,
 				}))
 
 				data = append(data, &ApiLogicData{
@@ -318,6 +326,8 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
 					"optionalService":    ctx.OptionalService,
+					"IdType":             ctx.IdType,
+					"HasCreated":         ctx.HasCreated,
 				}))
 
 				data = append(data, &ApiLogicData{
@@ -339,6 +349,8 @@ func GenCRUDData(ctx *GenLogicByProtoContext, p *parser.Proto, projectCtx *ctx.P
 					"useI18n":            ctx.UseI18n,
 					"importPrefix":       ctx.ImportPrefix,
 					"optionalService":    ctx.OptionalService,
+					"IdType":             ctx.IdType,
+					"HasCreated":         ctx.HasCreated,
 				}))
 
 				data = append(data, &ApiLogicData{
@@ -440,6 +452,9 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 		"useUUID":            ctx.UseUUID,
 		"hasRoutePrefix":     hasRoutePrefix,
 		"routePrefix":        ctx.RoutePrefix,
+		"IdType":             ctx.IdType,
+		"IdTypeLower":        strings.ToLower(ctx.IdType),
+		"HasCreated":         ctx.HasCreated,
 	}))
 	data = apiTemplateData.String()
 
@@ -448,17 +463,30 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 
 func genSetLogic(v *proto.Message, ctx *GenLogicByProtoContext) string {
 	var setLogic strings.Builder
+	hasCreated, hasUpdated := false, false
 	for _, field := range v.Elements {
 		field.Accept(protox.MessageVisitor{})
 		if entx.IsBaseProperty(protox.ProtoField.Name) {
 			if protox.ProtoField.Name == "id" && protox.ProtoField.Type == "string" {
 				ctx.UseUUID = true
+			} else if protox.ProtoField.Name == "id" {
+				ctx.IdType = entx.ConvertIdTypeToBaseMessage(protox.ProtoField.Type)
+			}
+
+			if protox.ProtoField.Name == "created_at" {
+				hasCreated = true
+			} else if protox.ProtoField.Name == "updated_at" {
+				hasUpdated = true
 			}
 			continue
 		}
 
 		setLogic.WriteString(fmt.Sprintf("\n        \t%s: req.%s,", parser.CamelCase(protox.ProtoField.Name),
 			parser.CamelCase(protox.ProtoField.Name)))
+	}
+
+	if hasUpdated && hasCreated {
+		ctx.HasCreated = true
 	}
 	return setLogic.String()
 }

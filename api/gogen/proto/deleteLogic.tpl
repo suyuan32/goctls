@@ -27,11 +27,11 @@ func NewDelete{{.modelName}}Logic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *Delete{{.modelName}}Logic) Delete{{.modelName}}(req *types.{{if .useUUID}}UU{{end}}IDsReq) (resp *types.BaseMsgResp, err error) {
+func (l *Delete{{.modelName}}Logic) Delete{{.modelName}}(req *types.{{if .useUUID}}UU{{end}}IDs{{.IdType}}Req) (resp *types.BaseMsgResp, err error) {
 {{if .optionalService}}	if !l.svcCtx.Config.{{.rpcName}}Rpc.Enabled {
 		return nil, errorx.NewCodeUnavailableError({{if .useI18n}}i18n.ServiceUnavailable{{else}}errormsg.ServiceUnavailable{{end}})
 	}
-{{end}}	data, err := l.svcCtx.{{.rpcName}}Rpc.Delete{{.modelName}}(l.ctx, &{{.rpcPbPackageName}}.{{if .useUUID}}UU{{end}}IDsReq{
+{{end}}	data, err := l.svcCtx.{{.rpcName}}Rpc.Delete{{.modelName}}(l.ctx, &{{.rpcPbPackageName}}.{{if .useUUID}}UU{{end}}IDs{{.IdType}}Req{
 		Ids: req.Ids,
 	})
 	if err != nil {
