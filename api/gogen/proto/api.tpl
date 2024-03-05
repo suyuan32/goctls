@@ -3,7 +3,7 @@ import "../base.api"
 type (
     // The response data of {{.modelNameSpace}} information | {{.modelName}}信息
     {{.modelName}}Info {
-        Base{{if .useUUID}}UU{{end}}IDInfo{{.infoData}}
+        {{if .HasCreated}}Base{{if .useUUID}}UU{{end}}ID{{.IdType}}Info{{else}}Id        *{{.IdTypeLower}}    `json:"id,optional"`{{end}}{{.infoData}}
     }
 
     // The response data of {{.modelNameSpace}} list | {{.modelName}}列表数据
@@ -54,7 +54,7 @@ service {{.apiServiceName}} {
 
     // Delete {{.modelNameSpace}} information | 删除{{.modelName}}信息
     @handler delete{{.modelName}}
-    post /{{.modelNameSnake}}/delete ({{if .useUUID}}UU{{end}}IDsReq) returns (BaseMsgResp)
+    post /{{.modelNameSnake}}/delete ({{if .useUUID}}UU{{end}}IDs{{.IdType}}Req) returns (BaseMsgResp)
 
     // Get {{.modelNameSpace}} list | 获取{{.modelName}}列表
     @handler get{{.modelName}}List
@@ -62,5 +62,5 @@ service {{.apiServiceName}} {
 
     // Get {{.modelNameSpace}} by ID | 通过ID获取{{.modelName}}
     @handler get{{.modelName}}ById
-    post /{{.modelNameSnake}} ({{if .useUUID}}UU{{end}}IDReq) returns ({{.modelName}}InfoResp)
+    post /{{.modelNameSnake}} ({{if .useUUID}}UU{{end}}ID{{.IdType}}Req) returns ({{.modelName}}InfoResp)
 }

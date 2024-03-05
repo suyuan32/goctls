@@ -123,11 +123,17 @@ func ConvertEntTypeToGotypeInSingleApi(prop string) string {
 }
 
 // ConvertIDType returns uuid type by uuid flag
-func ConvertIDType(useUUID bool) string {
+func ConvertIDType(useUUID bool, t string) string {
 	if useUUID {
 		return "string"
+	} else {
+		switch t {
+		case "int32", "int64", "uint32", "uint64":
+			return t
+		default:
+			return "uint64"
+		}
 	}
-	return "uint64"
 }
 
 // ConvertOnlyEntTypeToGoType converts the type that only ent has to go type.
@@ -139,5 +145,23 @@ func ConvertOnlyEntTypeToGoType(t string) string {
 		return "uint32"
 	default:
 		return "uint32"
+	}
+}
+
+// ConvertIdTypeToBaseMessage returns base message name when id type is not uint64 or string.
+func ConvertIdTypeToBaseMessage(t string) string {
+	if t == "uint64" || t == "[16]byte" {
+		return ""
+	} else {
+		switch t {
+		case "int32":
+			return "Int32"
+		case "int64":
+			return "Int64"
+		case "uint32":
+			return "Uint32"
+		default:
+			return ""
+		}
 	}
 }

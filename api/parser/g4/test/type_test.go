@@ -178,15 +178,15 @@ func TestDataType_Array(t *testing.T) {
 		}))
 	})
 
-	t.Run("any", func(t *testing.T) {
-		v, err := parser.Accept(dt, `[]any`)
+	t.Run("interface{}", func(t *testing.T) {
+		v, err := parser.Accept(dt, `[]interface{}`)
 		assert.Nil(t, err)
 		array := v.(ast.DataType)
 		assert.True(t, array.Equal(&ast.Array{
-			ArrayExpr: ast.NewTextExpr("[]any"),
+			ArrayExpr: ast.NewTextExpr("[]interface{}"),
 			LBrack:    ast.NewTextExpr("["),
 			RBrack:    ast.NewTextExpr("]"),
-			Literal:   &ast.Interface{Literal: ast.NewTextExpr("any")},
+			Literal:   &ast.Interface{Literal: ast.NewTextExpr("interface{}")},
 		}))
 	})
 
@@ -204,10 +204,10 @@ func TestDataType_Interface(t *testing.T) {
 		return p.DataType().Accept(visitor)
 	}
 	t.Run("normal", func(t *testing.T) {
-		v, err := parser.Accept(dt, `any`)
+		v, err := parser.Accept(dt, `interface{}`)
 		assert.Nil(t, err)
 		inter := v.(ast.DataType)
-		assert.True(t, inter.Equal(&ast.Interface{Literal: ast.NewTextExpr("any")}))
+		assert.True(t, inter.Equal(&ast.Interface{Literal: ast.NewTextExpr("interface{}")}))
 	})
 
 	t.Run("wrong", func(t *testing.T) {

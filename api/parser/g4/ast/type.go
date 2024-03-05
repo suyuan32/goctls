@@ -61,7 +61,7 @@ type (
 		Literal Expr
 	}
 
-	// Interface describes the interface type of golang,Its fixed value is any
+	// Interface describes the interface type of golang,Its fixed value is interface{}
 	Interface struct {
 		Literal Expr
 	}

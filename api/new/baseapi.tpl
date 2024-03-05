@@ -61,6 +61,71 @@ type IDPathReq {
     Id  uint64 `path:"id"`
 }
 
+// Basic ID request (int32) | 基础ID参数请求 (int32)
+type IDInt32Req {
+    // ID
+    // Required: true
+    Id  int32 `json:"id" validate:"number"`
+}
+
+// Basic IDs request (int32) | 基础ID数组参数请求 (int32)
+type IDsInt32Req {
+    // IDs
+    // Required: true
+    Ids  []int32 `json:"ids"`
+}
+
+// Basic ID request (int32) | 基础ID地址参数请求 (int32)
+type IDInt32PathReq {
+    // ID
+    // Required: true
+    Id  int32 `path:"id"`
+}
+
+// Basic ID request (uint32) | 基础ID参数请求 (uint32)
+type IDUint32Req {
+    // ID
+    // Required: true
+    Id  uint32 `json:"id" validate:"number"`
+}
+
+// Basic IDs request (uint32) | 基础ID数组参数请求 (uint32)
+type IDsUint32Req {
+    // IDs
+    // Required: true
+    Ids  []uint32 `json:"ids"`
+}
+
+// Basic ID request (uint32) | 基础ID地址参数请求 (uint32)
+type IDUint32PathReq {
+    // ID
+    // Required: true
+    Id  uint32 `path:"id"`
+}
+
+// Basic ID request (int64) | 基础ID参数请求 (int64)
+type IDInt64Req {
+    // ID
+    // Required: true
+    Id  int64 `json:"id" validate:"number"`
+}
+
+// Basic IDs request (int64) | 基础ID数组参数请求 (int64)
+type IDsInt64Req {
+    // IDs
+    // Required: true
+    Ids  []int64 `json:"ids"`
+}
+
+
+// Basic ID request (int64) | 基础ID地址参数请求 (int64)
+type IDInt64PathReq {
+    // ID
+    // Required: true
+    Id  int64 `path:"id"`
+}
+
+
 // Basic UUID request in path | 基础UUID地址参数请求
 type UUIDPathReq {
     // ID
@@ -85,6 +150,42 @@ type UUIDsReq {
 type BaseIDInfo {
     // ID
     Id        *uint64    `json:"id,optional"`
+
+    // Create date | 创建日期
+    CreatedAt *int64     `json:"createdAt,optional"`
+
+    // Update date | 更新日期
+    UpdatedAt *int64     `json:"updatedAt,optional"`
+}
+
+// The base ID response data (int64) | 基础ID信息 (int64)
+type BaseIDInt64Info {
+    // ID
+    Id        *int64    `json:"id,optional"`
+
+    // Create date | 创建日期
+    CreatedAt *int64     `json:"createdAt,optional"`
+
+    // Update date | 更新日期
+    UpdatedAt *int64     `json:"updatedAt,optional"`
+}
+
+// The base ID response data (int32) | 基础ID信息 (int32)
+type BaseIDInt32Info {
+    // ID
+    Id        *int32    `json:"id,optional"`
+
+    // Create date | 创建日期
+    CreatedAt *int64     `json:"createdAt,optional"`
+
+    // Update date | 更新日期
+    UpdatedAt *int64     `json:"updatedAt,optional"`
+}
+
+// The base ID response data (uint32) | 基础ID信息 (uint32)
+type BaseIDUint32Info {
+    // ID
+    Id        *uint32    `json:"id,optional"`
 
     // Create date | 创建日期
     CreatedAt *int64     `json:"createdAt,optional"`

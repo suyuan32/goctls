@@ -67,7 +67,7 @@ type (
         VArray []int `json:"vArray"`
         VStruct Foo `json:"vStruct"`
         VStructPointer *Foo `json:"vStructPointer"`
-        VInterface any `json:"vInterface"`
+        VInterface interface{} `json:"vInterface"`
         T time.Time
     }
 )
