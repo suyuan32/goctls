@@ -158,6 +158,42 @@ type BaseIDInfo {
     UpdatedAt *int64     `json:"updatedAt,optional"`
 }
 
+// The base ID response data (int64) | 基础ID信息 (int64)
+type BaseIDInt64Info {
+    // ID
+    Id        *int64    `json:"id,optional"`
+
+    // Create date | 创建日期
+    CreatedAt *int64     `json:"createdAt,optional"`
+
+    // Update date | 更新日期
+    UpdatedAt *int64     `json:"updatedAt,optional"`
+}
+
+// The base ID response data (int32) | 基础ID信息 (int32)
+type BaseIDInt32Info {
+    // ID
+    Id        *int32    `json:"id,optional"`
+
+    // Create date | 创建日期
+    CreatedAt *int64     `json:"createdAt,optional"`
+
+    // Update date | 更新日期
+    UpdatedAt *int64     `json:"updatedAt,optional"`
+}
+
+// The base ID response data (uint32) | 基础ID信息 (uint32)
+type BaseIDUint32Info {
+    // ID
+    Id        *uint32    `json:"id,optional"`
+
+    // Create date | 创建日期
+    CreatedAt *int64     `json:"createdAt,optional"`
+
+    // Update date | 更新日期
+    UpdatedAt *int64     `json:"updatedAt,optional"`
+}
+
 // The base UUID response data | 基础UUID信息
 type BaseUUIDInfo {
     // ID
