@@ -52,7 +52,15 @@ func GenSchema(_ *cobra.Command, _ []string) error {
 		if fileutil.IsExist(newPath) {
 			filePath = newPath
 		} else {
-			return errors.New("failed to find the ent schema folder")
+			entpath := filepath.Join(tmp, "ent")
+			if fileutil.IsExist(entpath) {
+				err = fileutil.CreateDir(newPath)
+				if err != nil {
+					return err
+				}
+			} else {
+				return errors.New("failed to find the ent schema folder")
+			}
 		}
 	}
 
