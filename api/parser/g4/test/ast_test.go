@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-
 	"github.com/suyuan32/goctls/api/parser/g4/ast"
 	"github.com/suyuan32/goctls/api/parser/g4/gen/api"
 )
@@ -281,7 +280,7 @@ func TestApi(t *testing.T) {
 					},
 					{
 						Name:     ast.NewTextExpr("VInterface"),
-						DataType: &ast.Interface{Literal: ast.NewTextExpr("any")},
+						DataType: &ast.Interface{Literal: ast.NewTextExpr("interface{}")},
 						Tag:      ast.NewTextExpr("`json:\"vInterface\"`"),
 						DocExpr: []ast.Expr{
 							ast.NewTextExpr("// vInterface"),

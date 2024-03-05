@@ -47,7 +47,7 @@ anonymousFiled: star='*'? ID;
 dataType:       {isInterface(p)}ID
                 |mapType
                 |arrayType
-                |inter='any'
+                |inter='interface{}'
                 |time='time.Time'
                 |pointerType
                 |typeStruct
