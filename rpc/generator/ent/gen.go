@@ -66,6 +66,8 @@ type GenEntLogicContext struct {
 	ProtoOut        string
 	ImportPrefix    string
 	Overwrite       bool
+	IdType          string // default is empty, if ID belongs types of Uint64 and string, use other base message
+	HasCreated      bool   // If true means have created and updated field
 }
 
 func (g GenEntLogicContext) Validate() error {
@@ -228,7 +230,7 @@ func genEntLogic(g *GenEntLogicContext) error {
 
 func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *load.Schema) []*RpcLogicData {
 	var data []*RpcLogicData
-	hasTime, hasUUID, hasSingle, NoNormalField, hasPointy := false, false, false, true, false
+	hasTime, hasUUID, hasSingle, NoNormalField, hasPointy, hasCreated, hasUpdated := false, false, false, true, false, false, false
 	// end string means whether to use \n
 	endString := ""
 	var packageName string
@@ -245,6 +247,14 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		if entx.IsBaseProperty(v.Name) {
 			if v.Name == "id" && entx.IsUUIDType(v.Info.Type.String()) {
 				g.UseUUID = true
+			} else if v.Name == "id" {
+				g.IdType = entx.ConvertIdTypeToBaseMessage(v.Info.Type.String())
+			}
+
+			if v.Name == "created_at" {
+				hasCreated = true
+			} else if v.Name == "updated_at" {
+				hasUpdated = true
 			}
 			continue
 		} else if entx.IsOnlyEntType(v.Info.Type.String()) {
@@ -320,6 +330,11 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		hasPointy = true
 	}
 
+	// judge if generate time field
+	if hasCreated && hasUpdated {
+		g.HasCreated = true
+	}
+
 	createLogic := bytes.NewBufferString("")
 	createLogicTmpl, _ := template.New("create").Parse(createTpl)
 	_ = createLogicTmpl.Execute(createLogic, map[string]any{
@@ -336,6 +351,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"hasSingle":     hasSingle,
 		"noNormalField": !NoNormalField,
 		"hasPointy":     hasPointy,
+		"IdType":        g.IdType,
+		"HasCreated":    g.HasCreated,
 	})
 
 	data = append(data, &RpcLogicData{
@@ -359,6 +376,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"hasSingle":     hasSingle,
 		"noNormalField": !NoNormalField,
 		"hasPointy":     hasPointy,
+		"IdType":        g.IdType,
+		"HasCreated":    g.HasCreated,
 	})
 
 	data = append(data, &RpcLogicData{
@@ -445,6 +464,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"useUUID":            g.UseUUID,
 		"useI18n":            g.UseI18n,
 		"importPrefix":       g.ImportPrefix,
+		"IdType":             g.IdType,
+		"HasCreated":         g.HasCreated,
 	})
 
 	data = append(data, &RpcLogicData{
@@ -467,6 +488,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"useUUID":            g.UseUUID,
 		"useI18n":            g.UseI18n,
 		"importPrefix":       g.ImportPrefix,
+		"IdType":             g.IdType,
+		"HasCreated":         g.HasCreated,
 	})
 
 	data = append(data, &RpcLogicData{
@@ -485,6 +508,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"useUUID":            g.UseUUID,
 		"useI18n":            g.UseI18n,
 		"importPrefix":       g.ImportPrefix,
+		"IdType":             g.IdType,
+		"HasCreated":         g.HasCreated,
 	})
 
 	data = append(data, &RpcLogicData{
@@ -504,11 +529,21 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 	endString := ""
 	// info message
 	idString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "id")
-	createString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "created_at")
-	updateString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "updated_at")
-	protoMessage.WriteString(fmt.Sprintf("message %sInfo {\n  optional %s %s = 1;\n  optional int64 %s = 2;\n  optional int64 %s = 3;\n",
-		schemaNameCamelCase, entx.ConvertIDType(g.UseUUID), idString, createString, updateString))
-	index := 4
+	index := 2
+
+	// gen time field
+	timeField := ""
+	if g.HasCreated {
+		createString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "created_at")
+		updateString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "updated_at")
+
+		timeField = fmt.Sprintf("  optional int64 %s = 2;\n  optional int64 %s = 3;\n", createString, updateString)
+		index = 4
+	}
+
+	protoMessage.WriteString(fmt.Sprintf("message %sInfo {\n  optional %s %s = 1;\n%s",
+		schemaNameCamelCase, entx.ConvertIDType(g.UseUUID, strings.ToLower(g.IdType)), idString, timeField))
+
 	for i, v := range schema.Fields {
 		var fieldComment string
 		if v.Comment != "" {
@@ -586,10 +621,12 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 	protoRpcFunction := bytes.NewBufferString("")
 	protoTmpl, err := template.New("proto").Parse(protoTpl)
 	err = protoTmpl.Execute(protoRpcFunction, map[string]any{
-		"modelName": schema.Name,
-		"groupName": groupName,
-		"useUUID":   g.UseUUID,
-		"hasStatus": hasStatus,
+		"modelName":  schema.Name,
+		"groupName":  groupName,
+		"useUUID":    g.UseUUID,
+		"hasStatus":  hasStatus,
+		"IdType":     g.IdType,
+		"HasCreated": g.HasCreated,
 	})
 
 	if err != nil {

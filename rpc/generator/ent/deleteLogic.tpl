@@ -28,7 +28,7 @@ func NewDelete{{.modelName}}Logic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *Delete{{.modelName}}Logic) Delete{{.modelName}}(in *{{.projectName}}.{{if .useUUID}}UU{{end}}IDsReq) (*{{.projectName}}.BaseResp, error) {
+func (l *Delete{{.modelName}}Logic) Delete{{.modelName}}(in *{{.projectName}}.{{if .useUUID}}UU{{end}}IDs{{.IdType}}Req) (*{{.projectName}}.BaseResp, error) {
 	_, err := l.svcCtx.DB.{{.modelName}}.Delete().Where({{.modelNameLowerCase}}.IDIn({{if .useUUID}}uuidx.ParseUUIDSlice({{end}}in.Ids{{if .useUUID}}){{end}}...)).Exec(l.ctx)
 
     if err != nil {

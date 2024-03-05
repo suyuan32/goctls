@@ -9,7 +9,7 @@ import (
 	"{{.projectPath}}{{.importPrefix}}/internal/utils/dberrorhandler"
 	"{{.projectPath}}{{.importPrefix}}/types/{{.projectName}}"
 
-	"github.com/suyuan32/simple-admin-common/utils/pointy"
+{{if .HasCreated}}	"github.com/suyuan32/simple-admin-common/utils/pointy"{{end}}
     "github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -39,9 +39,9 @@ func (l *Get{{.modelName}}ListLogic) Get{{.modelName}}List(in *{{.projectName}}.
 
 	for _, v := range result.List {
 		resp.Data = append(resp.Data, &{{.projectName}}.{{.modelName}}Info{
-			Id:          {{if .useUUID}}pointy.GetPointer(v.ID.String()){{else}}&v.ID{{end}},
+			Id:          {{if .useUUID}}pointy.GetPointer(v.ID.String()){{else}}&v.ID{{end}},{{if .HasCreated}}
 			CreatedAt:   pointy.GetPointer(v.CreatedAt.UnixMilli()),
-			UpdatedAt:   pointy.GetPointer(v.UpdatedAt.UnixMilli()),
+			UpdatedAt:   pointy.GetPointer(v.UpdatedAt.UnixMilli()),{{end}}
 {{.listData}}
 		})
 	}

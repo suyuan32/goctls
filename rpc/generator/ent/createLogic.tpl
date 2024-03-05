@@ -29,7 +29,7 @@ func NewCreate{{.modelName}}Logic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *Create{{.modelName}}Logic) Create{{.modelName}}(in *{{.projectName}}.{{.modelName}}Info) (*{{.projectName}}.Base{{if .useUUID}}UU{{end}}IDResp, error) {
+func (l *Create{{.modelName}}Logic) Create{{.modelName}}(in *{{.projectName}}.{{.modelName}}Info) (*{{.projectName}}.Base{{if .useUUID}}UU{{end}}ID{{.IdType}}Resp, error) {
     {{if not .hasSingle}}result, err{{else}}query{{end}} := l.svcCtx.DB.{{.modelName}}.Create(){{if .noNormalField}}.{{end}}
 {{.setLogic}}
 
@@ -37,5 +37,5 @@ func (l *Create{{.modelName}}Logic) Create{{.modelName}}(in *{{.projectName}}.{{
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, in)
 	}
 
-    return &{{.projectName}}.Base{{if .useUUID}}UU{{end}}IDResp{Id: result.ID{{if .useUUID}}.String(){{end}}, Msg: {{if .useI18n}}i18n.CreateSuccess{{else}}errormsg.CreateSuccess{{end}} }, nil
+    return &{{.projectName}}.Base{{if .useUUID}}UU{{end}}ID{{.IdType}}Resp{Id: result.ID{{if .useUUID}}.String(){{end}}, Msg: {{if .useI18n}}i18n.CreateSuccess{{else}}errormsg.CreateSuccess{{end}} }, nil
 }
