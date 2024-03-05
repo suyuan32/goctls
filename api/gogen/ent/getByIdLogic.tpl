@@ -11,8 +11,8 @@ import (
 {{else}}    "github.com/suyuan32/simple-admin-common/msg/errormsg"
 {{end}}{{if .useUUID}}    "github.com/suyuan32/simple-admin-common/utils/uuidx"
 {{end}}
-	"github.com/suyuan32/simple-admin-common/utils/pointy"
-	"github.com/zeromicro/go-zero/core/logx"
+{{if .HasPointy}}	"github.com/suyuan32/simple-admin-common/utils/pointy"
+{{end}}	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type Get{{.modelName}}ByIdLogic struct {
@@ -29,7 +29,7 @@ func NewGet{{.modelName}}ByIdLogic(ctx context.Context, svcCtx *svc.ServiceConte
 	}
 }
 
-func (l *Get{{.modelName}}ByIdLogic) Get{{.modelName}}ById(req *types.{{if .useUUID}}UU{{end}}IDReq) (*types.{{.modelName}}InfoResp, error) {
+func (l *Get{{.modelName}}ByIdLogic) Get{{.modelName}}ById(req *types.{{if .useUUID}}UU{{end}}ID{{.IdType}}Req) (*types.{{.modelName}}InfoResp, error) {
 	data, err := l.svcCtx.DB.{{.modelName}}.Get(l.ctx, {{if .useUUID}}uuidx.ParseUUIDString({{end}}req.Id{{if .useUUID}}){{end}})
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
@@ -41,11 +41,11 @@ func (l *Get{{.modelName}}ByIdLogic) Get{{.modelName}}ById(req *types.{{if .useU
             Msg:  {{if .useI18n}}l.svcCtx.Trans.Trans(l.ctx, i18n.Success){{else}}errormsg.Success{{end}},
         },
         Data: types.{{.modelName}}Info{
-            Base{{if .useUUID}}UU{{end}}IDInfo:    types.Base{{if .useUUID}}UU{{end}}IDInfo{
+{{if .HasCreated}}            Base{{if .useUUID}}UU{{end}}ID{{.IdType}}Info:    types.Base{{if .useUUID}}UU{{end}}ID{{.IdType}}Info{
 				Id:          {{if .useUUID}}pointy.GetPointer(data.ID.String()){{else}}&data.ID{{end}},
 				CreatedAt:    pointy.GetPointer(data.CreatedAt.UnixMilli()),
 				UpdatedAt:    pointy.GetPointer(data.UpdatedAt.UnixMilli()),
-            },
+            },{{else}}			Id:  {{if .useUUID}}pointy.GetPointer(data.ID.String()){{else}}&data.ID{{end}}, {{end}}
 {{.listData}}
         },
 	}, nil

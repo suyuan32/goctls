@@ -62,6 +62,8 @@ type GenEntLogicContext struct {
 	GenApiData   bool
 	Overwrite    bool
 	RoutePrefix  string
+	IdType       string
+	HasCreated   bool
 }
 
 func (g GenEntLogicContext) Validate() error {
@@ -205,7 +207,7 @@ func genEntLogic(g *GenEntLogicContext) error {
 
 func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *load.Schema) []*ApiLogicData {
 	var data []*ApiLogicData
-	hasTime, hasUUID := false, false
+	hasTime, hasUUID, hasCreated, hasUpdated, hasPointy := false, false, false, false, false
 	// end string means whether to use \n
 	endString := ""
 	var packageName string
@@ -220,6 +222,14 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		if entx.IsBaseProperty(v.Name) {
 			if v.Name == "id" && entx.IsUUIDType(v.Info.Type.String()) {
 				g.UseUUID = true
+			} else if v.Name == "id" {
+				g.IdType = entx.ConvertIdTypeToBaseMessage(v.Info.Type.String())
+			}
+
+			if v.Name == "created_at" {
+				hasCreated = true
+			} else if v.Name == "updated_at" {
+				hasUpdated = true
 			}
 			continue
 		} else {
@@ -244,6 +254,11 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 	}
 	setLogic.WriteString("\t\t\tExec(l.ctx)")
 
+	if hasUpdated && hasCreated {
+		g.HasCreated = true
+		hasPointy = true
+	}
+
 	createLogic := bytes.NewBufferString("")
 	createLogicTmpl, _ := template.New("create").Parse(createTpl)
 	_ = createLogicTmpl.Execute(createLogic, map[string]any{
@@ -256,6 +271,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"useUUID":      g.UseUUID, // UUID primary key
 		"useI18n":      g.UseI18n,
 		"importPrefix": g.ImportPrefix,
+		"IdType":       g.IdType,
+		"HasCreated":   g.HasCreated,
 	})
 
 	data = append(data, &ApiLogicData{
@@ -275,6 +292,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"useUUID":      g.UseUUID, // UUID primary key
 		"useI18n":      g.UseI18n,
 		"importPrefix": g.ImportPrefix,
+		"IdType":       g.IdType,
+		"HasCreated":   g.HasCreated,
 	})
 
 	data = append(data, &ApiLogicData{
@@ -314,6 +333,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 			if entx.IsUUIDType(v.Info.Type.String()) {
 				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.String()),%s", nameCamelCase,
 					entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+				hasPointy = true
 			} else if entx.IsTimeProperty(v.Info.Type.String()) {
 				if v.Optional {
 					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetUnixMilliPointer(v.%s.UnixMilli()),%s", nameCamelCase,
@@ -322,6 +342,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.UnixMilli()),%s", nameCamelCase,
 						entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
 				}
+				hasPointy = true
 			} else {
 				if entx.IsUpperProperty(v.Name) {
 					listData.WriteString(fmt.Sprintf("\t\t\t%s:\t&v.%s,%s", nameCamelCase,
@@ -346,6 +367,9 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"useUUID":            g.UseUUID,
 		"useI18n":            g.UseI18n,
 		"importPrefix":       g.ImportPrefix,
+		"IdType":             g.IdType,
+		"HasCreated":         g.HasCreated,
+		"HasPointy":          hasPointy,
 	})
 
 	data = append(data, &ApiLogicData{
@@ -364,6 +388,9 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"useUUID":            g.UseUUID,
 		"useI18n":            g.UseI18n,
 		"importPrefix":       g.ImportPrefix,
+		"IdType":             g.IdType,
+		"HasCreated":         g.HasCreated,
+		"HasPointy":          hasPointy,
 	})
 
 	data = append(data, &ApiLogicData{
@@ -381,6 +408,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"useUUID":            g.UseUUID,
 		"useI18n":            g.UseI18n,
 		"importPrefix":       g.ImportPrefix,
+		"IdType":             g.IdType,
+		"HasCreated":         g.HasCreated,
 	})
 
 	data = append(data, &ApiLogicData{
@@ -456,6 +485,9 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 		"useUUID":        ctx.UseUUID,
 		"hasRoutePrefix": hasRoutePrefix,
 		"routePrefix":    ctx.RoutePrefix,
+		"IdType":         ctx.IdType,
+		"HasCreated":     ctx.HasCreated,
+		"IdTypeLower":    strings.ToLower(ctx.IdType),
 	}))
 	data = apiTemplateData.String()
 
