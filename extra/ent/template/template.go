@@ -28,4 +28,7 @@ var (
 
 	//go:embed tmpl/cache.tmpl
 	CacheTmpl string
+
+	//go:embed tmpl/cache_zero.tmpl
+	CacheZeroTmpl string
 )
