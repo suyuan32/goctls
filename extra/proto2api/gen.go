@@ -89,7 +89,7 @@ func DoGen(g *GenContext) error {
 	}
 
 	var typeData, routeData strings.Builder
-	typeNameSet := set.NewSet[string]()
+	typeNameSet := set.New[string]()
 
 	// gen route
 	for _, v := range protoData.Service {
