@@ -153,6 +153,8 @@ func GetTmpl(name string) string {
 		return SetOrClearTmpl
 	case "cache.tmpl", "cache":
 		return CacheTmpl
+	case "cache_zero.tmpl", "cache_zero":
+		return CacheZeroTmpl
 	}
 	return ""
 }
@@ -186,6 +188,10 @@ func ListAllTemplate() {
 				"cache",
 				"Ent 数据库缓存模板",
 			},
+			{
+				"cache_zero",
+				"Ent 数据库缓存模板, 使用 Go Zero Redis store",
+			},
 		}
 	} else {
 		color.Green.Println("The templates supported:\n")
@@ -206,6 +212,10 @@ func ListAllTemplate() {
 			{
 				"cache",
 				"Ent cache template",
+			},
+			{
+				"cache_zero",
+				"Ent cache template, Use Go Zero Redis store",
 			},
 		}
 	}
