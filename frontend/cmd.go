@@ -34,6 +34,7 @@ func init() {
 	vbenCmdFlags.StringVarP(&vben.VarStringSubFolder, "sub_folder", "s")
 	vbenCmdFlags.StringVarPWithDefaultValue(&vben.VarStringApiPrefix, "prefix", "p", "sys-api")
 	vbenCmdFlags.StringVarP(&vben.VarStringModelName, "model_name", "m")
+	vbenCmdFlags.StringVarPWithDefaultValue(&vben.VarStringFormType, "form_type", "t", "drawer")
 	vbenCmdFlags.BoolVarP(&vben.VarBoolOverwrite, "overwrite", "w")
 
 	Cmd.AddCommand(VbenCmd)

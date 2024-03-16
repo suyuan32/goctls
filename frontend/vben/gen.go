@@ -43,6 +43,8 @@ var (
 	VarStringSubFolder string
 	// VarBoolOverwrite describes whether to overwrite the files, it will overwrite all generated files.
 	VarBoolOverwrite bool
+	// VarStringFormType describes the form type
+	VarStringFormType string
 )
 
 type GenContext struct {
@@ -58,6 +60,7 @@ type GenContext struct {
 	UseUUID       bool
 	HasStatus     bool
 	HasState      bool
+	FormType      string
 	Overwrite     bool
 }
 
@@ -119,6 +122,7 @@ func GenCRUDLogic(_ *cobra.Command, _ []string) error {
 		LocaleDir:  localeDir,
 		FolderName: VarStringFolderName,
 		Overwrite:  VarBoolOverwrite,
+		FormType:   VarStringFormType,
 	}
 
 	err = genCtx.Validate()
@@ -144,6 +148,10 @@ func GenCRUDLogic(_ *cobra.Command, _ []string) error {
 	}
 
 	if err := genDrawer(genCtx); err != nil {
+		return err
+	}
+
+	if err := genModalIndex(genCtx); err != nil {
 		return err
 	}
 

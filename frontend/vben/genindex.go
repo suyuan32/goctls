@@ -24,6 +24,10 @@ import (
 )
 
 func genIndex(g *GenContext) error {
+	if g.FormType != "drawer" {
+		return nil
+	}
+
 	if err := util.With("indexTpl").Parse(indexTpl).SaveTo(map[string]any{
 		"modelName":           g.ModelName,
 		"modelNameLowerCamel": strcase.ToLowerCamel(g.ModelName),

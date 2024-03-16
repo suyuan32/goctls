@@ -387,7 +387,8 @@
         "sub_folder": "子目录名称。例如，src/views/sys 子目录用户，路径为 src/views/sys/user",
         "prefix": "代理请求的前缀。例如，sys-api",
         "model_name": "模型名称。例如，Example",
-        "overwrite": "是否覆盖文件，它将覆盖所有生成的文件"
+        "overwrite": "是否覆盖文件，它将覆盖所有生成的文件",
+        "form_type": "表单容器类型, 默认为 drawer, 可选值为 drawer, modal"
       }
     },
     "info": {
