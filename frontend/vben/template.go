@@ -42,4 +42,7 @@ var (
 
 	//go:embed staterender.tpl
 	stateRenderTpl string
+
+	//go:embed modal_index.tpl
+	modalIndexTpl string
 )

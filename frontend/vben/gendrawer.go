@@ -24,6 +24,10 @@ import (
 )
 
 func genDrawer(g *GenContext) error {
+	if g.FormType != "drawer" {
+		return nil
+	}
+
 	if err := util.With("drawerTpl").Parse(drawerTpl).SaveTo(map[string]any{
 		"modelName":           g.ModelName,
 		"modelNameLowerCamel": strcase.ToLowerCamel(g.ModelName),

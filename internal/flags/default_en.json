@@ -385,7 +385,8 @@
         "sub_folder": "The sub folder name. e.g. src/views/sys sub folder user which path is src/views/sys/user",
         "prefix": "The request prefix for proxy. e.g. sys-api",
         "model_name": "The model name. e.g. Example",
-        "overwrite": "Whether to overwrite the files, it will overwrite all generated files"
+        "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
+        "form_type": "Form container type, default is \"drawer\", optional values are \"drawer\", \"modal\""
       }
     },
     "info": {
