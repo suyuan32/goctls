@@ -3,7 +3,7 @@ module github.com/suyuan32/goctls
 go 1.22.0
 
 require (
-	ariga.io/atlas v0.19.2
+	ariga.io/atlas v0.20.0
 	entgo.io/contrib v0.4.5
 	entgo.io/ent v0.13.1
 	github.com/duke-git/lancet/v2 v2.3.0
