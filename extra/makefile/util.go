@@ -55,7 +55,7 @@ func extractInfo(g *GenContext) error {
 	g.EntFeature = findDefined("ENT_FEATURE", dataSplit)
 
 	if g.EntFeature == "" {
-		g.EntFeature = "sql/execquery"
+		g.EntFeature = "sql/execquery,intercept"
 	}
 
 	return err
