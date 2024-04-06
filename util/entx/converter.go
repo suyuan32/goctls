@@ -71,10 +71,6 @@ func ConvertSpecificNounToUpper(str string) string {
 			"API",
 		},
 		{
-			"Id",
-			"ID",
-		},
-		{
 			"Uri",
 			"URI",
 		},
@@ -90,6 +86,12 @@ func ConvertSpecificNounToUpper(str string) string {
 
 	for _, v := range data {
 		target = strings.Replace(target, v.Origin, v.Target, -1)
+	}
+
+	if !strings.Contains(target, "Ids") {
+		if strings.Contains(target, "Id") {
+			target = strings.Replace(target, "Id", "ID", -1)
+		}
 	}
 
 	return target
