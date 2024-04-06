@@ -154,6 +154,13 @@ func TestConvertSpecificNounToUpper(t *testing.T) {
 			},
 			want: "IdxID",
 		},
+		{
+			name: "test 6",
+			args: args{
+				str: "IdxIds",
+			},
+			want: "IdxIds",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
