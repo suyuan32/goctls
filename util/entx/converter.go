@@ -15,6 +15,7 @@
 package entx
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/suyuan32/goctls/rpc/parser"
@@ -88,13 +89,33 @@ func ConvertSpecificNounToUpper(str string) string {
 		target = strings.Replace(target, v.Origin, v.Target, -1)
 	}
 
-	if !strings.Contains(target, "Ids") {
+	target = ConvertIdFieldToUpper(target)
+
+	return target
+}
+
+// ConvertIdFieldToUpper is used to convert snack format Id to Ent format
+func ConvertIdFieldToUpper(target string) string {
+	if IsNotIDField(target) {
 		if strings.Contains(target, "Id") {
 			target = strings.Replace(target, "Id", "ID", -1)
 		}
+	} else {
+		if strings.HasSuffix(target, "Id") {
+			target = target[:len(target)-1] + "D"
+		}
+	}
+	return target
+}
+
+// IsNotIDField Judge whether the field is not an ID field
+func IsNotIDField(field string) bool {
+	compile, err := regexp.Compile("Id[a-z]+/g")
+	if err != nil {
+		return false
 	}
 
-	return target
+	return compile.MatchString(field)
 }
 
 // ConvertEntTypeToGotype returns go type from ent type
