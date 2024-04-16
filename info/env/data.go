@@ -242,3 +242,32 @@ func crosEnvInfo() string {
 	}
 	return envInfo.Render()
 }
+
+// redisEnvInfo show the redis env variables usage by goctls
+func redisEnvInfo() string {
+	color.Green.Println("Redis")
+	envInfo = table.NewWriter()
+	envInfo.SetOutputMirror(os.Stdout)
+	if lang {
+		envInfo.AppendHeader(table.Row{"环境变量名称", "环境变量介绍"})
+		envInfo.AppendRows([]table.Row{
+			{"REDIS_HOST", "Redis 服务器地址"},
+			{"REDIS_PASSWORD", "Redis 服务器密码"},
+			{"REDIS_DB", "Redis 数据库"},
+			{"REDIS_USERNAME", "Redis 用户名"},
+			{"REDIS_TLS", "Redis TLS 是否开启"},
+			{"REDIS_MASTER", "Redis Master 节点名称"},
+		})
+	} else {
+		envInfo.AppendHeader(table.Row{"Key", "Introduction"})
+		envInfo.AppendRows([]table.Row{
+			{"REDIS_HOST", "Redis host addresses"},
+			{"REDIS_PASSWORD", "Redis server password"},
+			{"REDIS_DB", "Redis database"},
+			{"REDIS_USERNAME", "Redis username"},
+			{"REDIS_TLS", "Redis TLS enabled"},
+			{"REDIS_MASTER", "Redis master node name"},
+		})
+	}
+	return envInfo.Render()
+}
