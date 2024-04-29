@@ -32,7 +32,8 @@ func GenSchema(_ *cobra.Command, _ []string) error {
 	}
 
 	err = schemaTpl.Execute(&schemaStr, map[string]string{
-		"ModelName": VarStringModelName,
+		"ModelName":          VarStringModelName,
+		"ModelNameLowercase": strings.ToLower(VarStringModelName),
 	})
 
 	if err != nil {
