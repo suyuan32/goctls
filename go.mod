@@ -4,7 +4,7 @@ go 1.22.0
 
 require (
 	ariga.io/atlas v0.21.1
-	entgo.io/contrib v0.4.5
+	entgo.io/contrib v0.5.0
 	entgo.io/ent v0.13.1
 	github.com/duke-git/lancet/v2 v2.3.0
 	github.com/emicklei/proto v1.13.2
@@ -19,7 +19,7 @@ require (
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.9.0
-	github.com/suyuan32/simple-admin-common v1.4.0
+	github.com/suyuan32/simple-admin-common v1.4.1
 	github.com/withfig/autocomplete-tools/integrations/cobra v1.2.1
 	github.com/zeromicro/antlr v0.0.1
 	github.com/zeromicro/go-zero v1.6.4
