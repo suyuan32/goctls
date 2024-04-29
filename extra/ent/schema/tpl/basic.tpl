@@ -2,6 +2,7 @@ package schema
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 )
 
@@ -22,7 +23,7 @@ func ({{.ModelName}}) Edges() []ent.Edge {
 
 // Mixin of the {{.ModelName}}.
 func ({{.ModelName}}) Mixin() []ent.Mixin {
-    return nil
+    return []ent.Mixin{}
 }
 
 // Indexes of the {{.ModelName}}.
@@ -32,5 +33,7 @@ func ({{.ModelName}}) Indexes() []ent.Index {
 
 // Annotations of the {{.ModelName}}
 func ({{.ModelName}}) Annotations() []schema.Annotation {
-	return nil
+	return []schema.Annotation{
+		entsql.Annotation{Table: "{{.ModelNameLowercase}}"},
+	}
 }
