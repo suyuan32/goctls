@@ -21,7 +21,7 @@ const DefaultToolVersion = "v1.6.11"
 const GoctlsVersion = "v1.7.3"
 
 // CoreVersion is the core service version.
-const CoreVersion = "v1.4.2"
+const CoreVersion = "v1.4.3"
 
 // LangEnvKey is the environment variable name to control the tools help info language
 const LangEnvKey = "SIMPLE_LANG"
