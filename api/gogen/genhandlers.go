@@ -87,7 +87,7 @@ func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route
 	swaggerPath = path.Join("/", prefix, swaggerPath)
 
 	handlerDoc.WriteString(fmt.Sprintf("// swagger:route %s %s %s %s \n", route.Method, swaggerPath,
-		group.GetAnnotation("group"), strings.TrimSuffix(handler, "Handler")))
+		strings.ReplaceAll(group.GetAnnotation("group"), "/", "-"), strings.TrimSuffix(handler, "Handler")))
 	handlerDoc.WriteString("//\n")
 	handlerDoc.WriteString(fmt.Sprintf("%s\n", strings.Join(route.HandlerDoc, " ")))
 	handlerDoc.WriteString("//\n")
