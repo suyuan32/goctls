@@ -1,7 +1,7 @@
 import "../base.api"
 
 type (
-    // The response data of {{.modelNameSpace}} information | {{.modelName}}信息
+    // The data of {{.modelNameSpace}} information | {{.modelName}}信息
     {{.modelName}}Info {
         {{if .HasCreated}}Base{{if .useUUID}}UU{{end}}ID{{.IdType}}Info{{else}}Id        *{{.IdTypeLower}}    `json:"id,optional"`{{end}}{{.infoData}}
     }
