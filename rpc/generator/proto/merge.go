@@ -123,20 +123,20 @@ func parseProto(data []parser.Proto) parser.Proto {
 
 	}
 
-	for _, v := range importSet {
-		result.Import = append(result.Import, v)
+	for _, v := range SortImport(importSet) {
+		result.Import = append(result.Import, importSet[v])
 	}
 
-	for _, e := range enumSet {
-		result.Enum = append(result.Enum, e)
+	for _, e := range SortEnum(enumSet) {
+		result.Enum = append(result.Enum, enumSet[e])
 	}
 
-	for _, m := range messageSet {
-		result.Message = append(result.Message, m)
+	for _, m := range SortMessage(messageSet) {
+		result.Message = append(result.Message, messageSet[m])
 	}
 
-	for _, s := range serviceSet {
-		result.Service = append(result.Service, s)
+	for _, s := range SortService(serviceSet) {
+		result.Service = append(result.Service, serviceSet[s])
 	}
 
 	return result
@@ -148,7 +148,7 @@ func genProtoString(data parser.Proto) string {
 
 	protoString.WriteString("syntax = \"proto3\";\n\n")
 	protoString.WriteString(fmt.Sprintf("package %s;\n", data.Package.Name))
-	protoString.WriteString(fmt.Sprintf("option go_package=\"%s\";\n\n", data.GoPackage))
+	protoString.WriteString(fmt.Sprintf("option go_package = \"%s\";\n\n", data.GoPackage))
 
 	for _, i := range data.Import {
 		protoString.WriteString(fmt.Sprintf("import \"%s\";\n\n", i.Filename))
