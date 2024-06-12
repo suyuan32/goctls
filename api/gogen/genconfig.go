@@ -59,6 +59,7 @@ func genConfig(dir string, cfg *config.Config, api *spec.ApiSpec, g *GenContext)
 			"useCasbin":  g.UseCasbin,
 			"useEnt":     g.UseEnt,
 			"useCoreRpc": g.UseCoreRpc,
+			"useI18n":    g.UseI18n,
 		},
 	})
 }
