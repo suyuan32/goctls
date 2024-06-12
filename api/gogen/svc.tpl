@@ -31,7 +31,7 @@ func NewServiceContext(c {{.config}}) *ServiceContext {
     cbn := c.CasbinConf.MustNewCasbinWithOriginalRedisWatcher(c.CasbinDatabaseConf.Type, c.CasbinDatabaseConf.GetDSN(), c.RedisConf)
 {{end}}
 {{if .useI18n}}
-    trans := i18n.NewTranslator(i18n2.LocaleFS)
+    trans := i18n.NewTranslator(c.I18nConf, i18n2.LocaleFS)
 {{end}}
 {{if .useEnt}}
     db := ent.NewClient(

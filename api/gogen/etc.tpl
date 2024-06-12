@@ -61,3 +61,6 @@ CasbinConf:
     [matchers]
     m = r.sub == p.sub && keyMatch2(r.obj,p.obj) && r.act == p.act
 {{end}}
+{{if .useI18n }}
+I18nConf:
+  Dir:  {{end}}
