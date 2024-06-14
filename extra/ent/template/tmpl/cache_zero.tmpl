@@ -18,12 +18,12 @@ in the LICENSE file in the root directory of this source tree.
 	{{ range $n := $.Nodes }}
 		{{ $dbPrefix := print "DB:CACHE:"}}
 		// GetCache returns a {{$n.Name}} entity by its id, use cache if it exists.
-		func ({{ receiver $n.QueryName }} *{{ $n.QueryName }}) GetCache(rds *redis.Redis, predicates predicate.{{$n.Name}}, keyVal string, expire int, {{ if ne $n.Edges nil }} loadEdges ... string{{ end }}) (*{{ $n.Name }}, error) {
+		func ({{ receiver $n.QueryName }} *{{ $n.QueryName }}) GetCache(ctx context.Context, rds *redis.Redis, predicates predicate.{{$n.Name}}, keyVal string, expire int, {{ if ne $n.Edges nil }} loadEdges ... string{{ end }}) (*{{ $n.Name }}, error) {
 			var key strings.Builder
 			key.WriteString("{{$dbPrefix}}{{$n.Name}}:")
 			key.WriteString(keyVal)
 
-			cacheData, err := rds.Get(key.String())
+			cacheData, err := rds.GetCtx(ctx, key.String())
 
 			if err == nil && cacheData == "" {
 				var data *{{ $n.Name }}
