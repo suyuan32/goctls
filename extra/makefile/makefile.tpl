@@ -34,6 +34,9 @@ AUTO_API_INIT_DATA=true{{end}}{{end}}
 # The arch of the build | 构建的架构
 GOARCH=amd64
 
+# The repository of docker | Docker 仓库地址
+DOCKER_REPO=docker.io/xxx
+
 # ---- You may not need to modify the codes below | 下面的代码大概率不需要更改 ----
 
 GO ?= go
@@ -61,13 +64,12 @@ tools: # Install the necessary tools | 安装必要的工具
 
 .PHONY: docker
 docker: # Build the docker image | 构建 docker 镜像
-	docker build -f Dockerfile -t ${DOCKER_USERNAME}/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):${VERSION} .
+	docker build -f Dockerfile -t $(DOCKER_REPO)/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):$(VERSION) .
 	@echo "Build docker successfully"
 
 .PHONY: publish-docker
 publish-docker: # Publish docker image | 发布 docker 镜像
-	echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin https://${REPO}
-	docker push ${DOCKER_USERNAME}/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):${VERSION}
+	docker push $(DOCKER_REPO)/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):$(VERSION)
 	@echo "Publish docker successfully"
 {{if or .isApi .isSingle}}
 .PHONY: gen-swagger
