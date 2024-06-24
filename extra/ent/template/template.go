@@ -32,6 +32,6 @@ var (
 	//go:embed tmpl/cache_zero.tmpl
 	CacheZeroTmpl string
 
-	//go:embed tmpl/privacy.tmpl
+	//go:embed tmpl/tenant_privacy.tmpl
 	TenantPrivacyTmpl string
 )

@@ -1,9 +1,9 @@
-Name: gateway-example # gateway name
+Name: {{.name}} # gateway name
 Host: localhost # gateway host
-Port: 8888 # gateway port
+Port: {{.port}} # gateway port
 Upstreams: # upstreams
   - Grpc: # grpc upstream
-      Target: 0.0.0.0:8080 # grpc target,the direct grpc server address,for only one node
+      Target: 0.0.0.0:9101 # grpc target,the direct grpc server address,for only one node
 #      Endpoints: [0.0.0.0:8080,192.168.120.1:8080] # grpc endpoints, the grpc server address list, for multiple nodes
 #      Etcd: # etcd config, if you want to use etcd to discover the grpc server address
 #        Hosts: [127.0.0.1:2378,127.0.0.1:2379] # etcd hosts
