@@ -19,7 +19,6 @@ const (
 	routesTemplateFile          = "routes.tpl"
 	routesAdditionTemplateFile  = "route-addition.tpl"
 	typesTemplateFile           = "types.tpl"
-	authorityTemplateFile       = "authoritymiddleware.tpl"
 	gitlabTemplateFile          = "gitlab.tpl"
 	dbErrorHandlerTemplateFile  = "dberrorhandler.tpl"
 	entTxTemplateFile           = "enttx.tpl"

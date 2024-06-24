@@ -314,6 +314,17 @@
         "log_type": "Log Type. Use with \"workspace\" param. Support error, stat, access, severe, slow",
         "list": "Show all workspace configurations",
         "delete_config": "Delete configuration, enter configuration name, separate multiple configurations with commas, for example \"core, fms\""
+      },
+      "middleware": {
+        "short": "Generate middleware code",
+        "api": {
+          "short": "Generate middleware code for API",
+          "name": "Middleware name",
+          "output": "Output directory, default is \".\", please run command in root directory of project",
+          "list": "List all available middlewares",
+          "i18n": "Whether to use i18n",
+          "style": "{{.global.style}}"
+        }
       }
     },
     "cicd": {

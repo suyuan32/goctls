@@ -316,6 +316,17 @@
         "log_type": "日志类型，需配合 workspace 使用，支持 error，stat，access，severe，slow",
         "list": "显示所有 workspace 配置",
         "delete_config": "删除配置，输入配置名称，多个配置用逗号分隔，例如 \"core,fms\""
+      },
+      "middleware": {
+        "short": "生成中间件代码",
+        "api": {
+          "short": "生成API的中间件代码",
+          "name": "中间件名称",
+          "output": "输出目录，默认为\".\",请在项目根目录下运行命令",
+          "list": "列出所有可用的中间件",
+          "i18n": "是否使用i18n",
+          "style": "{{.global.style}}"
+        }
       }
     },
     "cicd": {

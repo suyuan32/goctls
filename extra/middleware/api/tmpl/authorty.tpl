@@ -1,7 +1,7 @@
 package middleware
 
-import ({{if .useTrans}}
-    "context"{{end}}
+import (
+    "context"
 	"errors"
 	"net/http"
 	"strings"
@@ -39,7 +39,7 @@ func (m *AuthorityMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		// get the method
 		act := r.Method
 		// get the role id
-		roleIds := r.Context().Value("roleId").(string)
+		roleIds := strings.Split(r.Context().Value("roleId").(string), ",")
 
 		// check jwt blacklist
 		jwtResult, err := m.Rds.Get(context.Background(), config.RedisTokenPrefix+jwt.StripBearerPrefixFromToken(r.Header.Get("Authorization"))).Result()
@@ -73,9 +73,9 @@ func (m *AuthorityMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func batchCheck(cbn *casbin.Enforcer, roleIds, act, obj string) bool {
+func batchCheck(cbn *casbin.Enforcer, roleIds []string, act, obj string) bool {
 	var checkReq [][]any
-	for _, v := range strings.Split(roleIds, ",") {
+	for _, v := range roleIds {
 		checkReq = append(checkReq, []any{v, obj, act})
 	}
 

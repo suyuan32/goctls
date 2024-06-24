@@ -9,6 +9,7 @@ import (
 	"github.com/suyuan32/goctls/extra/initlogic"
 	"github.com/suyuan32/goctls/extra/logviewer"
 	"github.com/suyuan32/goctls/extra/makefile"
+	"github.com/suyuan32/goctls/extra/middleware"
 	"github.com/suyuan32/goctls/extra/proto2api"
 	"github.com/suyuan32/goctls/internal/cobrax"
 )
@@ -113,4 +114,5 @@ func init() {
 	ExtraCmd.AddCommand(makefileCmd)
 	ExtraCmd.AddCommand(proto2apiCmd)
 	ExtraCmd.AddCommand(logViewerCmd)
+	ExtraCmd.AddCommand(middleware.MiddlewareCmd)
 }
