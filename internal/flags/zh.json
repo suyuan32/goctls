@@ -173,6 +173,8 @@
       "remote": "{{.global.remote}}",
       "branch": "{{.global.branch}}",
       "dir": "输出目录",
+      "name": "网关名称",
+      "port": "网关端口",
       "protoc": {
         "short": "从 proto 文件生成网关代码"
       },

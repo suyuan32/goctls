@@ -172,6 +172,8 @@
       "remote": "{{.global.remote}}",
       "branch": "{{.global.branch}}",
       "dir": "The output dir",
+      "name": "Gateway's name",
+      "port": "Gateway's port",
       "protoc": {
         "short": "generate gateway code from proto file"
       },

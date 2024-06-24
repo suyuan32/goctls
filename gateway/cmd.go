@@ -2,8 +2,11 @@ package gateway
 
 import (
 	_ "embed"
+	"github.com/duke-git/lancet/v2/fileutil"
 	"os"
 	"path/filepath"
+	"strings"
+	"text/template"
 
 	"github.com/spf13/cobra"
 	"github.com/suyuan32/goctls/internal/cobrax"
@@ -16,23 +19,37 @@ var (
 	varStringRemote string
 	varStringBranch string
 	varStringDir    string
+	varStringName   string
+	varIntPort      int
 
 	Cmd = cobrax.NewCommand("gateway", cobrax.WithRunE(generateGateway))
 )
 
 func init() {
-	Cmd.PersistentFlags().StringVar(&varStringHome, "home")
-	Cmd.PersistentFlags().StringVar(&varStringRemote, "remote")
-	Cmd.PersistentFlags().StringVar(&varStringBranch, "branch")
-	Cmd.PersistentFlags().StringVar(&varStringDir, "dir")
+	CmdFlags := Cmd.Flags()
+
+	CmdFlags.StringVar(&varStringHome, "home")
+	CmdFlags.StringVar(&varStringRemote, "remote")
+	CmdFlags.StringVar(&varStringBranch, "branch")
+	CmdFlags.StringVarPWithDefaultValue(&varStringDir, "dir", "d", ".")
+	CmdFlags.StringVarPWithDefaultValue(&varStringName, "name", "n", "gateway")
+	CmdFlags.IntVarPWithDefaultValue(&varIntPort, "port", "p", 8080)
 }
 
 func generateGateway(*cobra.Command, []string) error {
-	if err := pathx.MkdirIfNotExist(varStringDir); err != nil {
+	path, err := filepath.Abs(varStringDir)
+	if err != nil {
 		return err
 	}
 
-	if _, err := ctx.Prepare(varStringDir); err != nil {
+	path = filepath.Join(path, varStringName)
+
+	err = fileutil.CreateDir(path)
+	if err != nil {
+		return err
+	}
+
+	if _, err := ctx.Prepare(path); err != nil {
 		return err
 	}
 
@@ -46,15 +63,28 @@ func generateGateway(*cobra.Command, []string) error {
 		return err
 	}
 
-	etcDir := filepath.Join(varStringDir, "etc")
+	etcDir := filepath.Join(path, "etc")
 	if err := pathx.MkdirIfNotExist(etcDir); err != nil {
 		return err
 	}
 	etcFile := filepath.Join(etcDir, "gateway.yaml")
-	if err := os.WriteFile(etcFile, []byte(etcContent), 0644); err != nil {
+
+	etcTpl, err := template.New("etc").Parse(etcContent)
+	if err != nil {
 		return err
 	}
 
-	mainFile := filepath.Join(varStringDir, "main.go")
+	var etcData strings.Builder
+	err = etcTpl.Execute(&etcData, map[string]any{
+		"port": varIntPort,
+		"name": varStringName,
+	})
+
+	err = fileutil.WriteStringToFile(etcFile, etcData.String(), false)
+	if err != nil {
+		return err
+	}
+
+	mainFile := filepath.Join(path, "main.go")
 	return os.WriteFile(mainFile, []byte(mainContent), 0644)
 }
