@@ -7,7 +7,6 @@
 // FilterTenantRule is a query/mutation rule that filters out entities that are not in the tenant.
 func FilterTenantRule() QueryMutationRule {
     // TenantsFilter is an interface to wrap WhereTenantID()
-    // predicate that is used by both `Group` and `User` schemas.
     type TenantsFilter interface {
     WhereTenantID(entql.Uint64P)
     }
