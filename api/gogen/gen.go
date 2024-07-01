@@ -293,6 +293,11 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 		if err != nil {
 			return err
 		}
+
+		_, err = execx.Run("git init", dir)
+		if err != nil {
+			return err
+		}
 	}
 
 	if err := backupAndSweep(apiFile); err != nil {
