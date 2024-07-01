@@ -256,6 +256,11 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 		if err != nil {
 			return errors.New("failed to generate ent init code")
 		}
+
+		_, err = execx.Run("git init", abs)
+		if err != nil {
+			return err
+		}
 	}
 
 	err = fileutil.WriteStringToFile(filepath.Join(abs, ".gitignore"), new2.GitIgnoreTmpl, false)
