@@ -34,6 +34,7 @@ func ({{.ModelName}}) Indexes() []ent.Index {
 // Annotations of the {{.ModelName}}
 func ({{.ModelName}}) Annotations() []schema.Annotation {
 	return []schema.Annotation{
+		entsql.WithComments(true),
 		entsql.Annotation{Table: "{{.ModelNameLowercase}}"},
 	}
 }
