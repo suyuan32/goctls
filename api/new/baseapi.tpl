@@ -125,6 +125,27 @@ type IDInt64PathReq {
     Id  int64 `path:"id"`
 }
 
+// Basic ID request (string) | 基础ID参数请求 (string)
+type IDStringReq {
+    // ID
+    // Required: true
+    Id  string `json:"id"`
+}
+
+// Basic IDs request (string) | 基础ID数组参数请求 (string)
+type IDsStringReq {
+    // IDs
+    // Required: true
+    Ids  []string `json:"ids"`
+}
+
+
+// Basic ID request (string) | 基础ID地址参数请求 (string)
+type IDStringPathReq {
+    // ID
+    // Required: true
+    Id  string `path:"id"`
+}
 
 // Basic UUID request in path | 基础UUID地址参数请求
 type UUIDPathReq {
@@ -206,6 +227,17 @@ type BaseUUIDInfo {
     UpdatedAt *int64     `json:"updatedAt,optional"`
 }
 
+// The base ID response data (string) | 基础ID信息 (string)
+type BaseIDStringInfo {
+    // ID
+    Id        *string    `json:"id,optional"`
+
+    // Create date | 创建日期
+    CreatedAt *int64     `json:"createdAt,optional"`
+
+    // Update date | 更新日期
+    UpdatedAt *int64     `json:"updatedAt,optional"`
+}
 
 @server(
 	group: base
