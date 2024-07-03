@@ -151,7 +151,7 @@ func ConvertIDType(useUUID bool, t string) string {
 		return "string"
 	} else {
 		switch t {
-		case "int32", "int64", "uint32", "uint64":
+		case "int32", "int64", "uint32", "uint64", "string":
 			return t
 		default:
 			return "uint64"
@@ -183,6 +183,8 @@ func ConvertIdTypeToBaseMessage(t string) string {
 			return "Int64"
 		case "uint32":
 			return "Uint32"
+		case "string":
+			return "String"
 		default:
 			return ""
 		}
