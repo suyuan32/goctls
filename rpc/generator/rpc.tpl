@@ -58,6 +58,19 @@ message BaseIDInt64Resp {
   string msg = 2;
 }
 
+message IDStringReq {
+  string id = 1;
+}
+
+message IDsStringReq {
+  repeated string ids = 1;
+}
+
+message BaseIDStringResp {
+  string id = 1;
+  string msg = 2;
+}
+
 message UUIDsReq {
   repeated string ids = 1;
 }
