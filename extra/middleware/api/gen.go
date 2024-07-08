@@ -89,6 +89,8 @@ func GetTmpl(name string) string {
 		return tmpl.AuthorityTmpl
 	case "authority_tenant":
 		return tmpl.AuthorityTenantTmpl
+	case "data_perm":
+		return tmpl.DataPermTmpl
 	}
 	return ""
 }
@@ -114,6 +116,10 @@ func ListAllMiddleware() {
 				"authority_tenant",
 				"Casbin autority 多租户权限中间件",
 			},
+			{
+				"data_perm",
+				"数据权限中间件",
+			},
 		}
 	} else {
 		color.Green.Println("The middleware supported:\n")
@@ -126,6 +132,10 @@ func ListAllMiddleware() {
 			{
 				"authority_tenant",
 				"Casbin autority multi-tenant permission middleware",
+			},
+			{
+				"data_perm",
+				"Data permission middleware",
 			},
 		}
 	}
