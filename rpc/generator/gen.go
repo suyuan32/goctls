@@ -261,11 +261,11 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 		if err != nil {
 			return err
 		}
-	}
 
-	err = fileutil.WriteStringToFile(filepath.Join(abs, ".gitignore"), new2.GitIgnoreTmpl, false)
-	if err != nil {
-		return err
+		err = fileutil.WriteStringToFile(filepath.Join(abs, ".gitignore"), new2.GitIgnoreTmpl, false)
+		if err != nil {
+			return err
+		}
 	}
 
 	console.NewColorConsole().MarkDone()
