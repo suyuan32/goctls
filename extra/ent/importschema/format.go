@@ -69,8 +69,8 @@ func (%s) Annotations() []schema.Annotation {
 }
 
 func getSchemaName(data string) string {
-	typeIndex := strings.Index(data, "type")
-	structIndex := strings.Index(data, "struct")
+	typeIndex := strings.Index(data, "type ")
+	structIndex := strings.Index(data, " struct")
 
 	return strings.Trim(data[typeIndex+4:structIndex], " ")
 }
