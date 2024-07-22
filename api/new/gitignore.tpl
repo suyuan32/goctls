@@ -32,4 +32,4 @@
 *_rpc
 
 # VsCode debug files
-_debug*
+__debug*
