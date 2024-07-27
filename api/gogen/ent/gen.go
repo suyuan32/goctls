@@ -19,12 +19,13 @@ import (
 	_ "embed"
 	"errors"
 	"fmt"
-	"github.com/suyuan32/goctls/rpc/execx"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"github.com/suyuan32/goctls/rpc/execx"
 
 	"entgo.io/ent/entc"
 	"entgo.io/ent/entc/gen"
@@ -106,6 +107,8 @@ func genEntLogic(g *GenEntLogicContext) error {
 	if err != nil {
 		return err
 	}
+
+	successCount := 0
 
 	for _, s := range schemas.Schemas {
 		if g.ModelName == s.Name || g.ModelName == "all" {
@@ -197,10 +200,16 @@ func genEntLogic(g *GenEntLogicContext) error {
 					color.Red.Printf("the init code of %s already exist, skip... \n", genCtx.ModelName)
 				}
 			}
+
+			successCount++
 		}
 	}
 
-	color.Green.Println("Generate Ent Logic files for API successfully")
+	if successCount == 0 {
+		color.Red.Printf("Failed. Schema: %s not found. \n", g.ModelName)
+	} else {
+		color.Green.Println("Generate Ent Logic files for API successfully")
+	}
 
 	return nil
 }

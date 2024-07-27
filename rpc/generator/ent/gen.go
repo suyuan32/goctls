@@ -19,14 +19,13 @@ import (
 	_ "embed"
 	"errors"
 	"fmt"
-	"github.com/gookit/color"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
 	"text/template"
 
-	"github.com/suyuan32/goctls/util/console"
+	"github.com/gookit/color"
 
 	"entgo.io/ent/entc"
 	"entgo.io/ent/entc/gen"
@@ -121,6 +120,8 @@ func genEntLogic(g *GenEntLogicContext) error {
 	if err != nil {
 		return err
 	}
+
+	successCount := 0
 
 	for _, s := range schemas.Schemas {
 		if g.ModelName == s.Name || g.ModelName == "all" {
@@ -220,11 +221,15 @@ func genEntLogic(g *GenEntLogicContext) error {
 			if err != nil {
 				return err
 			}
-
+			successCount++
 		}
 	}
 
-	console.NewColorConsole(true).Success("Generate Ent Logic files for RPC successfully")
+	if successCount == 0 {
+		color.Red.Printf("Failed. Schema: %s not found. \n", g.ModelName)
+	} else {
+		color.Green.Println("Generate Ent Logic files for RPC successfully")
+	}
 	return nil
 }
 
