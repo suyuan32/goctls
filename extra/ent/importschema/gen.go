@@ -1,4 +1,4 @@
-// Copyright 2023 The Ryan SU Authors. All Rights Reserved.
+// Copyright 2023 The Ryan SU Authors (https://github.com/suyuan32). All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,12 +18,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"path/filepath"
+	"strings"
+
 	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 	"github.com/suyuan32/goctls/extra/ent/importschema/mux"
-	"path/filepath"
-	"strings"
 )
 
 var (

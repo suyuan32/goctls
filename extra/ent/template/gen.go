@@ -1,4 +1,4 @@
-// Copyright 2023 The Ryan SU Authors. All Rights Reserved.
+// Copyright 2023 The Ryan SU Authors (https://github.com/suyuan32). All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,8 +17,9 @@ package template
 import (
 	"errors"
 	"fmt"
-	"github.com/duke-git/lancet/v2/fileutil"
 	"path/filepath"
+
+	"github.com/duke-git/lancet/v2/fileutil"
 
 	"github.com/gookit/color"
 	"github.com/jedib0t/go-pretty/v6/table"

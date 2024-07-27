@@ -1,4 +1,4 @@
-// Copyright 2023 The Ryan SU Authors. All Rights Reserved.
+// Copyright 2023 The Ryan SU Authors (https://github.com/suyuan32). All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@ package proto2api
 
 import (
 	"fmt"
+	"path/filepath"
+	"strings"
+
 	set "github.com/duke-git/lancet/v2/datastructure/set"
 	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/gookit/color"
@@ -24,8 +27,6 @@ import (
 	"github.com/suyuan32/goctls/rpc/parser"
 	"github.com/suyuan32/goctls/util/format"
 	"github.com/suyuan32/goctls/util/protox"
-	"path/filepath"
-	"strings"
 )
 
 var (
