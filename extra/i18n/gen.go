@@ -1,4 +1,4 @@
-// Copyright 2023 The Ryan SU Authors. All Rights Reserved.
+// Copyright 2023 The Ryan SU Authors (https://github.com/suyuan32). All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ package i18n
 
 import (
 	"errors"
+
 	"github.com/gookit/color"
 
 	"github.com/spf13/cobra"

@@ -1,4 +1,4 @@
-// Copyright 2023 The Ryan SU Authors. All Rights Reserved.
+// Copyright 2023 The Ryan SU Authors (https://github.com/suyuan32). All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,13 +18,14 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/gookit/color"
-	"github.com/suyuan32/goctls/rpc/execx"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"github.com/gookit/color"
+	"github.com/suyuan32/goctls/rpc/execx"
 
 	"github.com/emicklei/proto"
 	"github.com/zeromicro/go-zero/core/logx"
