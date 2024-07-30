@@ -200,7 +200,7 @@
         "verbose": "Enable log output",
         "ent": "Whether use Ent in project",
         "module_name": "The module name in go.mod. e.g. github.com/suyuan32/simple-admin-core",
-        "port" : "The service port exposed",
+        "port": "The service port exposed",
         "i18n": "{{.global.i18n}}",
         "desc": "Whether to create desc folder for splitting proto files",
         "client": "Whether to generate client"
@@ -281,7 +281,8 @@
           "tables": "Specify data tables. e.g. sys_users,sys_tokens",
           "exclude_tables": "When excluding tables for exporting all tables, you need to specify all intermediate tables and tables without a primary key. For example: role_menu, user_roles",
           "output": "Output path, the project's root directory",
-          "auto_mixin": "Whether to automatically import official \"Mixin\""
+          "auto_mixin": "Whether to automatically import official \"Mixin\"",
+          "plural_table": "Whether to automatically add plurals to the table, for example, importing the user table will automatically generate \"users\" "
         },
         "schema": {
           "short": "Generate schema empty file",
@@ -341,7 +342,7 @@
         "registry": "The remote Docker Registry, if aliyun ACR such as: registry.cn-beijing.aliyuncs.com (required)",
         "git_branch": "The branch of the remote repo, default \"main\" ",
         "repo": "The remote Git Repository, if tag is not 'latest' please assign tag such as: git-repo:v0.0.1, if tag is latest you can ignore the tag (required)",
-        "etc_yaml":"The Dockerfile with drone used, go-zero project etc yaml file name (required)"
+        "etc_yaml": "The Dockerfile with drone used, go-zero project etc yaml file name (required)"
       },
       "gitlab": {
         "short": "Generate gitlab-ci.yml file to build docker images",
