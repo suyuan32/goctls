@@ -33,6 +33,7 @@ var (
 	VarStringTables        string
 	VarStringExcludeTables string
 	VarBoolAutoMixin       bool
+	VarBoolPluralTable     bool
 )
 
 type GenContext struct {
@@ -41,6 +42,7 @@ type GenContext struct {
 	Tables        []string
 	ExcludeTables []string
 	AutoMixin     bool
+	PluralTable   bool
 }
 
 func Gen(_ *cobra.Command, _ []string) (err error) {
@@ -81,6 +83,7 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 	ctx.OutputDir = outputDir
 	ctx.Dsn = VarStringDSN
 	ctx.AutoMixin = VarBoolAutoMixin
+	ctx.PluralTable = VarBoolPluralTable
 	if len(VarStringTables) == 0 {
 		ctx.Tables = nil
 	} else {

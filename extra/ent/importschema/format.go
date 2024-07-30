@@ -3,11 +3,12 @@ package importschema
 import (
 	"errors"
 	"fmt"
+	"path/filepath"
+	"strings"
+
 	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/duke-git/lancet/v2/strutil"
 	"github.com/suyuan32/goctls/rpc/execx"
-	"path/filepath"
-	"strings"
 )
 
 // FormatFile formats the file to adjust simple admin
@@ -17,12 +18,22 @@ func FormatFile(ctx *GenContext) error {
 		return err
 	}
 
+	pluralSuffix := ""
+
+	if ctx.PluralTable {
+		pluralSuffix = "s"
+	}
+
 	for _, v := range files {
 		filePath := filepath.Join(ctx.OutputDir, v)
 
 		fileStr, err := fileutil.ReadFileToString(filePath)
 		if err != nil {
 			return err
+		}
+
+		if strings.Contains(fileStr, "entsql.WithComments(true)") {
+			continue
 		}
 
 		if !strings.Contains(fileStr, "),\n") {
@@ -50,9 +61,9 @@ func FormatFile(ctx *GenContext) error {
 func (%s) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.WithComments(true),
-		entsql.Annotation{Table: "%ss"},
+		entsql.Annotation{Table: "%s%s"},
 	}
-}`, getSchemaName(fileStr), strings.ToLower(strutil.SnakeCase(getSchemaName(fileStr))))
+}`, getSchemaName(fileStr), strings.ToLower(strutil.SnakeCase(getSchemaName(fileStr))), pluralSuffix)
 
 		if err := fileutil.WriteStringToFile(filePath, fileStr, false); err != nil {
 			return err
