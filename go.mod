@@ -3,9 +3,9 @@ module github.com/suyuan32/goctls
 go 1.22.5
 
 require (
-	ariga.io/atlas v0.25.1-0.20240717145915-af51d3945208
-	entgo.io/contrib v0.6.0
-	entgo.io/ent v0.13.2-0.20240717044502-34158f2c129b
+	ariga.io/atlas v0.25.0
+	entgo.io/contrib v0.5.0
+	entgo.io/ent v0.13.1
 	github.com/duke-git/lancet/v2 v2.3.2
 	github.com/emicklei/proto v1.13.2
 	github.com/fatih/structtag v1.2.0
@@ -59,7 +59,7 @@ require (
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/tools v0.23.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240725223205-93522f1f2a9f // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240730163845-b1a4ccb954bf // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
