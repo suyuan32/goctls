@@ -3,9 +3,9 @@ module github.com/suyuan32/goctls
 go 1.22.5
 
 require (
-	ariga.io/atlas v0.25.0
-	entgo.io/contrib v0.5.0
-	entgo.io/ent v0.13.1
+	ariga.io/atlas v0.25.1-0.20240717145915-af51d3945208
+	entgo.io/contrib v0.6.0
+	entgo.io/ent v0.14.0
 	github.com/duke-git/lancet/v2 v2.3.2
 	github.com/emicklei/proto v1.13.2
 	github.com/fatih/structtag v1.2.0
