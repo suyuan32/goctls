@@ -3,7 +3,7 @@ module github.com/suyuan32/goctls
 go 1.22.5
 
 require (
-	ariga.io/atlas v0.25.1-0.20240717145915-af51d3945208
+	ariga.io/atlas v0.26.0
 	entgo.io/contrib v0.6.0
 	entgo.io/ent v0.14.0
 	github.com/duke-git/lancet/v2 v2.3.2
@@ -19,11 +19,11 @@ require (
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.9.0
-	github.com/suyuan32/simple-admin-common v1.5.2
+	github.com/suyuan32/simple-admin-common v1.5.3
 	github.com/withfig/autocomplete-tools/integrations/cobra v1.2.1
 	github.com/zeromicro/antlr v0.0.1
 	github.com/zeromicro/go-zero v1.7.0
-	golang.org/x/text v0.16.0
+	golang.org/x/text v0.17.0
 )
 
 require (
@@ -56,8 +56,8 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56 // indirect
 	golang.org/x/mod v0.19.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
-	golang.org/x/sys v0.22.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/sys v0.24.0 // indirect
 	golang.org/x/tools v0.23.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240730163845-b1a4ccb954bf // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
