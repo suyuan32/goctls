@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"os"
 	"os/exec"
 	"runtime"
 	"strings"
@@ -23,7 +24,12 @@ func Run(arg, dir string, in ...*bytes.Buffer) (string, error) {
 	var cmd *exec.Cmd
 	switch goos {
 	case vars.OsMac, vars.OsLinux:
-		cmd = exec.Command("sh", "-c", arg)
+		shellEnv := os.Getenv("SHELL")
+		if shellEnv == "" {
+			cmd = exec.Command("sh", "-c", arg)
+		} else {
+			cmd = exec.Command(shellEnv, "-c", arg)
+		}
 	case vars.OsWindows:
 		cmd = exec.Command("cmd.exe", "/c", arg)
 	default:
@@ -32,6 +38,9 @@ func Run(arg, dir string, in ...*bytes.Buffer) (string, error) {
 	if len(dir) > 0 {
 		cmd.Dir = dir
 	}
+
+	cmd.Env = append(os.Environ(), "GOWORK=off")
+
 	stdout := new(bytes.Buffer)
 	stderr := new(bytes.Buffer)
 	if len(in) > 0 {
