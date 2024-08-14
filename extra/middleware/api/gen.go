@@ -66,7 +66,7 @@ func DoGen(name, output, style string, useI18n bool) error {
 		return err
 	}
 
-	fileName := strings.ReplaceAll(name, "_tenant", "") + "_middleware.go"
+	fileName := strings.ReplaceAll(strings.ReplaceAll(strings.ToLower(name), "_tenant", ""), "_", "") + "_middleware.go"
 
 	fileName, err = format.FileNamingFormat(style, fileName)
 	if err != nil {
