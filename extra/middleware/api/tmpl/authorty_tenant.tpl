@@ -55,7 +55,7 @@ func (m *AuthorityMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 
-		result := batchCheck(m.Cbn, roleIds, act, obj, r.Context().Value(enum.TENANT_ID_CTX_KEY).(string))
+		result := batchCheck(m.Cbn, roleIds, act, obj, r.Context().Value(enum.TenantIdCtxKey).(string))
 
 		if result {
 			logx.Infow("HTTP/HTTPS Request", logx.Field("UUID", r.Context().Value("userId").(string)),
