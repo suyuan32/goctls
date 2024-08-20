@@ -124,12 +124,13 @@ func DoGen(g *GenContext) error {
 	// gen type
 	protox.ProtoField = &protox.ProtoFieldData{}
 	for _, v := range protoData.Message {
-		if typeNameSet.Contain(v.Name) {
+		if typeNameSet.Contain(v.Name) && !strings.Contains(v.Name, "Base") && !strings.Contains(apiData, v.Name) {
 			typeData.WriteString(fmt.Sprintf("\n    // %s \n    %s {\n", v.Name, v.Name))
 			for _, t := range v.Elements {
 				t.Accept(protox.MessageVisitor{})
 
-				if SkipBaseMessage(protox.ProtoField.Name) || strings.Contains(apiData, protox.ProtoField.Name) {
+				if SkipBaseMessage(protox.ProtoField.Name) || (!(protox.ProtoField.Name[0] > 'a' && (protox.ProtoField.Name[0] < 'z') &&
+					strings.Contains(apiData, protox.ProtoField.Name))) {
 					continue
 				}
 
