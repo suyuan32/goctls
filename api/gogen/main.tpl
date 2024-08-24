@@ -11,6 +11,8 @@
 //	    type: apiKey
 //	    name: Authorization
 //	    in: header
+//	Security:
+//	  Token:
 //	Consumes:
 //	  - application/json
 //
