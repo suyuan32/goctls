@@ -1,11 +1,11 @@
 module github.com/suyuan32/goctls
 
-go 1.22.5
+go 1.23.0
 
 require (
-	ariga.io/atlas v0.26.0
+	ariga.io/atlas v0.26.1
 	entgo.io/contrib v0.6.0
-	entgo.io/ent v0.14.0
+	entgo.io/ent v0.14.1
 	github.com/duke-git/lancet/v2 v2.3.2
 	github.com/emicklei/proto v1.13.2
 	github.com/fatih/structtag v1.2.0
