@@ -88,6 +88,9 @@ func getSchemaName(data string) string {
 
 func removeOldAnnotation(data, schemaName string) string {
 	lastFuncIndex := strings.LastIndex(data, fmt.Sprintf("func (%s) Annotations()", schemaName))
+	if lastFuncIndex == -1 {
+		return data
+	}
 	funcEndIndex := 0
 	count := 0
 	for i := lastFuncIndex; i < len(data); i++ {
