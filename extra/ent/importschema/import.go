@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/suyuan32/goctls/extra/ent/importschema/mux"
 	"strings"
+
+	"github.com/suyuan32/goctls/extra/ent/importschema/mux"
 
 	"ariga.io/atlas/sql/schema"
 
