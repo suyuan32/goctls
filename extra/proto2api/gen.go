@@ -25,6 +25,7 @@ import (
 	"github.com/gookit/color"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+
 	"github.com/suyuan32/goctls/rpc/parser"
 	"github.com/suyuan32/goctls/util/format"
 	"github.com/suyuan32/goctls/util/protox"
