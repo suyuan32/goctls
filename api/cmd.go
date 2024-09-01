@@ -103,6 +103,8 @@ func init() {
 	protoCmdFlags.BoolVarP(&gogen.VarBoolOverwrite, "overwrite", "w")
 	protoCmdFlags.BoolVarP(&gogen.VarBoolOptionalService, "optional_service", "t")
 	protoCmdFlags.BoolVarP(&gogen.VarBoolGenCoreApiInit, "api_data", "d")
+	protoCmdFlags.StringVar(&gogen.VarStringModelChineseName, "model_chinese_name")
+	protoCmdFlags.StringVar(&gogen.VarStringModelEnglishName, "model_english_name")
 
 	entCmdFlags.StringVarP(&gogen.VarStringSchema, "schema", "c")
 	entCmdFlags.StringVarP(&gogen.VarStringRoutePrefix, "route_prefix", "f")

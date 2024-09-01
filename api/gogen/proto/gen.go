@@ -26,6 +26,7 @@ import (
 	"text/template"
 
 	"github.com/gookit/color"
+
 	"github.com/suyuan32/goctls/rpc/execx"
 
 	"github.com/emicklei/proto"
@@ -65,6 +66,8 @@ type GenLogicByProtoContext struct {
 	RoutePrefix      string
 	IdType           string
 	HasCreated       bool
+	ModelChineseName string
+	ModelEnglishName string
 }
 
 func (g GenLogicByProtoContext) Validate() error {
@@ -441,12 +444,21 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 		}
 	}
 
+	modelChineseName := ctx.ModelName
+	if ctx.ModelChineseName != "" {
+		modelChineseName = ctx.ModelChineseName
+	}
+
+	modelEnglishName := strings.Replace(strcase.ToSnake(ctx.ModelName), "_", " ", -1)
+	if ctx.ModelEnglishName != "" {
+		modelEnglishName = ctx.ModelEnglishName
+	}
+
 	apiTemplateData := bytes.NewBufferString("")
 	apiTmpl, _ := template.New("apiTpl").Parse(apiTpl)
 	logx.Must(apiTmpl.Execute(apiTemplateData, map[string]any{
 		"infoData":           infoData.String(),
 		"modelName":          ctx.ModelName,
-		"modelNameSpace":     strings.Replace(strcase.ToSnake(ctx.ModelName), "_", " ", -1),
 		"modelNameLowerCase": strings.ToLower(ctx.ModelName),
 		"modelNameSnake":     strcase.ToSnake(ctx.ModelName),
 		"listData":           listData.String(),
@@ -457,6 +469,8 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 		"IdType":             ctx.IdType,
 		"IdTypeLower":        strings.ToLower(ctx.IdType),
 		"HasCreated":         ctx.HasCreated,
+		"modelChineseName":   modelChineseName,
+		"modelEnglishName":   modelEnglishName,
 	}))
 	data = apiTemplateData.String()
 

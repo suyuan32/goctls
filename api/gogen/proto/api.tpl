@@ -1,37 +1,37 @@
 import "../base.api"
 
 type (
-    // The response data of {{.modelNameSpace}} information | {{.modelName}}信息
+    // The response data of {{.modelEnglishName}} information | {{.modelChineseName}}信息
     {{.modelName}}Info {
         {{if .HasCreated}}Base{{if .useUUID}}UU{{end}}ID{{.IdType}}Info{{else}}Id        *{{.IdTypeLower}}    `json:"id,optional"`{{end}}{{.infoData}}
     }
 
-    // The response data of {{.modelNameSpace}} list | {{.modelName}}列表数据
+    // The response data of {{.modelEnglishName}} list | {{.modelChineseName}}信息列表数据
     {{.modelName}}ListResp {
         BaseDataInfo
 
-        // {{.modelName}} list data | {{.modelName}}列表数据
+        // {{.modelName}} list data | {{.modelChineseName}}信息列表数据
         Data {{.modelName}}ListInfo `json:"data"`
     }
 
-    // {{.modelName}} list data | {{.modelName}}列表数据
+    // The {{.modelEnglishName}} list data | {{.modelChineseName}}信息列表数据
     {{.modelName}}ListInfo {
         BaseListInfo
 
-        // The API list data | {{.modelName}}列表数据
+        // The {{.modelEnglishName}} list data | {{.modelChineseName}}信息列表数据
         Data  []{{.modelName}}Info  `json:"data"`
     }
 
-    // Get {{.modelNameSpace}} list request params | {{.modelName}}列表请求参数
+    // Get {{.modelEnglishName}} list request params | {{.modelChineseName}}列表请求参数
     {{.modelName}}ListReq {
         PageInfo{{.listData}}
     }
 
-    // {{.modelName}} information response | {{.modelName}}信息返回体
+    // The {{.modelEnglishName}} information response | {{.modelChineseName}}信息返回体
     {{.modelName}}InfoResp {
         BaseDataInfo
 
-        // {{.modelName}} information | {{.modelName}}数据
+        // The {{.modelEnglishName}} information | {{.modelChineseName}}信息数据
         Data {{.modelName}}Info `json:"data"`
     }
 )
@@ -44,23 +44,23 @@ type (
 )
 
 service {{.apiServiceName}} {
-    // Create {{.modelNameSpace}} information | 创建{{.modelName}}
+    // Create {{.modelEnglishName}} information | 创建{{.modelChineseName}}信息
     @handler create{{.modelName}}
     post /{{.modelNameSnake}}/create ({{.modelName}}Info) returns (BaseMsgResp)
 
-    // Update {{.modelNameSpace}} information | 更新{{.modelName}}
+    // Update {{.modelEnglishName}} information | 更新{{.modelChineseName}}信息
     @handler update{{.modelName}}
     post /{{.modelNameSnake}}/update ({{.modelName}}Info) returns (BaseMsgResp)
 
-    // Delete {{.modelNameSpace}} information | 删除{{.modelName}}信息
+    // Delete {{.modelEnglishName}} information | 删除{{.modelChineseName}}信息
     @handler delete{{.modelName}}
     post /{{.modelNameSnake}}/delete ({{if .useUUID}}UU{{end}}IDs{{.IdType}}Req) returns (BaseMsgResp)
 
-    // Get {{.modelNameSpace}} list | 获取{{.modelName}}列表
+    // Get {{.modelEnglishName}} list | 获取{{.modelChineseName}}信息列表
     @handler get{{.modelName}}List
     post /{{.modelNameSnake}}/list ({{.modelName}}ListReq) returns ({{.modelName}}ListResp)
 
-    // Get {{.modelNameSpace}} by ID | 通过ID获取{{.modelName}}
+    // Get {{.modelEnglishName}} by ID | 通过ID获取{{.modelChineseName}}信息
     @handler get{{.modelName}}ById
     post /{{.modelNameSnake}} ({{if .useUUID}}UU{{end}}ID{{.IdType}}Req) returns ({{.modelName}}InfoResp)
 }
