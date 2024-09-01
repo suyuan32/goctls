@@ -50,22 +50,24 @@ type ApiLogicData struct {
 }
 
 type GenEntLogicContext struct {
-	Schema       string
-	Output       string
-	ServiceName  string
-	Style        string
-	ModelName    string
-	SearchKeyNum int
-	GroupName    string
-	UseUUID      bool
-	JSONStyle    string
-	UseI18n      bool
-	ImportPrefix string
-	GenApiData   bool
-	Overwrite    bool
-	RoutePrefix  string
-	IdType       string
-	HasCreated   bool
+	Schema           string
+	Output           string
+	ServiceName      string
+	Style            string
+	ModelName        string
+	SearchKeyNum     int
+	GroupName        string
+	UseUUID          bool
+	JSONStyle        string
+	UseI18n          bool
+	ImportPrefix     string
+	GenApiData       bool
+	Overwrite        bool
+	RoutePrefix      string
+	IdType           string
+	HasCreated       bool
+	ModelChineseName string
+	ModelEnglishName string
 }
 
 func (g GenEntLogicContext) Validate() error {
@@ -482,22 +484,33 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 		}
 	}
 
+	modelChineseName := ctx.ModelName
+	if ctx.ModelChineseName != "" {
+		modelChineseName = ctx.ModelChineseName
+	}
+
+	modelEnglishName := strings.Replace(strcase.ToSnake(ctx.ModelName), "_", " ", -1)
+	if ctx.ModelEnglishName != "" {
+		modelEnglishName = ctx.ModelEnglishName
+	}
+
 	apiTemplateData := bytes.NewBufferString("")
 	apiTmpl, _ := template.New("entApiTpl").Parse(apiTpl)
 	logx.Must(apiTmpl.Execute(apiTemplateData, map[string]any{
-		"infoData":       infoData.String(),
-		"modelName":      ctx.ModelName,
-		"modelNameSpace": strings.Replace(strcase.ToSnake(ctx.ModelName), "_", " ", -1),
-		"groupName":      ctx.GroupName,
-		"modelNameSnake": strcase.ToSnake(ctx.ModelName),
-		"listData":       listData.String(),
-		"apiServiceName": strcase.ToCamel(ctx.ServiceName),
-		"useUUID":        ctx.UseUUID,
-		"hasRoutePrefix": hasRoutePrefix,
-		"routePrefix":    ctx.RoutePrefix,
-		"IdType":         ctx.IdType,
-		"HasCreated":     ctx.HasCreated,
-		"IdTypeLower":    strings.ToLower(ctx.IdType),
+		"infoData":         infoData.String(),
+		"modelName":        ctx.ModelName,
+		"groupName":        ctx.GroupName,
+		"modelNameSnake":   strcase.ToSnake(ctx.ModelName),
+		"listData":         listData.String(),
+		"apiServiceName":   strcase.ToCamel(ctx.ServiceName),
+		"useUUID":          ctx.UseUUID,
+		"hasRoutePrefix":   hasRoutePrefix,
+		"routePrefix":      ctx.RoutePrefix,
+		"IdType":           ctx.IdType,
+		"HasCreated":       ctx.HasCreated,
+		"IdTypeLower":      strings.ToLower(ctx.IdType),
+		"modelChineseName": modelChineseName,
+		"modelEnglishName": modelEnglishName,
 	}))
 	data = apiTemplateData.String()
 

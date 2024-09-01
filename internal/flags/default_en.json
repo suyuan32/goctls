@@ -104,7 +104,9 @@
         "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
         "json_style": "The JSON tag format, default is camelcase",
         "api_data": "Whether to automatically generate API initialization code, CoreRpc is required",
-        "route_prefix": "Route prefix,  must begin with \"/\""
+        "route_prefix": "Route prefix,  must begin with \"/\"",
+        "model_chinese_name": "Model Chinese name",
+        "model_english_name": "Model English name"
       }
     },
     "bug": {

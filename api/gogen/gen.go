@@ -92,6 +92,10 @@ var (
 	VarBoolGenCoreApiInit bool
 	// VarStringRoutePrefix describes the route prefix for api
 	VarStringRoutePrefix string
+	// VarStringModelChineseName describes the Chinese name of model
+	VarStringModelChineseName string
+	// VarStringModelEnglishName describes the English name of model
+	VarStringModelEnglishName string
 )
 
 // GoCommand gen go project files from command line
@@ -404,19 +408,21 @@ func GenCRUDLogicByProto(_ *cobra.Command, _ []string) error {
 
 func GenCRUDLogicByEnt(_ *cobra.Command, _ []string) error {
 	params := &ent.GenEntLogicContext{
-		Schema:       VarStringSchema,
-		Output:       VarStringOutput,
-		ServiceName:  VarStringAPIServiceName,
-		Style:        VarStringStyle,
-		ModelName:    VarStringModelName,
-		SearchKeyNum: VarIntSearchKeyNum,
-		GroupName:    VarStringGroupName,
-		JSONStyle:    VarStringJSONStyle,
-		UseI18n:      VarBoolUseI18n,
-		ImportPrefix: VarStringImportPrefix,
-		Overwrite:    VarBoolOverwrite,
-		GenApiData:   VarBoolGenCoreApiInit,
-		RoutePrefix:  VarStringRoutePrefix,
+		Schema:           VarStringSchema,
+		Output:           VarStringOutput,
+		ServiceName:      VarStringAPIServiceName,
+		Style:            VarStringStyle,
+		ModelName:        VarStringModelName,
+		SearchKeyNum:     VarIntSearchKeyNum,
+		GroupName:        VarStringGroupName,
+		JSONStyle:        VarStringJSONStyle,
+		UseI18n:          VarBoolUseI18n,
+		ImportPrefix:     VarStringImportPrefix,
+		Overwrite:        VarBoolOverwrite,
+		GenApiData:       VarBoolGenCoreApiInit,
+		RoutePrefix:      VarStringRoutePrefix,
+		ModelChineseName: VarStringModelChineseName,
+		ModelEnglishName: VarStringModelEnglishName,
 	}
 
 	err := params.Validate()

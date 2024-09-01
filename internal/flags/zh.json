@@ -105,7 +105,9 @@
         "import_prefix": "{{.global.import_prefix}}",
         "json_style": "JSON 标记格式，默认为驼峰式",
         "api_data": "是否自动生成 API 初始化代码，需要 CoreRpc",
-        "route_prefix": "路由前缀，需要以 \"/\" 开头"
+        "route_prefix": "路由前缀，需要以 \"/\" 开头",
+        "model_chinese_name": "模型的中文名称",
+        "model_english_name": "模型的英文名称"
       }
     },
     "bug": {

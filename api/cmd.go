@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/spf13/cobra"
+
 	"github.com/suyuan32/goctls/api/apigen"
 	"github.com/suyuan32/goctls/api/docgen"
 	"github.com/suyuan32/goctls/api/format"
@@ -115,6 +116,8 @@ func init() {
 	entCmdFlags.BoolVarP(&gogen.VarBoolUseI18n, "i18n", "i")
 	entCmdFlags.BoolVarP(&gogen.VarBoolGenCoreApiInit, "api_data", "p")
 	entCmdFlags.StringVarP(&gogen.VarStringImportPrefix, "import_prefix", "x")
+	entCmdFlags.StringVar(&gogen.VarStringModelChineseName, "model_chinese_name")
+	entCmdFlags.StringVar(&gogen.VarStringModelEnglishName, "model_english_name")
 	entCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringJSONStyle, "json_style", "j", "goZero")
 
 	// Add sub-commands
