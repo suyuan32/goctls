@@ -3,6 +3,10 @@ package api
 import (
 	"errors"
 	"fmt"
+	"path/filepath"
+	"strings"
+	"text/template"
+
 	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/gookit/color"
 	"github.com/jedib0t/go-pretty/v6/table"
@@ -11,9 +15,6 @@ import (
 	"github.com/suyuan32/goctls/util/console"
 	"github.com/suyuan32/goctls/util/env"
 	"github.com/suyuan32/goctls/util/format"
-	"path/filepath"
-	"strings"
-	"text/template"
 )
 
 var (

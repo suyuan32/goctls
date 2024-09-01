@@ -2,11 +2,12 @@ package env
 
 import (
 	"fmt"
-	"github.com/duke-git/lancet/v2/fileutil"
-	"github.com/suyuan32/goctls/util/pathx"
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/duke-git/lancet/v2/fileutil"
+	"github.com/suyuan32/goctls/util/pathx"
 
 	"github.com/spf13/cobra"
 

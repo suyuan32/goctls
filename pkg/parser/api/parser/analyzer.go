@@ -2,13 +2,14 @@ package parser
 
 import (
 	"fmt"
+	"sort"
+	"strings"
+
 	"github.com/suyuan32/goctls/api/spec"
 	"github.com/suyuan32/goctls/pkg/parser/api/ast"
 	"github.com/suyuan32/goctls/pkg/parser/api/importstack"
 	"github.com/suyuan32/goctls/pkg/parser/api/placeholder"
 	"github.com/suyuan32/goctls/pkg/parser/api/token"
-	"sort"
-	"strings"
 
 	"github.com/zeromicro/go-zero/core/lang"
 )

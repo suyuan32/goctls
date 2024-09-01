@@ -3,18 +3,19 @@ package cmd
 import (
 	_ "embed"
 	"fmt"
-	"github.com/suyuan32/goctls/cicd"
-	"github.com/suyuan32/goctls/config"
-	"github.com/suyuan32/goctls/project"
-	"github.com/suyuan32/goctls/upgrade"
 	"os"
 	"runtime"
 	"strings"
 	"text/template"
 
+	"github.com/suyuan32/goctls/cicd"
+	"github.com/suyuan32/goctls/config"
+	"github.com/suyuan32/goctls/project"
+	"github.com/suyuan32/goctls/upgrade"
+
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
-	"github.com/withfig/autocomplete-tools/integrations/cobra"
+	cobracompletefig "github.com/withfig/autocomplete-tools/integrations/cobra"
 
 	"github.com/suyuan32/goctls/api"
 	"github.com/suyuan32/goctls/docker"

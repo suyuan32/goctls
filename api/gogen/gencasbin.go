@@ -3,10 +3,11 @@ package gogen
 import (
 	_ "embed"
 	"fmt"
+	"path/filepath"
+
 	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/suyuan32/goctls/config"
 	"github.com/suyuan32/goctls/rpc/execx"
-	"path/filepath"
 )
 
 func genCasbin(dir string, cfg *config.Config, g *GenContext) error {

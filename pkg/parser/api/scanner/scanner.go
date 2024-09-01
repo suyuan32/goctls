@@ -4,11 +4,12 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/suyuan32/goctls/pkg/parser/api/token"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/suyuan32/goctls/pkg/parser/api/token"
 )
 
 const (

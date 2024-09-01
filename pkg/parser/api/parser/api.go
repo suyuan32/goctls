@@ -2,13 +2,14 @@ package parser
 
 import (
 	"fmt"
+	"path/filepath"
+	"strings"
+
 	"github.com/suyuan32/goctls/pkg/parser/api/ast"
 	"github.com/suyuan32/goctls/pkg/parser/api/importstack"
 	"github.com/suyuan32/goctls/pkg/parser/api/placeholder"
 	"github.com/suyuan32/goctls/pkg/parser/api/token"
 	"github.com/zeromicro/go-zero/core/lang"
-	"path/filepath"
-	"strings"
 )
 
 // API is the parsed api file.

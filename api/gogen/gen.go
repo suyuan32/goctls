@@ -3,7 +3,6 @@ package gogen
 import (
 	"errors"
 	"fmt"
-	"github.com/duke-git/lancet/v2/fileutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -11,6 +10,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/duke-git/lancet/v2/fileutil"
 
 	"github.com/gookit/color"
 	"github.com/iancoleman/strcase"

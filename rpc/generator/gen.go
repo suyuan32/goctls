@@ -3,10 +3,11 @@ package generator
 import (
 	"errors"
 	"fmt"
-	"github.com/duke-git/lancet/v2/fileutil"
-	new2 "github.com/suyuan32/goctls/api/new"
 	"path/filepath"
 	"strings"
+
+	"github.com/duke-git/lancet/v2/fileutil"
+	new2 "github.com/suyuan32/goctls/api/new"
 
 	"github.com/gookit/color"
 
