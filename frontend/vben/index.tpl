@@ -56,6 +56,8 @@
   import { columns, searchFormSchema } from './{{.modelNameLowerCamel}}.data';
   import { get{{.modelName}}List, delete{{.modelName}} } from '@/api/{{.folderName}}/{{.modelNameLowerCamel}}';
 
+  defineOptions({ name: '{{.modelName}}Management' });
+
   const { t } = useI18n();
   const selectedIds = ref<number[] | string[]>();
   const showDeleteButton = ref<boolean>(false);
