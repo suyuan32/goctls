@@ -32,8 +32,8 @@ import (
 func genLocale(g *GenContext) error {
 	var localeEnData, localeZhData strings.Builder
 	var enLocaleFileName, zhLocaleFileName string
-	enLocaleFileName = filepath.Join(g.LocaleDir, "en", fmt.Sprintf("%s.ts", strings.ToLower(g.FolderName)))
-	zhLocaleFileName = filepath.Join(g.LocaleDir, "zh-CN", fmt.Sprintf("%s.ts", strings.ToLower(g.FolderName)))
+	enLocaleFileName = filepath.Join(g.LocaleDir, "en", fmt.Sprintf("%s.ts", g.FolderName))
+	zhLocaleFileName = filepath.Join(g.LocaleDir, "zh-CN", fmt.Sprintf("%s.ts", g.FolderName))
 
 	for _, v := range g.ApiSpec.Types {
 		if v.Name() == fmt.Sprintf("%sInfo", g.ModelName) {
