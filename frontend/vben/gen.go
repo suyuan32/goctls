@@ -46,23 +46,29 @@ var (
 	VarBoolOverwrite bool
 	// VarStringFormType describes the form type
 	VarStringFormType string
+	// VarStringModelChineseName describes the Chinese name of model
+	VarStringModelChineseName string
+	// VarStringModelEnglishName describes the English name of model
+	VarStringModelEnglishName string
 )
 
 type GenContext struct {
-	ApiDir        string
-	ModelDir      string
-	ViewDir       string
-	Prefix        string
-	ModelName     string
-	LocaleDir     string
-	FolderName    string
-	SubFolderName string
-	ApiSpec       *spec.ApiSpec
-	UseUUID       bool
-	HasStatus     bool
-	HasState      bool
-	FormType      string
-	Overwrite     bool
+	ApiDir           string
+	ModelDir         string
+	ViewDir          string
+	Prefix           string
+	ModelName        string
+	LocaleDir        string
+	FolderName       string
+	SubFolderName    string
+	ApiSpec          *spec.ApiSpec
+	UseUUID          bool
+	HasStatus        bool
+	HasState         bool
+	FormType         string
+	Overwrite        bool
+	ModelChineseName string
+	ModelEnglishName string
 }
 
 func (g GenContext) Validate() error {
@@ -114,16 +120,18 @@ func GenCRUDLogic(_ *cobra.Command, _ []string) error {
 	}
 
 	genCtx := &GenContext{
-		ApiDir:     apiOutputDir,
-		ModelDir:   modelOutputDir,
-		ViewDir:    viewOutputDir,
-		Prefix:     VarStringApiPrefix,
-		ModelName:  modelName,
-		ApiSpec:    apiFile,
-		LocaleDir:  localeDir,
-		FolderName: VarStringFolderName,
-		Overwrite:  VarBoolOverwrite,
-		FormType:   VarStringFormType,
+		ApiDir:           apiOutputDir,
+		ModelDir:         modelOutputDir,
+		ViewDir:          viewOutputDir,
+		Prefix:           VarStringApiPrefix,
+		ModelName:        modelName,
+		ApiSpec:          apiFile,
+		LocaleDir:        localeDir,
+		FolderName:       VarStringFolderName,
+		Overwrite:        VarBoolOverwrite,
+		FormType:         VarStringFormType,
+		ModelChineseName: VarStringModelChineseName,
+		ModelEnglishName: VarStringModelEnglishName,
 	}
 
 	err = genCtx.Validate()

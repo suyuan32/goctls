@@ -35,6 +35,16 @@ func genLocale(g *GenContext) error {
 	enLocaleFileName = filepath.Join(g.LocaleDir, "en", fmt.Sprintf("%s.ts", g.FolderName))
 	zhLocaleFileName = filepath.Join(g.LocaleDir, "zh-CN", fmt.Sprintf("%s.ts", g.FolderName))
 
+	modelChineseName, modelEnglishName := g.ModelName, g.ModelName
+
+	if g.ModelChineseName != "" {
+		modelChineseName = g.ModelChineseName
+	}
+
+	if g.ModelEnglishName != "" {
+		modelEnglishName = g.ModelEnglishName
+	}
+
 	for _, v := range g.ApiSpec.Types {
 		if v.Name() == fmt.Sprintf("%sInfo", g.ModelName) {
 			specData, ok := v.(spec.DefineStruct)
@@ -55,14 +65,14 @@ func genLocale(g *GenContext) error {
 				}
 			}
 
-			localeEnData.WriteString(fmt.Sprintf("    add%s: 'Add %s',\n", g.ModelName, g.ModelName))
-			localeEnData.WriteString(fmt.Sprintf("    edit%s: 'Edit %s',\n", g.ModelName, g.ModelName))
-			localeEnData.WriteString(fmt.Sprintf("    %sList: '%s List',\n", strcase.ToLowerCamel(g.ModelName), g.ModelName))
+			localeEnData.WriteString(fmt.Sprintf("    add%s: 'Add %s',\n", g.ModelName, modelEnglishName))
+			localeEnData.WriteString(fmt.Sprintf("    edit%s: 'Edit %s',\n", g.ModelName, modelEnglishName))
+			localeEnData.WriteString(fmt.Sprintf("    %sList: '%s List',\n", strcase.ToLowerCamel(g.ModelName), modelEnglishName))
 			localeEnData.WriteString("  },\n")
 
-			localeZhData.WriteString(fmt.Sprintf("    add%s: '添加 %s',\n", g.ModelName, g.ModelName))
-			localeZhData.WriteString(fmt.Sprintf("    edit%s: '编辑 %s',\n", g.ModelName, g.ModelName))
-			localeZhData.WriteString(fmt.Sprintf("    %sList: '%s 列表',\n", strcase.ToLowerCamel(g.ModelName), g.ModelName))
+			localeZhData.WriteString(fmt.Sprintf("    add%s: '添加 %s',\n", g.ModelName, modelChineseName))
+			localeZhData.WriteString(fmt.Sprintf("    edit%s: '编辑 %s',\n", g.ModelName, modelChineseName))
+			localeZhData.WriteString(fmt.Sprintf("    %sList: '%s 列表',\n", strcase.ToLowerCamel(g.ModelName), modelChineseName))
 			localeZhData.WriteString("  },\n")
 		}
 	}

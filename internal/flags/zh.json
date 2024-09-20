@@ -406,7 +406,9 @@
         "prefix": "代理请求的前缀。例如，sys-api",
         "model_name": "模型名称。例如，Example",
         "overwrite": "是否覆盖文件，它将覆盖所有生成的文件",
-        "form_type": "表单容器类型, 默认为 drawer, 可选值为 drawer, modal"
+        "form_type": "表单容器类型, 默认为 drawer, 可选值为 drawer, modal",
+        "model_chinese_name": "模型的中文名称",
+        "model_english_name": "模型的英文名称"
       }
     },
     "info": {

@@ -37,6 +37,8 @@ func init() {
 	vbenCmdFlags.StringVarP(&vben.VarStringModelName, "model_name", "m")
 	vbenCmdFlags.StringVarPWithDefaultValue(&vben.VarStringFormType, "form_type", "t", "drawer")
 	vbenCmdFlags.BoolVarP(&vben.VarBoolOverwrite, "overwrite", "w")
+	vbenCmdFlags.StringVar(&vben.VarStringModelChineseName, "model_chinese_name")
+	vbenCmdFlags.StringVar(&vben.VarStringModelEnglishName, "model_english_name")
 
 	Cmd.AddCommand(VbenCmd)
 }
