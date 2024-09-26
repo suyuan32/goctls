@@ -54,7 +54,7 @@ func genModel(g *GenContext) error {
 						g.HasState = true
 					}
 
-					infoData.WriteString(fmt.Sprintf("  %s?: %s;\n", strcase.ToLowerCamel(val.Name),
+					infoData.WriteString(fmt.Sprintf("  %s?: %s;\n", GetJsonTagName(val.Tags()),
 						ConvertGoTypeToTsType(val.Type.Name())))
 				}
 			}

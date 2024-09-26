@@ -63,7 +63,7 @@ func genData(g *GenContext) error {
 					statusFormColumnData = fmt.Sprintf("\n  {\n    field: '%s',\n    label: t('%s'),\n    component: 'RadioButtonGroup',\n"+
 						"    defaultValue: 1,\n    componentProps: {\n      options: [\n        { label: t('common.on'), value: 1 },\n    "+
 						"    { label: t('common.off'), value: 2 },\n      ],\n    },\n  },",
-						strcase.ToLowerCamel(val.Name),
+						GetJsonTagName(val.Tags()),
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
 							strcase.ToLowerCamel(val.Name)),
@@ -79,7 +79,7 @@ func genData(g *GenContext) error {
 					stateFormColumnData = fmt.Sprintf("\n  {\n    field: '%s',\n    label: t('%s'),\n    component: 'RadioButtonGroup',\n"+
 						"    defaultValue: true,\n    componentProps: {\n      options: [\n        { label: t('common.on'), value: true },\n    "+
 						"    { label: t('common.off'), value: false },\n      ],\n    },\n  },",
-						strcase.ToLowerCamel(val.Name),
+						GetJsonTagName(val.Tags()),
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
 							strcase.ToLowerCamel(val.Name)),
@@ -88,10 +88,10 @@ func genData(g *GenContext) error {
 					basicData.WriteString(fmt.Sprintf("\n  {\n    title: t('%s'),\n    dataIndex: '%s',\n    width: 100,\n  },",
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
-							strcase.ToLowerCamel(val.Name)), strcase.ToLowerCamel(val.Name)))
+							strcase.ToLowerCamel(val.Name)), GetJsonTagName(val.Tags())))
 
 					formData.WriteString(fmt.Sprintf("\n  {\n    field: '%s',\n    label: t('%s'),\n    %s\n    required: true,\n%s  },",
-						strcase.ToLowerCamel(val.Name),
+						GetJsonTagName(val.Tags()),
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
 							strcase.ToLowerCamel(val.Name)),

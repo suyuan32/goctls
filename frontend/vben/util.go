@@ -15,7 +15,11 @@
 
 package vben
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/suyuan32/goctls/api/spec"
+)
 
 func ConvertGoTypeToTsType(goType string) string {
 	switch goType {
@@ -53,4 +57,13 @@ func FindBeginEndOfLocaleField(data, target string) (int, int) {
 	}
 
 	return begin, end
+}
+
+func GetJsonTagName(tags []*spec.Tag) string {
+	for _, tag := range tags {
+		if tag.Key == "json" {
+			return tag.Name
+		}
+	}
+	return ""
 }
