@@ -16,6 +16,7 @@ Log:
   Path: /home/data/logs/{{.serviceName}}/api
   Level: info
   Compress: false
+  Encoding: json
   KeepDays: 7
   StackCoolDownMillis: 100
 
