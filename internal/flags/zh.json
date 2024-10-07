@@ -260,7 +260,7 @@
         "short": "生成初始化代码",
         "target": "目标类型，现在支持 core , other",
         "model_name": "模型名称，应该是驼峰式的，例如：StudentInfo",
-        "output": "输出路径, 项目根目录",
+        "output": "输出路径, 项目根目录, 若为 console 输出到控制台",
         "service_name": "服务名称，如 Core",
         "style": "{{.global.style}}",
         "route_prefix": "路由地址前缀"

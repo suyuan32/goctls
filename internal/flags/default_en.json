@@ -258,7 +258,7 @@
         "short": "Generating initialize code",
         "target": "The target type, now support core and other",
         "model_name": "The model name, it should be camelcase, such as StudentInfo",
-        "output": "The output path, the project's root directory ",
+        "output": "The output path, the project's root directory. Input \"console\" to print into console window ",
         "service_name": "Service name，such as \"Core\"",
         "style": "{{.global.style}}",
         "route_prefix": "The prefix of the route path"

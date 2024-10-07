@@ -56,7 +56,7 @@ func OtherGen(g *CoreGenContext) error {
 		return err
 	}
 
-	if g.Target == "console" {
+	if g.Output == "console" {
 		console.Info(otherString.String())
 	} else {
 		absPath, err := filepath.Abs(g.Output)
