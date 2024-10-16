@@ -259,8 +259,14 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 						parser.CamelCase(v.Name)))
 				}
 			} else {
-				setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(req.%s).\n", parser.CamelCase(v.Name),
-					parser.CamelCase(v.Name)))
+				if entx.IsUUIDType(v.Info.Type.String()) {
+					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(uuidx.ParseUUIDStringToPointer(req.%s)).\n", parser.CamelCase(v.Name),
+						parser.CamelCase(v.Name)))
+					hasUUID = true
+				} else {
+					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(req.%s).\n", parser.CamelCase(v.Name),
+						parser.CamelCase(v.Name)))
+				}
 			}
 		}
 	}
