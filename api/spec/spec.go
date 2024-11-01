@@ -105,6 +105,13 @@ type (
 		Docs    Doc
 	}
 
+	// NestedStruct describes a structure nested in structure.
+	NestedStruct struct {
+		RawName string
+		Members []Member
+		Docs    Doc
+	}
+
 	// PrimitiveType describes the basic golang type, such as bool,int32,int64, ...
 	PrimitiveType struct {
 		RawName string
@@ -119,7 +126,7 @@ type (
 		// PointerType: *string、*User、
 		// MapType: map[${PrimitiveType}]interface、
 		// ArrayType:[]int、[]User、[]*User
-		// InterfaceType: any
+		// InterfaceType: interface{}
 		// Type
 		Value Type
 	}
