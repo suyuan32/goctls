@@ -17,17 +17,20 @@ package frontend
 
 import (
 	"github.com/suyuan32/goctls/frontend/vben"
+	"github.com/suyuan32/goctls/frontend/vben5"
 	"github.com/suyuan32/goctls/internal/cobrax"
 )
 
 var (
 	// Cmd describes an api command.
-	Cmd     = cobrax.NewCommand("frontend")
-	VbenCmd = cobrax.NewCommand("vben", cobrax.WithRunE(vben.GenCRUDLogic))
+	Cmd      = cobrax.NewCommand("frontend")
+	VbenCmd  = cobrax.NewCommand("vben", cobrax.WithRunE(vben.GenCRUDLogic))
+	Vben5Cmd = cobrax.NewCommand("vben5", cobrax.WithRunE(vben5.GenCRUDLogic))
 )
 
 func init() {
 	vbenCmdFlags := VbenCmd.Flags()
+	vben5CmdFlags := Vben5Cmd.Flags()
 
 	vbenCmdFlags.StringVarPWithDefaultValue(&vben.VarStringOutput, "output", "o", "./")
 	vbenCmdFlags.StringVarP(&vben.VarStringApiFile, "api_file", "a")
@@ -40,5 +43,17 @@ func init() {
 	vbenCmdFlags.StringVar(&vben.VarStringModelChineseName, "model_chinese_name")
 	vbenCmdFlags.StringVar(&vben.VarStringModelEnglishName, "model_english_name")
 
+	vben5CmdFlags.StringVarPWithDefaultValue(&vben5.VarStringOutput, "output", "o", "./")
+	vben5CmdFlags.StringVarP(&vben5.VarStringApiFile, "api_file", "a")
+	vben5CmdFlags.StringVarPWithDefaultValue(&vben5.VarStringFolderName, "folder_name", "f", "sys")
+	vben5CmdFlags.StringVarP(&vben5.VarStringSubFolder, "sub_folder", "s")
+	vben5CmdFlags.StringVarPWithDefaultValue(&vben5.VarStringApiPrefix, "prefix", "p", "sys-api")
+	vben5CmdFlags.StringVarP(&vben5.VarStringModelName, "model_name", "m")
+	vben5CmdFlags.StringVarPWithDefaultValue(&vben5.VarStringFormType, "form_type", "t", "drawer")
+	vben5CmdFlags.BoolVarP(&vben5.VarBoolOverwrite, "overwrite", "w")
+	vben5CmdFlags.StringVar(&vben5.VarStringModelChineseName, "model_chinese_name")
+	vben5CmdFlags.StringVar(&vben5.VarStringModelEnglishName, "model_english_name")
+
 	Cmd.AddCommand(VbenCmd)
+	Cmd.AddCommand(Vben5Cmd)
 }

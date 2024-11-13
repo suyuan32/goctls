@@ -409,6 +409,19 @@
         "form_type": "表单容器类型, 默认为 drawer, 可选值为 drawer, modal",
         "model_chinese_name": "模型的中文名称",
         "model_english_name": "模型的英文名称"
+      },
+      "vben5": {
+        "short": "生成与前端相关的文件 (Vben5)",
+        "output": "输出目录，应该是Simple Admin Backend UI 的根目录",
+        "api_file": "API 文件的绝对路径",
+        "folder_name": "在不同目录中生成文件的文件夹名称。例如，存储文件管理器服务文件的简单管理后台 UI 中的文件夹名称",
+        "sub_folder": "子目录名称。例如，src/views/sys 子目录用户，路径为 src/views/sys/user",
+        "prefix": "代理请求的前缀。例如，sys-api",
+        "model_name": "模型名称。例如，Example",
+        "overwrite": "是否覆盖文件，它将覆盖所有生成的文件",
+        "form_type": "表单容器类型, 默认为 drawer, 可选值为 drawer, modal",
+        "model_chinese_name": "模型的中文名称",
+        "model_english_name": "模型的英文名称"
       }
     },
     "info": {
