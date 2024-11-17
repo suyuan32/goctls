@@ -13,13 +13,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package vben
+package vben5
 
 import (
 	"fmt"
 	"path/filepath"
 
 	"github.com/iancoleman/strcase"
+
 	"github.com/suyuan32/goctls/util"
 )
 
@@ -32,9 +33,7 @@ func genModalIndex(g *GenContext) error {
 		"modelName":           g.ModelName,
 		"modelNameLowerCamel": strcase.ToLowerCamel(g.ModelName),
 		"folderName":          g.FolderName,
-		"addButtonTitle":      fmt.Sprintf("{{ t('%s.%s.add%s') }}", g.FolderName, strcase.ToLowerCamel(g.ModelName), g.ModelName),
-		"deleteButtonTitle":   "{{ t('common.delete') }}",
-		"useUUID":             g.UseUUID,
+		"addButtonTitle":      fmt.Sprintf("{{ $t('%s.%s.add%s') }}", g.FolderName, strcase.ToLowerCamel(g.ModelName), g.ModelName),
 	},
 		filepath.Join(g.ViewDir, "index.vue"), g.Overwrite); err != nil {
 		return err

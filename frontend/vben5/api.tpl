@@ -1,6 +1,6 @@
-import { type BaseDataResp, type BaseListReq, type BaseResp, type Base{{if .useUUID}}UU{{end}}IDsReq, Base{{if .useUUID}}UU{{end}}IDReq } from '#/api/model/baseModel';
+import { type BaseDataResp, type BaseListReq, type BaseResp, type Base{{if .useUUID}}UU{{end}}IDsReq, type Base{{if .useUUID}}UU{{end}}IDReq } from '#/api/model/baseModel';
 import { requestClient } from '#/api/request';
-import { {{.modelName}}Info, {{.modelName}}ListResp } from './model/{{.modelNameLowerCamel}}Model';
+import { type {{.modelName}}Info, type {{.modelName}}ListResp } from './model/{{.modelNameLowerCamel}}Model';
 
 enum Api {
   Create{{.modelName}} = '/{{.prefix}}/{{.modelNameSnake}}/create',
@@ -36,7 +36,7 @@ export const update{{.modelName}} = (params: {{.modelName}}Info) => {
  *  @description: Delete {{.modelNameSpace}}s
  */
 export const delete{{.modelName}} = (params: Base{{if .useUUID}}UU{{end}}IDsReq) => {
-  return requestClient.post<BaseResp>(Api.Delete{{.modelName}}, params: params);
+  return requestClient.post<BaseResp>(Api.Delete{{.modelName}}, params);
 };
 
 /**

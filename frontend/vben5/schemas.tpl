@@ -9,10 +9,14 @@ import { z } from '#/adapter/form';
 
 {{if .hasStatus}}
     import { message, Switch } from 'ant-design-vue';
-    import { update{{.modelName}} } from '#/api/sys/{{.modelNameLowerCamel}}';{{end}}
+    import { update{{.modelName}} } from '#/api/{{.folderName}}/{{.modelNameLowerCamel}}';{{end}}
 
 export const tableColumns: VxeGridProps = {
   columns: [
+    {
+      type: 'checkbox',
+      width: 60,
+    },
 {{.basicData}}
 {{if .useBaseInfo}}
     {

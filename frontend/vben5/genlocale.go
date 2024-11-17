@@ -68,12 +68,12 @@ func genLocale(g *GenContext) error {
 			localeEnData.WriteString(fmt.Sprintf("    \"add%s\": \"Add %s\",\n", g.ModelName, modelEnglishName))
 			localeEnData.WriteString(fmt.Sprintf("    \"edit%s\": \"Edit %s\",\n", g.ModelName, modelEnglishName))
 			localeEnData.WriteString(fmt.Sprintf("    \"%sList\": \"%s List\",\n", strcase.ToLowerCamel(g.ModelName), modelEnglishName))
-			localeEnData.WriteString("  },\n")
+			localeEnData.WriteString("  }")
 
 			localeZhData.WriteString(fmt.Sprintf("    \"add%s\": \"添加 %s\",\n", g.ModelName, modelChineseName))
 			localeZhData.WriteString(fmt.Sprintf("    \"edit%s\": \"编辑 %s\",\n", g.ModelName, modelChineseName))
-			localeZhData.WriteString(fmt.Sprintf("    \"%sList\": \"%s 列表\",\n", strcase.ToLowerCamel(g.ModelName), modelChineseName))
-			localeZhData.WriteString("  },\n")
+			localeZhData.WriteString(fmt.Sprintf("    \"%sList\": \"%s 列表\"\n", strcase.ToLowerCamel(g.ModelName), modelChineseName))
+			localeZhData.WriteString("  }")
 		}
 	}
 
@@ -92,11 +92,11 @@ func genLocale(g *GenContext) error {
 
 		data := string(file)
 
-		if !strings.Contains(data, strings.ToLower(g.ModelName)+":") {
-			data = data[:len(data)-3] + localeEnData.String() + data[len(data)-3:]
+		if !strings.Contains(data, fmt.Sprintf("\"%s\":", strings.ToLower(g.ModelName))) && strings.Contains(data, ":") {
+			data = data[:len(data)-2] + "," + localeEnData.String() + data[len(data)-2:]
 		} else if g.Overwrite {
 			begin, end := FindBeginEndOfLocaleField(data, strings.ToLower(g.ModelName))
-			data = data[:begin-2] + localeEnData.String() + data[end+1:]
+			data = data[:begin-2] + "," + localeEnData.String() + data[end+1:]
 		}
 
 		err = os.WriteFile(enLocaleFileName, []byte(data), os.ModePerm)
@@ -120,10 +120,10 @@ func genLocale(g *GenContext) error {
 
 		data := string(file)
 
-		if !strings.Contains(data, strings.ToLower(g.ModelName)+":") {
-			data = data[:len(data)-3] + localeZhData.String() + data[len(data)-3:]
+		if !strings.Contains(data, fmt.Sprintf("\"%s\":", strcase.ToLowerCamel(g.ModelName))) && strings.Contains(data, ":") {
+			data = data[:len(data)-3] + ",\n" + localeZhData.String() + data[len(data)-3:]
 		} else if g.Overwrite {
-			begin, end := FindBeginEndOfLocaleField(data, strings.ToLower(g.ModelName))
+			begin, end := FindBeginEndOfLocaleField(data, fmt.Sprintf("\"%s\"", strcase.ToLowerCamel(g.ModelName)))
 			data = data[:begin-2] + localeZhData.String() + data[end+1:]
 		}
 

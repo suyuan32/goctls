@@ -51,7 +51,7 @@ func FindBeginEndOfLocaleField(data, target string) (int, int) {
 
 	for i := begin; i < len(data); i++ {
 		if data[i] == '}' {
-			end = i + 2
+			end = i
 			break
 		}
 	}

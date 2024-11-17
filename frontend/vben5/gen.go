@@ -119,6 +119,8 @@ func GenCRUDLogic(_ *cobra.Command, _ []string) error {
 		modelName = strcase.ToCamel(strings.TrimSuffix(filepath.Base(VarStringApiFile), ".api"))
 	}
 
+	VarStringFormType = "modal"
+
 	genCtx := &GenContext{
 		ApiDir:           apiOutputDir,
 		ModelDir:         modelOutputDir,
@@ -156,11 +158,11 @@ func GenCRUDLogic(_ *cobra.Command, _ []string) error {
 		return err
 	}
 
-	if err := genDrawer(genCtx); err != nil {
+	if err := genModalIndex(genCtx); err != nil {
 		return err
 	}
 
-	if err := genModalIndex(genCtx); err != nil {
+	if err := genForm(genCtx); err != nil {
 		return err
 	}
 

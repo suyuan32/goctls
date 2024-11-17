@@ -29,9 +29,6 @@ var (
 	//go:embed schemas.tpl
 	dataTpl string
 
-	//go:embed drawer.tpl
-	drawerTpl string
-
 	//go:embed index.tpl
 	indexTpl string
 
@@ -46,4 +43,7 @@ var (
 
 	//go:embed modal_index.tpl
 	modalIndexTpl string
+
+	//go:embed form.tpl
+	formTpl string
 )

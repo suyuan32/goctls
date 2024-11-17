@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-  import type { {{.modelName}}Info } from '#/api/sys/model/{{.modelNameLowerCamel}}Model';
+  import type { {{.modelName}}Info } from '#/api/{{.folderName}}/model/{{.modelNameLowerCamel}}Model';
 
   import { h, ref } from 'vue';
 
@@ -11,7 +11,7 @@
   import { isPlainObject } from 'remeda';
 
   import { useVbenVxeGrid } from '#/adapter/vxe-table';
-  import { delete{{.modelName}}, get{{.modelName}}List } from '#/api/sys/{{.modelNameLowerCamel}}';
+  import { delete{{.modelName}}, get{{.modelName}}List } from '#/api/{{.folderName}}/{{.modelNameLowerCamel}}';
   import { type ActionItem, TableAction } from '#/components/table/table-action';
 
   import {{.modelName}}Form from './form.vue';
@@ -160,13 +160,13 @@
                 type="primary"
                 @click="handleBatchDelete"
         >
-          {{ $t('common.delete') }}
+          {{`{{ $t('common.delete') }}`}}
         </Button>
       </template>
 
       <template #toolbar-tools>
         <Button type="primary" @click="openFormModal">
-          {{ $t('sys.{{.modelNameLowerCamel}}.add{{.modelName}}') }}
+          {{`{{ $t('sys.{{.modelNameLowerCamel}}.add{{.modelName}}') }}`}}
         </Button>
       </template>
     </Grid>

@@ -60,9 +60,9 @@ func genData(g *GenContext) error {
 					})
 					statusBasicColumnData = statusRenderData.String()
 
-					statusFormColumnData = fmt.Sprintf("\n  {\n    field: '%s',\n    label: t('%s'),\n    component: 'RadioButtonGroup',\n"+
-						"    defaultValue: 1,\n    componentProps: {\n      options: [\n        { label: t('common.on'), value: 1 },\n    "+
-						"    { label: t('common.off'), value: 2 },\n      ],\n    },\n  },",
+					statusFormColumnData = fmt.Sprintf("\n  {\n    fieldName: '%s',\n    label: $t('%s'),\n    component: 'RadioButtonGroup',\n"+
+						"    defaultValue: 1,\n    componentProps: {\n      options: [\n        { label: $t('common.on'), value: 1 },\n    "+
+						"    { label: $t('common.off'), value: 2 },\n      ],\n    },\n  },",
 						GetJsonTagName(val.Tags()),
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
@@ -76,27 +76,27 @@ func genData(g *GenContext) error {
 					})
 					stateBasicColumnData = stateRenderData.String()
 
-					stateFormColumnData = fmt.Sprintf("\n  {\n    field: '%s',\n    label: t('%s'),\n    component: 'RadioButtonGroup',\n"+
-						"    defaultValue: true,\n    componentProps: {\n      options: [\n        { label: t('common.on'), value: true },\n    "+
-						"    { label: t('common.off'), value: false },\n      ],\n    },\n  },",
+					stateFormColumnData = fmt.Sprintf("\n  {\n    fieldName: '%s',\n    label: $t('%s'),\n    component: 'RadioButtonGroup',\n"+
+						"    defaultValue: true,\n    componentProps: {\n      options: [\n        { label: $t('common.on'), value: true },\n    "+
+						"    { label: $t('common.off'), value: false },\n      ],\n    },\n  },",
 						GetJsonTagName(val.Tags()),
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
 							strcase.ToLowerCamel(val.Name)),
 					)
 				} else {
-					basicData.WriteString(fmt.Sprintf("\n  {\n    title: t('%s'),\n    dataIndex: '%s',\n    width: 100,\n  },",
+					basicData.WriteString(fmt.Sprintf("\n  {\n    title: $t('%s'),\n    field: '%s',\n  },",
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
 							strcase.ToLowerCamel(val.Name)), GetJsonTagName(val.Tags())))
 
-					formData.WriteString(fmt.Sprintf("\n  {\n    field: '%s',\n    label: t('%s'),\n    %s\n    required: true,\n%s  },",
+					formData.WriteString(fmt.Sprintf("\n  {\n    fieldName: '%s',\n    label: $t('%s'),\n    %s\n%s  },",
 						GetJsonTagName(val.Tags()),
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "Info")),
 							strcase.ToLowerCamel(val.Name)),
 						getComponent(val.Type.Name()),
-						GetRules(val),
+						GetRules(val, false),
 					))
 				}
 			}
@@ -122,11 +122,11 @@ func genData(g *GenContext) error {
 
 			for _, val := range specData.Members {
 				if val.Name != "" {
-					searchFormData.WriteString(fmt.Sprintf("\n  {\n    field: '%s',\n    label: t('%s'),\n    component: 'Input',\n    colProps: { span: 8 },\n%s  },",
+					searchFormData.WriteString(fmt.Sprintf("\n  {\n    fieldName: '%s',\n    label: $t('%s'),\n    component: 'Input',\n   %s  },",
 						strcase.ToLowerCamel(val.Name),
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "ListReq")),
-							strcase.ToLowerCamel(val.Name)), GetRules(val),
+							strcase.ToLowerCamel(val.Name)), GetRules(val, true),
 					))
 				}
 			}
@@ -144,7 +144,7 @@ func genData(g *GenContext) error {
 		"useUUID":             g.UseUUID,
 		"hasStatus":           g.HasStatus || g.HasState,
 	},
-		filepath.Join(g.ViewDir, fmt.Sprintf("schemas.ts", strcase.ToLowerCamel(g.ModelName))), g.Overwrite); err != nil {
+		filepath.Join(g.ViewDir, "schemas.ts"), g.Overwrite); err != nil {
 		return err
 	}
 	return nil
@@ -158,14 +158,14 @@ func getComponent(dataType string) string {
 		"*int", "*uint", "*int8", "*uint8", "*int16", "*uint16", "*int32", "*int64", "*uint32", "*uint64", "*float32", "*float64":
 		return "component: 'InputNumber',"
 	case "bool", "*bool":
-		return "component: 'RadioButtonGroup',\n    defaultValue: true,\n    componentProps: {\n      options: [\n        { label: t('common.on'), value: true },\n        { label: t('common.off'), value: false },\n      ],\n    },"
+		return "component: 'RadioButtonGroup',\n    defaultValue: true,\n    componentProps: {\n      options: [\n        { label: $t('common.on'), value: true },\n        { label: $t('common.off'), value: false },\n      ],\n    },"
 	default:
 		return "component: 'Input',"
 	}
 }
 
 // GetRules returns the rules from tag.
-func GetRules(t spec.Member) string {
+func GetRules(t spec.Member, optional bool) string {
 	validatorString := util2.ExtractValidateString(t.Tag)
 	if validatorString == "" {
 		return ""
@@ -176,13 +176,18 @@ func GetRules(t spec.Member) string {
 		return ""
 	}
 
+	optionalStr := ""
+	if optional {
+		optionalStr = ".optional()"
+	}
+
 	switch GetRuleType(t.Type.Name()) {
 	case "string":
-		return fmt.Sprintf("    rules: [{ %s }],\n", strings.Join(rules, ", "))
+		return fmt.Sprintf("    rules: z.string()%s%s,\n", rules, optionalStr)
 	case "number":
-		return fmt.Sprintf("    rules: [{ type: 'number', %s }],\n", strings.Join(rules, ", "))
+		return fmt.Sprintf("    rules: z.number()%s%s,\n", rules, optionalStr)
 	case "float":
-		return fmt.Sprintf("    rules: [{ type: 'float', %s }],\n", strings.Join(rules, ", "))
+		return fmt.Sprintf("    rules: z.number()%s%s,\n", rules, optionalStr)
 	default:
 		return ""
 	}
@@ -204,18 +209,24 @@ func GetRuleType(t string) string {
 }
 
 // ConvertTagToRules converts validator tag to rules.
-func ConvertTagToRules(tagString string) ([]string, error) {
-	var result []string
+func ConvertTagToRules(tagString string) (string, error) {
 	vals := strings.Split(tagString, ",")
+	resultStr := strings.Builder{}
 	for _, v := range vals {
 		if strings.Contains(v, "min") || strings.Contains(v, "max") {
-			result = append(result, strings.Replace(v, "=", ": ", -1))
+			tmp := strings.Split(v, "=")
+			if len(tmp) == 2 {
+				resultStr.WriteString(fmt.Sprintf(".%s(%s)", strings.ToLower(tmp[0]),
+					strings.ToLower(tmp[1])))
+			}
 		}
 
 		if strings.Contains(v, "len") {
-			tagSplit := strings.Split(v, "=")
-			_, tagNum := tagSplit[0], tagSplit[1]
-			result = append(result, fmt.Sprintf("len: %s", tagNum))
+			tmp := strings.Split(v, "=")
+			if len(tmp) == 2 {
+				resultStr.WriteString(fmt.Sprintf(".length(%s)",
+					strings.ToLower(tmp[1])))
+			}
 		}
 
 		if strings.Contains(v, "gt") || strings.Contains(v, "gte") ||
@@ -226,38 +237,38 @@ func ConvertTagToRules(tagString string) ([]string, error) {
 				bitSize := len(tagNum) - strings.Index(tagNum, ".") - 1
 				n, err := strconv.ParseFloat(tagNum, bitSize)
 				if err != nil {
-					return nil, errors.New("failed to convert the number in validate tag")
+					return "", errors.New("failed to convert the number in validate tag")
 				}
 
 				switch tag {
 				case "gte":
-					result = append(result, fmt.Sprintf("min: %.*f", bitSize, n))
+					resultStr.WriteString(fmt.Sprintf(".min(%.*f)", bitSize, n))
 				case "gt":
-					result = append(result, fmt.Sprintf("min: %.*f", bitSize, n+1/math.Pow(10, float64(bitSize))))
+					resultStr.WriteString(fmt.Sprintf(".min(%.*f)", bitSize, n+1/math.Pow(10, float64(bitSize))))
 				case "lte":
-					result = append(result, fmt.Sprintf("max: %.*f", bitSize, n))
+					resultStr.WriteString(fmt.Sprintf(".max(%.*f)", bitSize, n))
 				case "lt":
-					result = append(result, fmt.Sprintf("max: %.*f", bitSize, n-1/math.Pow(10, float64(bitSize))))
+					resultStr.WriteString(fmt.Sprintf(".max(%.*f)", bitSize, n-1/math.Pow(10, float64(bitSize))))
 				}
 			} else {
 				n, err := strconv.Atoi(tagNum)
 				if err != nil {
-					return nil, errors.New("failed to convert the number in validate tag")
+					return "", errors.New("failed to convert the number in validate tag")
 				}
 
 				switch tag {
 				case "gte":
-					result = append(result, fmt.Sprintf("min: %d", n))
+					resultStr.WriteString(fmt.Sprintf(".min(%d)", n))
 				case "gt":
-					result = append(result, fmt.Sprintf("min: %d", n))
+					resultStr.WriteString(fmt.Sprintf(".min(%d)", n))
 				case "lte":
-					result = append(result, fmt.Sprintf("max: %d", n))
+					resultStr.WriteString(fmt.Sprintf(".max(%d)", n))
 				case "lt":
-					result = append(result, fmt.Sprintf("max: %d", n))
+					resultStr.WriteString(fmt.Sprintf(".max(%d)", n))
 				}
 			}
 
 		}
 	}
-	return result, nil
+	return resultStr.String(), nil
 }
