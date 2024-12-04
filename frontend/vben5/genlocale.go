@@ -67,7 +67,7 @@ func genLocale(g *GenContext) error {
 
 			localeEnData.WriteString(fmt.Sprintf("    \"add%s\": \"Add %s\",\n", g.ModelName, modelEnglishName))
 			localeEnData.WriteString(fmt.Sprintf("    \"edit%s\": \"Edit %s\",\n", g.ModelName, modelEnglishName))
-			localeEnData.WriteString(fmt.Sprintf("    \"%sList\": \"%s List\",\n", strcase.ToLowerCamel(g.ModelName), modelEnglishName))
+			localeEnData.WriteString(fmt.Sprintf("    \"%sList\": \"%s List\"\n", strcase.ToLowerCamel(g.ModelName), modelEnglishName))
 			localeEnData.WriteString("  }")
 
 			localeZhData.WriteString(fmt.Sprintf("    \"add%s\": \"添加 %s\",\n", g.ModelName, modelChineseName))
