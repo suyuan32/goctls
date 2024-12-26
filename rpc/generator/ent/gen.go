@@ -578,11 +578,11 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 					formatedString, index, endString))
 			}
 
-			if i == (len(schema.Fields) - 1) {
-				protoMessage.WriteString("\n}\n\n")
-			}
-
 			index++
+		}
+
+		if i == (len(schema.Fields) - 1) {
+			protoMessage.WriteString("\n}\n\n")
 		}
 	}
 
