@@ -250,6 +250,9 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 
 	setLogic := strings.Builder{}
 	for _, v := range schema.Fields {
+
+		camelName := parser.CamelCase(v.Name)
+
 		if entx.IsBaseProperty(v.Name) {
 			if v.Name == "id" && entx.IsUUIDType(v.Info.Type.String()) {
 				g.UseUUID = true
@@ -265,48 +268,40 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 			continue
 		} else if entx.IsOnlyEntType(v.Info.Type.String()) {
 			singleSets = append(singleSets, fmt.Sprintf("\tif in.%s != nil {\n\t\tquery.SetNotNil%s(pointy.GetPointer(%s(*in.%s)))\n\t}\n",
-				parser.CamelCase(v.Name),
-				parser.CamelCase(v.Name),
+				camelName,
+				camelName,
 				v.Info.Type.String(),
-				parser.CamelCase(v.Name)),
+				camelName),
 			)
 			hasSingle = true
 		} else {
 			if entx.IsTimeProperty(v.Info.Type.String()) {
 				hasTime = true
-				setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(pointy.GetTimeMilliPointer(in.%s)).\n", parser.CamelCase(v.Name),
-					parser.CamelCase(v.Name)))
-			} else if entx.IsUpperProperty(v.Name) {
+				setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(pointy.GetTimeMilliPointer(in.%s)).\n", camelName,
+					camelName))
+			} else {
+				entFieldName := camelName
+				if entx.IsUpperProperty(v.Name) {
+					entFieldName = entx.ConvertSpecificNounToUpper(v.Name)
+				}
+
 				if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
 					if v.Info.Type.String() == "[16]byte" {
-						setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(uuidx.ParseUUIDStringToPointer(in.%s)).\n", entx.ConvertSpecificNounToUpper(v.Name),
-							parser.CamelCase(v.Name)))
+						setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(uuidx.ParseUUIDStringToPointer(in.%s)).\n", entFieldName,
+							camelName))
 						hasUUID = true
 					} else {
 						singleSets = append(singleSets, fmt.Sprintf("\tif in.%s != nil {\n\t\tquery.SetNotNil%s(pointy.GetPointer(%s(*in.%s)))\n\t}\n",
-							parser.CamelCase(v.Name),
-							entx.ConvertSpecificNounToUpper(v.Name),
+							camelName,
+							entFieldName,
 							v.Info.Type.String(),
-							parser.CamelCase(v.Name)),
+							camelName),
 						)
 						hasSingle = true
 					}
 				} else {
-					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(in.%s).\n", entx.ConvertSpecificNounToUpper(v.Name),
-						parser.CamelCase(v.Name)))
-				}
-			} else {
-				if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
-					singleSets = append(singleSets, fmt.Sprintf("\tif in.%s != nil {\n\t\tquery.SetNotNil%s(pointy.GetPointer(%s(*in.%s)))\n\t}\n",
-						parser.CamelCase(v.Name),
-						parser.CamelCase(v.Name),
-						v.Info.Type.String(),
-						parser.CamelCase(v.Name)),
-					)
-					hasSingle = true
-				} else {
-					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(in.%s).\n", parser.CamelCase(v.Name),
-						parser.CamelCase(v.Name)))
+					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(in.%s).\n", entFieldName,
+						camelName))
 				}
 			}
 		}
@@ -395,11 +390,41 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 	predicateData.WriteString(fmt.Sprintf("\tvar predicates []predicate.%s\n", schema.Name))
 	count := 0
 	for _, v := range schema.Fields {
-		if v.Info.Type.String() == "string" && !strings.Contains(strings.ToLower(v.Name), "uuid") &&
-			count < g.SearchKeyNum && !entx.IsBaseProperty(v.Name) {
-			camelName := parser.CamelCase(v.Name)
+		if entx.IsBaseProperty(v.Name) || count >= g.SearchKeyNum {
+			continue
+		}
+
+		camelName := parser.CamelCase(v.Name)
+
+		entFieldName := camelName
+		if entx.IsUpperProperty(v.Name) {
+			entFieldName = entx.ConvertSpecificNounToUpper(v.Name)
+		}
+
+		if v.Info.Type.String() == "string" && !strings.Contains(strings.ToLower(v.Name), "uuid") {
 			predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sContains(*in.%s))\n\t}\n",
-				camelName, strings.ToLower(schema.Name), entx.ConvertSpecificNounToUpper(v.Name), camelName))
+				camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			count++
+		} else if entx.IsTimeProperty(v.Info.Type.String()) {
+			predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGT(time.UnixMilli(*in.%s)))\n\t}\n",
+				camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			count++
+		} else {
+			if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
+				if v.Info.Type.String() == "[16]byte" {
+					predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(uuidx.ParseUUIDString(*in.%s)))\n\t}\n",
+						camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+				} else {
+					predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(%s(*in.%s)))\n\t}\n",
+						camelName, strings.ToLower(schema.Name), entFieldName, v.Info.Type.String(), camelName))
+				}
+			} else if entx.IsOnlyEntType(v.Info.Type.String()) {
+				predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(%s(*in.%s)))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, v.Info.Type.String(), camelName))
+			} else {
+				predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(*in.%s))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			}
 			count++
 		}
 	}
@@ -412,7 +437,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		if entx.IsBaseProperty(v.Name) {
 			continue
 		} else {
-			nameCamelCase := parser.CamelCase(v.Name)
+			camelName := parser.CamelCase(v.Name)
 
 			if i < (len(schema.Fields) - 1) {
 				endString = "\n"
@@ -421,37 +446,32 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 			}
 
 			if entx.IsUUIDType(v.Info.Type.String()) {
-				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.String()),%s", nameCamelCase,
-					entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.String()),%s", camelName,
+					entx.ConvertSpecificNounToUpper(camelName), endString))
 			} else if entx.IsOnlyEntType(v.Info.Type.String()) {
-				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(%s(v.%s)),%s", nameCamelCase,
+				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(%s(v.%s)),%s", camelName,
 					entx.ConvertOnlyEntTypeToGoType(v.Info.Type.String()),
-					entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+					entx.ConvertSpecificNounToUpper(camelName), endString))
 			} else if entx.IsTimeProperty(v.Info.Type.String()) {
 				if v.Optional {
-					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetUnixMilliPointer(v.%s.UnixMilli()),%s", nameCamelCase,
-						entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetUnixMilliPointer(v.%s.UnixMilli()),%s", camelName,
+						entx.ConvertSpecificNounToUpper(camelName), endString))
 				} else {
-					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.UnixMilli()),%s", nameCamelCase,
-						entx.ConvertSpecificNounToUpper(nameCamelCase), endString))
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.UnixMilli()),%s", camelName,
+						entx.ConvertSpecificNounToUpper(camelName), endString))
 				}
 			} else {
+				entFieldName := camelName
 				if entx.IsUpperProperty(v.Name) {
-					if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
-						listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(%s(v.%s)),%s", nameCamelCase,
-							entx.ConvertEntTypeToGotype(v.Info.Type.String()), entx.ConvertSpecificNounToUpper(v.Name), endString))
-					} else {
-						listData.WriteString(fmt.Sprintf("\t\t\t%s:\t&v.%s,%s", nameCamelCase,
-							entx.ConvertSpecificNounToUpper(v.Name), endString))
-					}
+					entFieldName = entx.ConvertSpecificNounToUpper(v.Name)
+				}
+
+				if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(%s(v.%s)),%s", camelName,
+						entx.ConvertEntTypeToGotype(v.Info.Type.String()), entFieldName, endString))
 				} else {
-					if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
-						listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(%s(v.%s)),%s", nameCamelCase,
-							entx.ConvertEntTypeToGotype(v.Info.Type.String()), nameCamelCase, endString))
-					} else {
-						listData.WriteString(fmt.Sprintf("\t\t\t%s:\t&v.%s,%s", nameCamelCase,
-							nameCamelCase, endString))
-					}
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\t&v.%s,%s", camelName,
+						entFieldName, endString))
 				}
 			}
 		}
@@ -528,7 +548,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 
 func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, error) {
 	var protoMessage strings.Builder
-	schemaNameCamelCase := parser.CamelCase(schema.Name)
+	schemacamelName := parser.CamelCase(schema.Name)
 	// hasStatus means it has status field
 	hasStatus := false
 	// end string means whether to use \n
@@ -548,7 +568,7 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 	}
 
 	protoMessage.WriteString(fmt.Sprintf("message %sInfo {\n  optional %s %s = 1;\n%s",
-		schemaNameCamelCase, entx.ConvertIDType(g.UseUUID, strings.ToLower(g.IdType)), idString, timeField))
+		schemacamelName, entx.ConvertIDType(g.UseUUID, strings.ToLower(g.IdType)), idString, timeField))
 
 	for i, v := range schema.Fields {
 		var fieldComment string
@@ -590,25 +610,38 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 	totalString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "total")
 	dataString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "data")
 	protoMessage.WriteString(fmt.Sprintf("message %sListResp {\n  uint64 %s = 1;\n  repeated %sInfo %s = 2;\n}\n\n",
-		schemaNameCamelCase, totalString, schemaNameCamelCase, dataString))
+		schemacamelName, totalString, schemacamelName, dataString))
 
 	// List Request message
 	pageString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "page")
 	pageSizeString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "page_size")
 	protoMessage.WriteString(fmt.Sprintf("message %sListReq {\n  uint64 %s = 1;\n  uint64 %s = 2;\n",
-		schemaNameCamelCase, pageString, pageSizeString))
+		schemacamelName, pageString, pageSizeString))
 	count := 0
 	index = 3
 
 	for i, v := range schema.Fields {
-		if v.Info.Type.String() == "string" && !strings.Contains(strings.ToLower(v.Name), "uuid") && count < g.SearchKeyNum {
-			if i < len(schema.Fields) && count < g.SearchKeyNum {
-				formatedString, _ := format.FileNamingFormat(g.ProtoFieldStyle, v.Name)
-				protoMessage.WriteString(fmt.Sprintf("  optional %s %s = %d;\n", entx.ConvertEntTypeToProtoType(v.Info.Type.String()),
-					formatedString, index))
-				index++
-				count++
-			}
+		if entx.IsBaseProperty(v.Name) || count >= g.SearchKeyNum {
+			continue
+		}
+
+		if v.Info.Type.String() == "string" && !strings.Contains(strings.ToLower(v.Name), "uuid") {
+			formatedString, _ := format.FileNamingFormat(g.ProtoFieldStyle, v.Name)
+			protoMessage.WriteString(fmt.Sprintf("  optional %s %s = %d;\n", entx.ConvertEntTypeToProtoType(v.Info.Type.String()),
+				formatedString, index))
+			index++
+			count++
+		} else if entx.IsTimeProperty(v.Info.Type.String()) {
+			formatedString, _ := format.FileNamingFormat(g.ProtoFieldStyle, v.Name)
+			protoMessage.WriteString(fmt.Sprintf("  optional int64 %s = %d;\n", formatedString, index))
+			index++
+			count++
+		} else {
+			formatedString, _ := format.FileNamingFormat(g.ProtoFieldStyle, v.Name)
+			protoMessage.WriteString(fmt.Sprintf("  optional %s %s = %d;\n", entx.ConvertEntTypeToProtoType(v.Info.Type.String()),
+				formatedString, index))
+			index++
+			count++
 		}
 
 		if i == (len(schema.Fields) - 1) {
