@@ -323,13 +323,36 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 	predicateData.WriteString(fmt.Sprintf("\tvar predicates []predicate.%s\n", schema.Name))
 	count := 0
 	for _, v := range schema.Fields {
-		if v.Info.Type.String() == "string" && !strings.Contains(strings.ToLower(v.Name), "uuid") &&
-			count < g.SearchKeyNum && !entx.IsBaseProperty(v.Name) {
-			camelName := parser.CamelCase(v.Name)
+		if entx.IsBaseProperty(v.Name) || count >= g.SearchKeyNum {
+			continue
+		}
+
+		camelName := parser.CamelCase(v.Name)
+
+		entFieldName := camelName
+		if entx.IsUpperProperty(v.Name) {
+			entFieldName = entx.ConvertSpecificNounToUpper(v.Name)
+		}
+
+		if v.Info.Type.String() == "string" && !strings.Contains(strings.ToLower(v.Name), "uuid") {
 			predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sContains(*req.%s))\n\t}\n",
 				camelName, strings.ToLower(schema.Name), entx.ConvertSpecificNounToUpper(v.Name), camelName))
 			count++
+		} else if entx.IsTimeProperty(v.Info.Type.String()) {
+			predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGT(time.UnixMilli(*req.%s)))\n\t}\n",
+				camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			count++
+		} else {
+			if v.Info.Type.String() == "[16]byte" {
+				predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(uuidx.ParseUUIDString(*req.%s)))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			} else {
+				predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(*req.%s))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			}
+			count++
 		}
+
 	}
 	predicateData.WriteString(fmt.Sprintf("\tdata, err := l.svcCtx.DB.%s.Query().Where(predicates...).Page(l.ctx, req.Page, req.PageSize)",
 		schema.Name))
@@ -484,7 +507,7 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 
 		infoData.WriteString(structData)
 
-		if v.Info.Type.String() == "string" && searchKeyNum > 0 {
+		if searchKeyNum > 0 {
 			listData.WriteString(structData)
 			searchKeyNum--
 		}
