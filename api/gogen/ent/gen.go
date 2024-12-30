@@ -411,6 +411,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"IdType":             g.IdType,
 		"HasCreated":         g.HasCreated,
 		"HasPointy":          hasPointy,
+		"hasTime":            hasTime,
 	})
 
 	data = append(data, &ApiLogicData{

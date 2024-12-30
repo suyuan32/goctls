@@ -492,6 +492,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"importPrefix":       g.ImportPrefix,
 		"IdType":             g.IdType,
 		"HasCreated":         g.HasCreated,
+		"hasTime":            hasTime,
 	})
 
 	data = append(data, &RpcLogicData{

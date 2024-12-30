@@ -1,7 +1,8 @@
 package {{.packageName}}
 
 import (
-	"context"
+	"context"{{if .hasTime}}
+	"time"{{end}}
 
 	"{{.projectPath}}{{.importPrefix}}/ent/{{.modelNameLowerCase}}"
 	"{{.projectPath}}{{.importPrefix}}/ent/predicate"
