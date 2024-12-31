@@ -412,6 +412,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"HasCreated":         g.HasCreated,
 		"HasPointy":          hasPointy,
 		"hasTime":            hasTime,
+		"hasUUID":            strings.Contains("uuidx.", predicateData.String()),
 	})
 
 	data = append(data, &ApiLogicData{
