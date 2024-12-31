@@ -13,7 +13,8 @@ import (
 {{if .useI18n}}    "github.com/suyuan32/simple-admin-common/i18n"
 {{else}}    "github.com/suyuan32/simple-admin-common/msg/errormsg"
 {{end}}
-{{if .HasPointy}}	"github.com/suyuan32/simple-admin-common/utils/pointy"
+{{if .useUUID}}    "github.com/suyuan32/simple-admin-common/utils/uuidx"
+{{end}}{{if .HasPointy}}	"github.com/suyuan32/simple-admin-common/utils/pointy"
 {{end}}	"github.com/zeromicro/go-zero/core/logx"
 )
 
