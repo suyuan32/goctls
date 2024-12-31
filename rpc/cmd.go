@@ -88,7 +88,7 @@ func init() {
 	entCmdFlags.BoolVarP(&cli.VarBoolI18n, "i18n", "i")
 	entCmdFlags.StringVarPWithDefaultValue(&cli.VarStringStyle, "style", "s", config.DefaultFormat)
 	entCmdFlags.StringVarP(&cli.VarStringModelName, "model", "m")
-	entCmdFlags.IntVarPWithDefaultValue(&cli.VarIntSearchKeyNum, "search_key_num", "k", 100)
+	entCmdFlags.IntVarPWithDefaultValue(&cli.VarIntSearchKeyNum, "search_key_num", "k", 300)
 	entCmdFlags.StringVarP(&cli.VarStringGroupName, "group", "g")
 	entCmdFlags.StringVarP(&cli.VarStringProtoPath, "proto_out", "t")
 	entCmdFlags.StringVarP(&cli.VarStringImportPrefix, "import_prefix", "x")

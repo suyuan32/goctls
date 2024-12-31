@@ -112,7 +112,7 @@ func init() {
 	entCmdFlags.StringVarP(&gogen.VarStringAPIServiceName, "api_service_name", "a")
 	entCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringStyle, "style", "s", config.DefaultFormat)
 	entCmdFlags.StringVarP(&gogen.VarStringModelName, "model", "m")
-	entCmdFlags.IntVarPWithDefaultValue(&gogen.VarIntSearchKeyNum, "search_key_num", "k", 100)
+	entCmdFlags.IntVarPWithDefaultValue(&gogen.VarIntSearchKeyNum, "search_key_num", "k", 300)
 	entCmdFlags.StringVarP(&gogen.VarStringGroupName, "group", "g")
 	entCmdFlags.BoolVarP(&gogen.VarBoolOverwrite, "overwrite", "w")
 	entCmdFlags.BoolVarP(&gogen.VarBoolUseI18n, "i18n", "i")
