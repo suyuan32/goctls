@@ -601,11 +601,9 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 
 			index++
 		}
-
-		if i == (len(schema.Fields) - 1) {
-			protoMessage.WriteString("\n}\n\n")
-		}
 	}
+
+	protoMessage.WriteString("\n}\n\n")
 
 	// List message
 	totalString, _ := format.FileNamingFormat(g.ProtoFieldStyle, "total")
@@ -621,7 +619,7 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 	count := 0
 	index = 3
 
-	for i, v := range schema.Fields {
+	for _, v := range schema.Fields {
 		if entx.IsBaseProperty(v.Name) || count >= g.SearchKeyNum {
 			continue
 		}
@@ -644,11 +642,9 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 			index++
 			count++
 		}
-
-		if i == (len(schema.Fields) - 1) {
-			protoMessage.WriteString("}\n")
-		}
 	}
+
+	protoMessage.WriteString("}\n")
 
 	// group
 	var groupName string
