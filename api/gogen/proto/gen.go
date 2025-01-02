@@ -436,9 +436,7 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 						jsonTag,
 						optionalStr)
 
-					if protox.ProtoField.Type == "string" {
-						listData.WriteString(structData)
-					}
+					listData.WriteString(structData)
 				}
 			}
 		}
