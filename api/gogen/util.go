@@ -220,3 +220,11 @@ func ConvertRoutePathToSwagger(data string) string {
 	}
 	return strings.Join(splitData, "/")
 }
+
+func getDoc(doc string) string {
+	if len(doc) == 0 {
+		return ""
+	}
+
+	return "// " + strings.Trim(doc, "\"")
+}
