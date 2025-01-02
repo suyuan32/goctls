@@ -9,19 +9,19 @@ import (
 const DefaultFormat = "go_zero"
 
 // DefaultGoZeroVersion defines the default version of go zero for migrate
-const DefaultGoZeroVersion = "v1.7.5"
+const DefaultGoZeroVersion = "v1.7.6"
 
 // OldGoZeroVersion defines the old version of go zero for update
-var OldGoZeroVersion = []string{"v1.6.0", "v1.6.1", "v1.6.2", "v1.6.3", "v1.6.4", "v1.6.5", "v1.6.6", "v1.7.0", "v1.7.1", "v1.7.2", "v1.7.3", "v1.7.4"}
+var OldGoZeroVersion = []string{"v1.6.0", "v1.6.1", "v1.6.2", "v1.6.3", "v1.6.4", "v1.6.5", "v1.6.6", "v1.7.0", "v1.7.1", "v1.7.2", "v1.7.3", "v1.7.4", "v1.7.5"}
 
 // DefaultToolVersion defines the default version of simple admin tools for migrate
-const DefaultToolVersion = "v1.7.5"
+const DefaultToolVersion = "v1.7.6"
 
 // GoctlsVersion is goctls version
-const GoctlsVersion = "v1.9.6"
+const GoctlsVersion = "v1.9.7"
 
 // CoreVersion is the core service version.
-const CoreVersion = "v1.6.1"
+const CoreVersion = "v1.6.2"
 
 // LangEnvKey is the environment variable name to control the tools help info language
 const LangEnvKey = "SIMPLE_LANG"
