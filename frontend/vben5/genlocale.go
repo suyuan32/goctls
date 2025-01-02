@@ -93,10 +93,10 @@ func genLocale(g *GenContext) error {
 		data := string(file)
 
 		if !strings.Contains(data, fmt.Sprintf("\"%s\":", strings.ToLower(g.ModelName))) && strings.Contains(data, ":") {
-			data = data[:len(data)-2] + "," + localeEnData.String() + data[len(data)-2:]
+			data = data[:len(data)-3] + ",\n" + localeEnData.String() + data[len(data)-3:]
 		} else if g.Overwrite {
 			begin, end := FindBeginEndOfLocaleField(data, strings.ToLower(g.ModelName))
-			data = data[:begin-2] + "," + localeEnData.String() + data[end+1:]
+			data = data[:begin-2] + localeEnData.String() + data[end+1:]
 		}
 
 		err = os.WriteFile(enLocaleFileName, []byte(data), os.ModePerm)

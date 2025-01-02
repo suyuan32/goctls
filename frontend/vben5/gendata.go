@@ -122,11 +122,13 @@ func genData(g *GenContext) error {
 
 			for _, val := range specData.Members {
 				if val.Name != "" {
-					searchFormData.WriteString(fmt.Sprintf("\n  {\n    fieldName: '%s',\n    label: $t('%s'),\n    component: 'Input',\n   %s  },",
+					searchFormData.WriteString(fmt.Sprintf("\n  {\n    fieldName: '%s',\n    label: $t('%s'),\n    %s\n   %s  },",
 						strcase.ToLowerCamel(val.Name),
 						fmt.Sprintf("%s.%s.%s", g.FolderName,
 							strcase.ToLowerCamel(strings.TrimSuffix(specData.RawName, "ListReq")),
-							strcase.ToLowerCamel(val.Name)), GetRules(val, true),
+							strcase.ToLowerCamel(val.Name)),
+						getComponent(val.Type.Name()),
+						GetRules(val, true),
 					))
 				}
 			}
