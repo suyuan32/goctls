@@ -49,7 +49,7 @@ func init() {
 	vben5CmdFlags.StringVarP(&vben5.VarStringSubFolder, "sub_folder", "s")
 	vben5CmdFlags.StringVarPWithDefaultValue(&vben5.VarStringApiPrefix, "prefix", "p", "sys-api")
 	vben5CmdFlags.StringVarP(&vben5.VarStringModelName, "model_name", "m")
-	vben5CmdFlags.StringVarPWithDefaultValue(&vben5.VarStringFormType, "form_type", "t", "drawer")
+	vben5CmdFlags.StringVarPWithDefaultValue(&vben5.VarStringFormType, "form_type", "t", "modal")
 	vben5CmdFlags.BoolVarP(&vben5.VarBoolOverwrite, "overwrite", "w")
 	vben5CmdFlags.StringVar(&vben5.VarStringModelChineseName, "model_chinese_name")
 	vben5CmdFlags.StringVar(&vben5.VarStringModelEnglishName, "model_english_name")

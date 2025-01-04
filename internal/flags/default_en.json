@@ -410,7 +410,7 @@
       },
       "vben5": {
         "short": "Generate frontend related files (Vben5)",
-        "output": "The output directory, it should be the root directory of simple admin backend ui",
+        "output": "Output directory, should be apps/simple-admin-core or a specified subdirectory",
         "api_file": "The absolute path of api file",
         "folder_name": "The folder name to generate file in different directory. e.g. file folder in simple admin backend ui which is to store file manager service files",
         "sub_folder": "The sub folder name. e.g. src/views/sys sub folder user which path is src/views/sys/user",
