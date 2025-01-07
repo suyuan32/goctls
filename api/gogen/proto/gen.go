@@ -436,6 +436,9 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 						jsonTag,
 						optionalStr)
 
+					if parser.CamelCase(protox.ProtoField.Name) == "Page" || parser.CamelCase(protox.ProtoField.Name) == "PageSize" {
+						continue
+					}
 					listData.WriteString(structData)
 				}
 			}
