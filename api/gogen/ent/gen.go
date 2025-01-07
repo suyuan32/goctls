@@ -323,7 +323,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 	predicateData.WriteString(fmt.Sprintf("\tvar predicates []predicate.%s\n", schema.Name))
 	count := 0
 	for _, v := range schema.Fields {
-		if entx.IsBaseProperty(v.Name) || count >= g.SearchKeyNum {
+		if v.Name == "id" || count >= g.SearchKeyNum {
 			continue
 		}
 
@@ -339,7 +339,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 				camelName, strings.ToLower(schema.Name), entx.ConvertSpecificNounToUpper(v.Name), camelName))
 			count++
 		} else if entx.IsTimeProperty(v.Info.Type.String()) {
-			predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGT(time.UnixMilli(*req.%s)))\n\t}\n",
+			predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*req.%s)))\n\t}\n",
 				camelName, strings.ToLower(schema.Name), entFieldName, camelName))
 			count++
 		} else {
@@ -411,8 +411,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"IdType":             g.IdType,
 		"HasCreated":         g.HasCreated,
 		"HasPointy":          hasPointy,
-		"hasTime":            hasTime,
-		"hasUUID":            strings.Contains("uuidx.", predicateData.String()),
+		"hasTime":            strings.Contains(predicateData.String(), "time."),
+		"hasUUID":            strings.Contains(predicateData.String(), "uuidx."),
 	})
 
 	data = append(data, &ApiLogicData{
@@ -476,7 +476,7 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 	}
 
 	for _, v := range schema.Fields {
-		if entx.IsBaseProperty(v.Name) {
+		if v.Name == "id" {
 			continue
 		}
 
@@ -507,7 +507,9 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 			entx.ConvertEntTypeToGotypeInSingleApi(v.Info.Type.String()),
 			jsonTag, optionalStr)
 
-		infoData.WriteString(structData)
+		if !entx.IsBaseProperty(v.Name) {
+			infoData.WriteString(structData)
+		}
 
 		if searchKeyNum > 0 {
 			listData.WriteString(structData)

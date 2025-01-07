@@ -390,7 +390,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 	predicateData.WriteString(fmt.Sprintf("\tvar predicates []predicate.%s\n", schema.Name))
 	count := 0
 	for _, v := range schema.Fields {
-		if entx.IsBaseProperty(v.Name) || count >= g.SearchKeyNum {
+		if v.Name == "id" || count >= g.SearchKeyNum {
 			continue
 		}
 
@@ -406,7 +406,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 				camelName, strings.ToLower(schema.Name), entFieldName, camelName))
 			count++
 		} else if entx.IsTimeProperty(v.Info.Type.String()) {
-			predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGT(time.UnixMilli(*in.%s)))\n\t}\n",
+			predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*in.%s)))\n\t}\n",
 				camelName, strings.ToLower(schema.Name), entFieldName, camelName))
 			count++
 		} else {
@@ -492,8 +492,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		"importPrefix":       g.ImportPrefix,
 		"IdType":             g.IdType,
 		"HasCreated":         g.HasCreated,
-		"hasTime":            hasTime,
-		"hasUUID":            strings.Contains("uuidx.", predicateData.String()),
+		"hasTime":            strings.Contains(predicateData.String(), "time."),
+		"hasUUID":            strings.Contains(predicateData.String(), "uuidx."),
 	})
 
 	data = append(data, &RpcLogicData{
@@ -621,7 +621,7 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 	index = 3
 
 	for _, v := range schema.Fields {
-		if entx.IsBaseProperty(v.Name) || count >= g.SearchKeyNum {
+		if v.Name == "id" || count >= g.SearchKeyNum {
 			continue
 		}
 
