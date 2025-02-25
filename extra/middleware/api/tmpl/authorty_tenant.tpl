@@ -1,10 +1,11 @@
 package middleware
 
 import (
-    "context"
+	"context"
+	"encoding/json"
 	"errors"
 	"net/http"
-	"strings"
+	"strconv"
 
 	"github.com/casbin/casbin/v2"
 	"github.com/zeromicro/go-zero/core/errorx"
@@ -41,6 +42,14 @@ func (m *AuthorityMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		act := r.Method
 		// get the role id
 		roleIds := strings.Split(r.Context().Value("roleId").(string), ",")
+
+		if jwtTenantId := r.Context().Value("jwtTenantId"); jwtTenantId != nil {
+			if jwtTenantId.(json.Number).String() != strconv.FormatUint(tenantctx.GetTenantIDFromCtx(r.Context()), 10) {
+				logx.Errorw("wrong tenant id in request", logx.Field("token", r.Header.Get("Authorization")))
+				httpx.Error(w, errorx.NewInvalidArgumentError("you do not belong to this company, check your tenant id in the request."))
+				return
+			}
+		}
 
 		// check jwt blacklist
 		jwtResult, err := m.Rds.Get(context.Background(), config.RedisTokenPrefix+jwt.StripBearerPrefixFromToken(r.Header.Get("Authorization"))).Result()
