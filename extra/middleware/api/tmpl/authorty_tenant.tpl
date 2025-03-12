@@ -15,22 +15,18 @@ import (
 	"github.com/redis/go-redis/v9"
 
 	"github.com/suyuan32/simple-admin-common/config"
-	"github.com/suyuan32/simple-admin-common/enum/errorcode"{{if .useTrans}}
-	"github.com/suyuan32/simple-admin-common/i18n"{{end}}
 	"github.com/suyuan32/simple-admin-common/utils/jwt"
 )
 
 type AuthorityMiddleware struct {
 	Cbn   *casbin.Enforcer
-	Rds   redis.UniversalClient{{if .useTrans}}
-	Trans *i18n.Translator{{end}}
+	Rds   redis.UniversalClient
 }
 
-func NewAuthorityMiddleware(cbn *casbin.Enforcer, rds redis.UniversalClient{{if .useTrans}}, trans *i18n.Translator{{end}}) *AuthorityMiddleware {
+func NewAuthorityMiddleware(cbn *casbin.Enforcer, rds redis.UniversalClient) *AuthorityMiddleware {
 	return &AuthorityMiddleware{
 		Cbn:   cbn,
-		Rds:   rds,{{if .useTrans}}
-		Trans: trans,{{end}}
+		Rds:   rds,
 	}
 }
 
@@ -73,11 +69,8 @@ func (m *AuthorityMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			return
 		} else {
 			logx.Errorw("the role is not permitted to access the API", logx.Field("roleId", roleIds),
-				logx.Field("path", obj), logx.Field("method", act)){{if .useTrans}}
-			httpx.Error(w, errorx.NewCodeError(errorcode.PermissionDenied, m.Trans.Trans(
-				context.WithValue(context.Background(), "lang", r.Header.Get("Accept-Language")),
-				"common.permissionDeny"))){{else}}
-			httpx.Error(w, errorx.NewCodeError(errorcode.PermissionDenied, "Permission Denied")){{end}}
+				logx.Field("path", obj), logx.Field("method", act))
+			httpx.Error(w, errorx.NewApiForbiddenError("You do not have permission to access the API"))
 			return
 		}
 	}
