@@ -44,8 +44,11 @@
             modalApi.close();
         },
         onConfirm: async () => {
-            await formApi.submitForm();
-            modalApi.close();
+            const validationResult = await formApi.validate();
+            if (validationResult.valid) {
+                await formApi.submitForm();
+                modalApi.close();
+            }
         },
         onOpenChange(isOpen: boolean) {
             isUpdate.value = modalApi.getData()?.isUpdate;
