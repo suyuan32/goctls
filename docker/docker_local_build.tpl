@@ -22,4 +22,4 @@ COPY ./etc/${CONFIG_FILE} ./etc/
 {{if .HasPort}}
 EXPOSE {{.Port}}
 {{end}}
-ENTRYPOINT ./${PROJECT}_{{.ServiceType}} -f etc/${CONFIG_FILE}
+ENTRYPOINT ["./{{.ServiceName}}_{{.ServiceType}}", "-f", "etc/{{.ServiceName}}.yaml"]
