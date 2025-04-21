@@ -323,7 +323,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 	predicateData.WriteString(fmt.Sprintf("\tvar predicates []predicate.%s\n", schema.Name))
 	count := 0
 	for _, v := range schema.Fields {
-		if v.Name == "id" || count >= g.SearchKeyNum {
+		if v.Name == "id" || v.Name == "tenant_id" || count >= g.SearchKeyNum {
 			continue
 		}
 
@@ -476,7 +476,7 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 	}
 
 	for _, v := range schema.Fields {
-		if v.Name == "id" {
+		if v.Name == "id" || v.Name == "tenant_id" {
 			continue
 		}
 
