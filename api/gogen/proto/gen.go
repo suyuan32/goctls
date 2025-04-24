@@ -410,7 +410,7 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 
 					infoData.WriteString(structData)
 				}
-			} else if strings.HasSuffix(v.Name, "ListReq") {
+			} else if fmt.Sprintf("%sListReq", ctx.ModelName) == v.Name {
 				for _, field := range v.Elements {
 					field.Accept(protox.MessageVisitor{})
 
