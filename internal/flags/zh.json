@@ -109,7 +109,8 @@
         "api_data": "是否自动生成 API 初始化代码，需要 CoreRpc",
         "route_prefix": "路由前缀，需要以 \"/\" 开头",
         "model_chinese_name": "模型的中文名称",
-        "model_english_name": "模型的英文名称"
+        "model_english_name": "模型的英文名称",
+        "split_time_field": "是否将列表请求中的时间请求改为 Begin 和 End 范围请求"
       }
     },
     "bug": {
@@ -244,7 +245,8 @@
         "proto_out": "输出 proto 文件路径",
         "proto_field_style": "proto 字段样式",
         "i18n": "{{.global.i18n}}",
-        "overwrite": "是否覆盖文件，它将覆盖所有生成的文件"
+        "overwrite": "是否覆盖文件，它将覆盖所有生成的文件",
+        "split_time_field": "是否将列表请求中的时间请求改为 Begin 和 End 范围请求"
       }
     },
     "extra": {

@@ -68,6 +68,7 @@ type GenEntLogicContext struct {
 	HasCreated       bool
 	ModelChineseName string
 	ModelEnglishName string
+	SplitTimeField   bool
 }
 
 func (g GenEntLogicContext) Validate() error {
@@ -339,8 +340,15 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 				camelName, strings.ToLower(schema.Name), entx.ConvertSpecificNounToUpper(v.Name), camelName))
 			count++
 		} else if entx.IsTimeProperty(v.Info.Type.String()) {
-			predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*req.%s)))\n\t}\n",
-				camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			if g.SplitTimeField {
+				predicateData.WriteString(fmt.Sprintf("\tif req.%sBegin != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*req.%sBegin)))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+				predicateData.WriteString(fmt.Sprintf("\tif req.%sEnd != nil {\n\t\tpredicates = append(predicates, %s.%sLTE(time.UnixMilli(*req.%sEnd)))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			} else {
+				predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*req.%s)))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			}
 			count++
 		} else {
 			if v.Info.Type.String() == "[16]byte" {
@@ -500,20 +508,47 @@ func GenApiData(schema *load.Schema, ctx GenEntLogicContext) (string, error) {
 			fieldComment = v.Comment
 		}
 
-		structData = fmt.Sprintf("\n\n        // %s \n        %s  %s%s `json:\"%s,%s\"`",
-			fieldComment,
-			parser.CamelCase(v.Name),
-			pointerStr,
-			entx.ConvertEntTypeToGotypeInSingleApi(v.Info.Type.String()),
-			jsonTag, optionalStr)
+		if entx.IsTimeProperty(v.Info.Type.String()) && ctx.SplitTimeField {
+			jsonTag, _ = format.FileNamingFormat(ctx.JSONStyle, v.Name+"_begin")
+			structData = fmt.Sprintf("\n\n        // %s \n        %s  %s%s `json:\"%s,%s\"`",
+				fieldComment,
+				parser.CamelCase(v.Name)+"Begin",
+				pointerStr,
+				entx.ConvertEntTypeToGotypeInSingleApi(v.Info.Type.String()),
+				jsonTag, optionalStr)
+
+			if searchKeyNum > 0 {
+				listData.WriteString(structData)
+			}
+
+			jsonTag, _ = format.FileNamingFormat(ctx.JSONStyle, v.Name+"_end")
+			structData = fmt.Sprintf("\n\n        // %s \n        %s  %s%s `json:\"%s,%s\"`",
+				fieldComment,
+				parser.CamelCase(v.Name)+"End",
+				pointerStr,
+				entx.ConvertEntTypeToGotypeInSingleApi(v.Info.Type.String()),
+				jsonTag, optionalStr)
+
+			if searchKeyNum > 0 {
+				listData.WriteString(structData)
+				searchKeyNum--
+			}
+		} else {
+			structData = fmt.Sprintf("\n\n        // %s \n        %s  %s%s `json:\"%s,%s\"`",
+				fieldComment,
+				parser.CamelCase(v.Name),
+				pointerStr,
+				entx.ConvertEntTypeToGotypeInSingleApi(v.Info.Type.String()),
+				jsonTag, optionalStr)
+
+			if searchKeyNum > 0 {
+				listData.WriteString(structData)
+				searchKeyNum--
+			}
+		}
 
 		if !entx.IsBaseProperty(v.Name) {
 			infoData.WriteString(structData)
-		}
-
-		if searchKeyNum > 0 {
-			listData.WriteString(structData)
-			searchKeyNum--
 		}
 	}
 

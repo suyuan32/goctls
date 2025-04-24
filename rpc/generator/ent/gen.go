@@ -68,6 +68,7 @@ type GenEntLogicContext struct {
 	Overwrite       bool
 	IdType          string // default is empty, if ID belongs types of Uint64 and string, use other base message
 	HasCreated      bool   // If true means have created and updated field
+	SplitTimeField  bool
 }
 
 func (g GenEntLogicContext) Validate() error {
@@ -406,8 +407,15 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 				camelName, strings.ToLower(schema.Name), entFieldName, camelName))
 			count++
 		} else if entx.IsTimeProperty(v.Info.Type.String()) {
-			predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*in.%s)))\n\t}\n",
-				camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			if g.SplitTimeField {
+				predicateData.WriteString(fmt.Sprintf("\tif in.%sBegin != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*in.%sBegin)))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+				predicateData.WriteString(fmt.Sprintf("\tif in.%sEnd != nil {\n\t\tpredicates = append(predicates, %s.%sLTE(time.UnixMilli(*in.%sEnd)))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			} else {
+				predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*in.%s)))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+			}
 			count++
 		} else {
 			if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
@@ -633,9 +641,18 @@ func GenProtoData(schema *load.Schema, g GenEntLogicContext) (string, string, er
 			count++
 		} else if entx.IsTimeProperty(v.Info.Type.String()) {
 			formatedString, _ := format.FileNamingFormat(g.ProtoFieldStyle, v.Name)
-			protoMessage.WriteString(fmt.Sprintf("  optional int64 %s = %d;\n", formatedString, index))
-			index++
-			count++
+			if g.SplitTimeField {
+				protoMessage.WriteString(fmt.Sprintf("  optional int64 %s_begin = %d;\n", formatedString, index))
+				index++
+				count++
+				protoMessage.WriteString(fmt.Sprintf("  optional int64 %s_end = %d;\n", formatedString, index))
+				index++
+				count++
+			} else {
+				protoMessage.WriteString(fmt.Sprintf("  optional int64 %s = %d;\n", formatedString, index))
+				index++
+				count++
+			}
 		} else {
 			formatedString, _ := format.FileNamingFormat(g.ProtoFieldStyle, v.Name)
 			protoMessage.WriteString(fmt.Sprintf("  optional %s %s = %d;\n", entx.ConvertEntTypeToProtoType(v.Info.Type.String()),

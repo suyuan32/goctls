@@ -96,6 +96,8 @@ var (
 	VarStringModelChineseName string
 	// VarStringModelEnglishName describes the English name of model
 	VarStringModelEnglishName string
+	// VarBoolSplitTimeField describe whether to split time field to begin and end
+	VarBoolSplitTimeField bool
 )
 
 // GoCommand gen go project files from command line
@@ -425,6 +427,7 @@ func GenCRUDLogicByEnt(_ *cobra.Command, _ []string) error {
 		RoutePrefix:      VarStringRoutePrefix,
 		ModelChineseName: VarStringModelChineseName,
 		ModelEnglishName: VarStringModelEnglishName,
+		SplitTimeField:   VarBoolSplitTimeField,
 	}
 
 	err := params.Validate()

@@ -121,6 +121,7 @@ func init() {
 	entCmdFlags.StringVar(&gogen.VarStringModelChineseName, "model_chinese_name")
 	entCmdFlags.StringVar(&gogen.VarStringModelEnglishName, "model_english_name")
 	entCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringJSONStyle, "json_style", "j", "goZero")
+	entCmdFlags.BoolVar(&gogen.VarBoolSplitTimeField, "split_time_field")
 
 	// Add sub-commands
 	Cmd.AddCommand(docCmd)

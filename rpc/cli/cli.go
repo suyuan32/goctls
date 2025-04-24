@@ -79,6 +79,8 @@ var (
 	VarStringImportPrefix string
 	// VarBoolClient describes whether to generate rpc client
 	VarBoolClient bool
+	// VarBoolSplitTimeField describe whether to split time field to begin and end
+	VarBoolSplitTimeField bool
 )
 
 // RPCNew is to generate rpc greet service, this greet service can speed
@@ -203,6 +205,7 @@ func EntCRUDLogic(_ *cobra.Command, _ []string) error {
 		UseI18n:         VarBoolI18n,
 		ImportPrefix:    VarStringImportPrefix,
 		Overwrite:       VarBoolOverwrite,
+		SplitTimeField:  VarBoolSplitTimeField,
 	}
 
 	if params.ProjectName == "" {

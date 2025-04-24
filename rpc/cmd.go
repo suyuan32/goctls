@@ -94,6 +94,7 @@ func init() {
 	entCmdFlags.StringVarP(&cli.VarStringImportPrefix, "import_prefix", "x")
 	entCmdFlags.StringVarPWithDefaultValue(&cli.VarStringProtoFieldStyle, "proto_field_style", "f", config.DefaultFormat)
 	entCmdFlags.BoolVarP(&cli.VarBoolOverwrite, "overwrite", "w")
+	entCmdFlags.BoolVar(&cli.VarBoolSplitTimeField, "split_time_field")
 
 	Cmd.AddCommand(newCmd)
 	Cmd.AddCommand(protocCmd)
