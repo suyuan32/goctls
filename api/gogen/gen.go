@@ -229,6 +229,7 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 
 	if g.UseCasbin {
 		logx.Must(genCasbin(dir, cfg, g))
+		time.Sleep(2 * time.Second)
 	}
 
 	if g.UseI18n {

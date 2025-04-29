@@ -11,6 +11,7 @@ import (
 	"github.com/suyuan32/goctls/extra/makefile"
 	"github.com/suyuan32/goctls/extra/middleware"
 	"github.com/suyuan32/goctls/extra/proto2api"
+	"github.com/suyuan32/goctls/extra/rpcconfgen"
 	"github.com/suyuan32/goctls/internal/cobrax"
 )
 
@@ -36,19 +37,22 @@ var (
 	makefileCmd = cobrax.NewCommand("makefile", cobrax.WithRunE(makefile.Gen))
 
 	logViewerCmd = cobrax.NewCommand("view_log", cobrax.WithRunE(logviewer.Gen))
+
+	rpcConfGenCmd = cobrax.NewCommand("rpc_conf_gen", cobrax.WithRunE(rpcconfgen.Gen))
 )
 
 func init() {
 	var (
-		i18nCmdFlags      = i18nCmd.Flags()
-		initCmdFlags      = initCmd.Flags()
-		templateCmdFlags  = templateCmd.Flags()
-		mixinCmdFlags     = mixinCmd.Flags()
-		makefileCmdFlags  = makefileCmd.Flags()
-		entImportCmdFlags = entImportCmd.Flags()
-		proto2apiCmdFlags = proto2apiCmd.Flags()
-		logViewerCmdFlags = logViewerCmd.Flags()
-		entSchemaCmdFlags = entSchemaCmd.Flags()
+		i18nCmdFlags       = i18nCmd.Flags()
+		initCmdFlags       = initCmd.Flags()
+		templateCmdFlags   = templateCmd.Flags()
+		mixinCmdFlags      = mixinCmd.Flags()
+		makefileCmdFlags   = makefileCmd.Flags()
+		entImportCmdFlags  = entImportCmd.Flags()
+		proto2apiCmdFlags  = proto2apiCmd.Flags()
+		logViewerCmdFlags  = logViewerCmd.Flags()
+		entSchemaCmdFlags  = entSchemaCmd.Flags()
+		rpcConfGenCmdFlags = rpcConfGenCmd.Flags()
 	)
 
 	i18nCmdFlags.StringVarP(&i18n.VarStringTarget, "target", "t")
@@ -105,6 +109,11 @@ func init() {
 	logViewerCmdFlags.IntVarPWithDefaultValue(&logviewer.VarIntMessageCapacity, "size", "s", 10)
 	logViewerCmdFlags.StringVarP(&logviewer.VarStringRemoveConfig, "delete_config", "d")
 
+	rpcConfGenCmdFlags.StringVarP(&rpcconfgen.VarStringServiceName, "service_name", "n")
+	rpcConfGenCmdFlags.StringVarP(&rpcconfgen.VarStringRpcDir, "rpc_dir", "r")
+	rpcConfGenCmdFlags.IntVarP(&rpcconfgen.VarIntPort, "port", "p")
+	rpcConfGenCmdFlags.StringVarP(&rpcconfgen.VarStringApiDir, "api_dir", "a")
+
 	ExtraCmd.AddCommand(i18nCmd)
 	ExtraCmd.AddCommand(initCmd)
 	entCmd.AddCommand(templateCmd)
@@ -116,4 +125,5 @@ func init() {
 	ExtraCmd.AddCommand(proto2apiCmd)
 	ExtraCmd.AddCommand(logViewerCmd)
 	ExtraCmd.AddCommand(middleware.MiddlewareCmd)
+	ExtraCmd.AddCommand(rpcConfGenCmd)
 }

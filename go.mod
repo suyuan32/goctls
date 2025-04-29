@@ -3,11 +3,11 @@ module github.com/suyuan32/goctls
 go 1.23.0
 
 require (
-	ariga.io/atlas v0.32.0
+	ariga.io/atlas v0.32.1
 	entgo.io/contrib v0.6.0
 	entgo.io/ent v0.14.4
 	github.com/duke-git/lancet/v2 v2.3.5
-	github.com/emicklei/proto v1.14.0
+	github.com/emicklei/proto v1.14.1
 	github.com/fatih/structtag v1.2.0
 	github.com/go-openapi/inflect v0.21.2
 	github.com/go-sql-driver/mysql v1.9.2

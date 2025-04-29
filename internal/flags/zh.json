@@ -336,6 +336,12 @@
           "i18n": "是否使用i18n",
           "style": "{{.global.style}}"
         }
+      },
+      "rpc_conf_gen": {
+        "service_name": "Rpc 服务名称",
+        "rpc_dir": "Rpc 目录",
+        "api_dir": "Api 目录",
+        "port": "Rpc 服务端口"
       }
     },
     "cicd": {
