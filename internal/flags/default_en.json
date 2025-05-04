@@ -336,6 +336,7 @@
         }
       },
       "rpc_conf_gen": {
+        "short": "Generate RPC config for API",
         "service_name": "Rpc service name",
         "rpc_dir": "Rpc directory",
         "api_dir": "Api directory",

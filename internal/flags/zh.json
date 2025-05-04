@@ -338,6 +338,7 @@
         }
       },
       "rpc_conf_gen": {
+        "short": "在 API 中生成对应 RPC 的配置",
         "service_name": "Rpc 服务名称",
         "rpc_dir": "Rpc 目录",
         "api_dir": "Api 目录",
