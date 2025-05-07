@@ -1,6 +1,8 @@
 module github.com/suyuan32/goctls
 
-go 1.23.0
+go 1.24.0
+
+toolchain go1.24.2
 
 require (
 	ariga.io/atlas v0.32.1
@@ -19,11 +21,11 @@ require (
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6
 	github.com/stretchr/testify v1.10.0
-	github.com/suyuan32/simple-admin-common v1.6.6
+	github.com/suyuan32/simple-admin-common v1.6.7
 	github.com/withfig/autocomplete-tools/integrations/cobra v1.2.1
 	github.com/zeromicro/antlr v0.0.1
-	github.com/zeromicro/go-zero v1.8.2
-	golang.org/x/text v0.24.0
+	github.com/zeromicro/go-zero v1.8.3
+	golang.org/x/text v0.25.0
 )
 
 require (
@@ -58,10 +60,10 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0 // indirect
 	golang.org/x/mod v0.24.0 // indirect
-	golang.org/x/sync v0.13.0 // indirect
-	golang.org/x/sys v0.32.0 // indirect
-	golang.org/x/tools v0.32.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250407143221-ac9807e6c755 // indirect
+	golang.org/x/sync v0.14.0 // indirect
+	golang.org/x/sys v0.33.0 // indirect
+	golang.org/x/tools v0.33.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250505200425-f936aa4a68b2 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
