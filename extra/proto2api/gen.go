@@ -112,7 +112,7 @@ func DoGen(g *GenContext) error {
 				typeNameSet.Add(r.RequestType, r.ReturnsType)
 
 				routeData.WriteString(fmt.Sprintf("\n    // %s\n    @handler %s\n    post /%s/%s (%s) returns (%s)\n",
-					r.Name, r.Name, strings.ToLower(g.ModelName), urlName, r.RequestType, r.ReturnsType))
+					r.Name, r.Name, strings.ToLower(g.ModelName), urlName, r.RequestType, ConvertRpcBaseStruct(r.ReturnsType)))
 			}
 
 		}

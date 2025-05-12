@@ -43,3 +43,12 @@ func FindServiceContentIndex(data string) int {
 	}
 	return -1
 }
+
+func ConvertRpcBaseStruct(data string) string {
+	switch data {
+	case "BaseResp":
+		return "BaseMsgResp"
+	default:
+		return data
+	}
+}
