@@ -8,6 +8,7 @@ import (
 
 	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/duke-git/lancet/v2/strutil"
+	"github.com/gookit/color"
 
 	"github.com/suyuan32/goctls/rpc/execx"
 )
@@ -33,7 +34,7 @@ func FormatFile(ctx *GenContext) error {
 			return err
 		}
 
-		if strings.Contains(fileStr, "entsql.WithComments(true)") {
+		if strings.Contains(fileStr, "entsql.WithComments(true)") && getSchemaName(fileStr) == "" {
 			continue
 		}
 
@@ -83,6 +84,11 @@ func (%s) Annotations() []schema.Annotation {
 func getSchemaName(data string) string {
 	typeIndex := strings.Index(data, "type ")
 	structIndex := strings.Index(data, " struct")
+
+	if typeIndex+4 >= structIndex {
+		color.Red.Println("Failed to format schema :\n" + data)
+		return ""
+	}
 
 	return strings.Trim(data[typeIndex+4:structIndex], " ")
 }
