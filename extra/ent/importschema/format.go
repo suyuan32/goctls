@@ -34,7 +34,7 @@ func FormatFile(ctx *GenContext) error {
 			return err
 		}
 
-		if strings.Contains(fileStr, "entsql.WithComments(true)") && getSchemaName(fileStr) == "" {
+		if strings.Contains(fileStr, "entsql.WithComments(true)") || getSchemaName(fileStr) == "" {
 			continue
 		}
 
