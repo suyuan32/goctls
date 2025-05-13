@@ -27,6 +27,10 @@ func FormatFile(ctx *GenContext) error {
 	}
 
 	for _, v := range files {
+		if !strings.HasSuffix(v, ".go") {
+			continue
+		}
+
 		filePath := filepath.Join(ctx.OutputDir, v)
 
 		fileStr, err := fileutil.ReadFileToString(filePath)
