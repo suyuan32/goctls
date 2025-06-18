@@ -86,7 +86,7 @@ serve-swagger: # Run the swagger server | 运行 swagger 服务
 .PHONY: gen-api
 gen-api: # Generate API files | 生成 API 的代码
 	goctls api go --api ./desc/all.api --dir ./ --trans_err=true --style=$(PROJECT_STYLE)
-	swagger generate spec --output=./$(SERVICE_STYLE).$(SWAGGER_TYPE) --scan-models
+	swagger generate spec --output=./$(SERVICE_STYLE).$(SWAGGER_TYPE) --scan-models --exclude-deps
 	@echo "Generate API codes successfully"
 {{end}}{{if .isRpc}}
 .PHONY: gen-rpc
