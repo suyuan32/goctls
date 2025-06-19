@@ -74,7 +74,7 @@ publish-docker: # Publish docker image | 发布 docker 镜像
 {{if or .isApi .isSingle}}
 .PHONY: gen-swagger
 gen-swagger: # Generate swagger file | 生成 swagger 文件
-	swagger generate spec --output=./$(SERVICE_STYLE).$(SWAGGER_TYPE) --scan-models
+	swagger generate spec --output=./$(SERVICE_STYLE).$(SWAGGER_TYPE) --scan-models --exclude-deps
 	@echo "Generate swagger successfully"
 
 .PHONY: serve-swagger
