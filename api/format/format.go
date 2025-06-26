@@ -11,13 +11,15 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/spf13/cobra"
+	"github.com/zeromicro/go-zero/core/errorx"
+
 	"github.com/suyuan32/goctls/api/parser"
 	"github.com/suyuan32/goctls/api/util"
 	"github.com/suyuan32/goctls/pkg/env"
 	apiF "github.com/suyuan32/goctls/pkg/parser/api/format"
 	"github.com/suyuan32/goctls/util/pathx"
-	"github.com/zeromicro/go-zero/core/errorx"
 )
 
 const (
@@ -42,8 +44,19 @@ var (
 func GoFormatApi(_ *cobra.Command, _ []string) error {
 	var be errorx.BatchError
 	if VarBoolUseStdin {
-		if err := apiFormatReader(os.Stdin, VarStringDir, VarBoolSkipCheckDeclare); err != nil {
-			be.Add(err)
+		if env.UseExperimental() {
+			data, err := io.ReadAll(os.Stdin)
+			if err != nil {
+				be.Add(err)
+			} else {
+				if err := apiF.Source(data, os.Stdout); err != nil {
+					be.Add(err)
+				}
+			}
+		} else {
+			if err := apiFormatReader(os.Stdin, VarStringDir, VarBoolSkipCheckDeclare); err != nil {
+				be.Add(err)
+			}
 		}
 	} else {
 		if len(VarStringDir) == 0 {
@@ -59,6 +72,22 @@ func GoFormatApi(_ *cobra.Command, _ []string) error {
 			if strings.HasSuffix(path, ".api") {
 				if err := ApiFormatByPath(path, VarBoolSkipCheckDeclare); err != nil {
 					be.Add(util.WrapErr(err, fi.Name()))
+				}
+			}
+
+			if fileutil.IsDir(path) {
+				fileNames, err := fileutil.ListFileNames(path)
+				if err != nil {
+					be.Add(errors.New("cannot list files in directory " + path))
+					return nil
+				}
+
+				for _, fileName := range fileNames {
+					if strings.HasSuffix(fileName, ".api") {
+						if err := ApiFormatByPath(filepath.Join(path, fileName), VarBoolSkipCheckDeclare); err != nil {
+							be.Add(util.WrapErr(err, filepath.Join(path, fileName)))
+						}
+					}
 				}
 			}
 			return nil
