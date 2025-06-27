@@ -41,7 +41,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 `
 	routesAdditionTemplate = `
 	server.AddRoutes(
-		{{.routes}} {{.jwt}}{{.signature}} {{.prefix}} {{.timeout}} {{.maxBytes}}
+		{{.routes}} {{.jwt}}{{.signature}} {{.prefix}} {{.timeout}} {{.maxBytes}} {{.sse}}
 	)
 `
 	timeoutThreshold = time.Millisecond
@@ -70,6 +70,7 @@ type (
 		prefix           string
 		jwtTrans         string
 		maxBytes         string
+		sse              bool
 	}
 	route struct {
 		method  string
@@ -134,7 +135,7 @@ rest.WithPrefix("%s"),`, g.prefix)
 		}
 
 		var timeout string
-		if len(g.timeout) > 0 {
+		if len(g.timeout) > 0 && !g.sse {
 			duration, err := time.ParseDuration(g.timeout)
 			if err != nil {
 				return err
@@ -169,6 +170,11 @@ rest.WithPrefix("%s"),`, g.prefix)
 			routes = strings.TrimSpace(gbuilder.String())
 		}
 
+		var sse string
+		if g.sse {
+			sse = "\n rest.WithSSE(),"
+		}
+
 		if err := gt.Execute(&builder, map[string]string{
 			"routes":    routes,
 			"jwt":       jwt,
@@ -176,6 +182,7 @@ rest.WithPrefix("%s"),`, g.prefix)
 			"prefix":    prefix,
 			"timeout":   timeout,
 			"maxBytes":  maxBytes,
+			"sse":       sse,
 		}); err != nil {
 			return err
 		}
@@ -293,6 +300,11 @@ func getRoutes(api *spec.ApiSpec) ([]group, error) {
 		if len(prefix) > 0 {
 			prefix = path.Join("/", prefix)
 			groupedRoutes.prefix = prefix
+		}
+
+		sse := g.GetAnnotation("sse")
+		if sse == "true" {
+			groupedRoutes.sse = true
 		}
 		routes = append(routes, groupedRoutes)
 	}

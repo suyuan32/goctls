@@ -35,6 +35,7 @@ type handlerInfo struct {
 	HasRequest         bool
 	TransErr           bool
 	UseValidator       bool
+	UseSSE             bool
 }
 
 func genHandlers(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec, g *GenContext) error {
@@ -110,9 +111,15 @@ func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route
 			//  200: %s`, route.ResponseTypeName()))
 	}
 
+	// sse
+	var useSSE bool
+	if group.GetAnnotation("sse") == "true" {
+		useSSE = true
+	}
+
 	return doGenToFile(dir, handler, cfg, group, route, handlerInfo{
 		PkgName:        pkgName,
-		ImportPackages: genHandlerImports(group, route, rootPkg),
+		ImportPackages: genHandlerImports(group, route, rootPkg, useSSE),
 		HandlerDoc:     handlerDoc.String(),
 		HandlerName:    handler,
 		RequestType:    util.Title(route.RequestTypeName()),
@@ -123,6 +130,7 @@ func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route
 		HasRequest:     len(route.RequestTypeName()) > 0,
 		TransErr:       g.TransErr,
 		UseValidator:   g.UseValidator,
+		UseSSE:         useSSE,
 	})
 }
 
@@ -146,7 +154,7 @@ func doGenToFile(dir, handler string, cfg *config.Config, group spec.Group,
 	})
 }
 
-func genHandlerImports(group spec.Group, route spec.Route, parentPkg string) string {
+func genHandlerImports(group spec.Group, route spec.Route, parentPkg string, useSSE bool) string {
 	imports := []string{
 		fmt.Sprintf("\"%s\"", pathx.JoinPackages(parentPkg, getLogicFolderPath(group, route))),
 		fmt.Sprintf("\"%s\"", pathx.JoinPackages(parentPkg, contextDir)),

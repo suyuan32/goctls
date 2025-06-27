@@ -40,7 +40,13 @@ func genLogicByRoute(dir, rootPkg string, cfg *config.Config, group spec.Group, 
 		return err
 	}
 
-	imports := genLogicImports(route, rootPkg)
+	// sse
+	var useSSE bool
+	if group.GetAnnotation("sse") == "true" {
+		useSSE = true
+	}
+
+	imports := genLogicImports(route, rootPkg, useSSE)
 	var responseString string
 	var returnString string
 	var requestString string
@@ -56,11 +62,9 @@ func genLogicByRoute(dir, rootPkg string, cfg *config.Config, group spec.Group, 
 		requestString = "req *" + requestGoTypeName(route, typesPacket)
 	}
 
-	// extra fields
-	var userIdField bool
-	switch ctx.ExtraField {
-	case "userId":
-		userIdField = true
+	if useSSE {
+		responseString = ""
+		returnString = "return"
 	}
 
 	subDir := getLogicFolderPath(group, route)
@@ -80,7 +84,7 @@ func genLogicByRoute(dir, rootPkg string, cfg *config.Config, group spec.Group, 
 			"responseType": responseString,
 			"returnString": returnString,
 			"request":      requestString,
-			"userIdField":  userIdField,
+			"useSSE":       useSSE,
 		},
 	})
 }
@@ -98,14 +102,19 @@ func getLogicFolderPath(group spec.Group, route spec.Route) string {
 	return path.Join(logicDir, folder)
 }
 
-func genLogicImports(route spec.Route, parentPkg string) string {
+func genLogicImports(route spec.Route, parentPkg string, useSSE bool) string {
 	var imports []string
 	imports = append(imports, `"context"`+"\n")
+	if useSSE {
+		imports = append(imports, `"net/http"`+"\n")
+	}
+
 	imports = append(imports, fmt.Sprintf("\"%s\"", pathx.JoinPackages(parentPkg, contextDir)))
-	if shallImportTypesPackage(route) {
+	if shallImportTypesPackage(route) && !useSSE {
 		imports = append(imports, fmt.Sprintf("\"%s\"\n", pathx.JoinPackages(parentPkg, typesDir)))
 	}
 	imports = append(imports, fmt.Sprintf("\"%s/core/logx\"", vars.ProjectOpenSourceURL))
+
 	return strings.Join(imports, "\n\t")
 }
 
