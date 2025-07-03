@@ -18,19 +18,22 @@ package frontend
 import (
 	"github.com/suyuan32/goctls/frontend/vben"
 	"github.com/suyuan32/goctls/frontend/vben5"
+	"github.com/suyuan32/goctls/frontend/vben5ele"
 	"github.com/suyuan32/goctls/internal/cobrax"
 )
 
 var (
 	// Cmd describes an api command.
-	Cmd      = cobrax.NewCommand("frontend")
-	VbenCmd  = cobrax.NewCommand("vben", cobrax.WithRunE(vben.GenCRUDLogic))
-	Vben5Cmd = cobrax.NewCommand("vben5", cobrax.WithRunE(vben5.GenCRUDLogic))
+	Cmd         = cobrax.NewCommand("frontend")
+	VbenCmd     = cobrax.NewCommand("vben", cobrax.WithRunE(vben.GenCRUDLogic))
+	Vben5Cmd    = cobrax.NewCommand("vben5", cobrax.WithRunE(vben5.GenCRUDLogic))
+	Vben5EleCmd = cobrax.NewCommand("vben5-ele", cobrax.WithRunE(vben5ele.GenCRUDLogic))
 )
 
 func init() {
 	vbenCmdFlags := VbenCmd.Flags()
 	vben5CmdFlags := Vben5Cmd.Flags()
+	vben5EleCmdFlags := Vben5EleCmd.Flags()
 
 	vbenCmdFlags.StringVarPWithDefaultValue(&vben.VarStringOutput, "output", "o", "./")
 	vbenCmdFlags.StringVarP(&vben.VarStringApiFile, "api_file", "a")
@@ -54,6 +57,18 @@ func init() {
 	vben5CmdFlags.StringVar(&vben5.VarStringModelChineseName, "model_chinese_name")
 	vben5CmdFlags.StringVar(&vben5.VarStringModelEnglishName, "model_english_name")
 
+	vben5EleCmdFlags.StringVarPWithDefaultValue(&vben5ele.VarStringOutput, "output", "o", "./")
+	vben5EleCmdFlags.StringVarP(&vben5ele.VarStringApiFile, "api_file", "a")
+	vben5EleCmdFlags.StringVarPWithDefaultValue(&vben5ele.VarStringFolderName, "folder_name", "f", "sys")
+	vben5EleCmdFlags.StringVarP(&vben5ele.VarStringSubFolder, "sub_folder", "s")
+	vben5EleCmdFlags.StringVarPWithDefaultValue(&vben5ele.VarStringApiPrefix, "prefix", "p", "sys-api")
+	vben5EleCmdFlags.StringVarP(&vben5ele.VarStringModelName, "model_name", "m")
+	vben5EleCmdFlags.StringVarPWithDefaultValue(&vben5ele.VarStringFormType, "form_type", "t", "modal")
+	vben5EleCmdFlags.BoolVarP(&vben5ele.VarBoolOverwrite, "overwrite", "w")
+	vben5EleCmdFlags.StringVar(&vben5ele.VarStringModelChineseName, "model_chinese_name")
+	vben5EleCmdFlags.StringVar(&vben5ele.VarStringModelEnglishName, "model_english_name")
+
 	Cmd.AddCommand(VbenCmd)
 	Cmd.AddCommand(Vben5Cmd)
+	Cmd.AddCommand(Vben5EleCmd)
 }

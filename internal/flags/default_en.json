@@ -429,6 +429,19 @@
         "form_type": "Form container type, default is \"modal\", optional values are \"modal\"",
         "model_chinese_name": "Model Chinese name",
         "model_english_name": "Model English name"
+      },
+      "vben5-ele": {
+        "short": "Generate frontend related files (Vben5 Element Plus)",
+        "output": "Output directory, should be apps/simple-admin-core-ele or a specified subdirectory",
+        "api_file": "The absolute path of api file",
+        "folder_name": "The folder name to generate file in different directory. e.g. file folder in simple admin backend ui which is to store file manager service files",
+        "sub_folder": "The sub folder name. e.g. src/views/sys sub folder user which path is src/views/sys/user",
+        "prefix": "The request prefix for proxy. e.g. sys-api",
+        "model_name": "The model name. e.g. Example",
+        "overwrite": "Whether to overwrite the files, it will overwrite all generated files",
+        "form_type": "Form container type, default is \"modal\", optional values are \"modal\"",
+        "model_chinese_name": "Model Chinese name",
+        "model_english_name": "Model English name"
       }
     },
     "info": {
