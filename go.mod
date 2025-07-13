@@ -5,14 +5,14 @@ go 1.24.0
 toolchain go1.24.2
 
 require (
-	ariga.io/atlas v0.34.0
+	ariga.io/atlas v0.35.0
 	entgo.io/contrib v0.6.0
 	entgo.io/ent v0.14.4
-	github.com/duke-git/lancet/v2 v2.3.6
-	github.com/emicklei/proto v1.14.1
+	github.com/duke-git/lancet/v2 v2.3.7
+	github.com/emicklei/proto v1.14.2
 	github.com/fatih/structtag v1.2.0
 	github.com/go-openapi/inflect v0.21.2
-	github.com/go-sql-driver/mysql v1.9.2
+	github.com/go-sql-driver/mysql v1.9.3
 	github.com/gookit/color v1.5.4
 	github.com/iancoleman/strcase v0.3.0
 	github.com/jedib0t/go-pretty/v6 v6.6.7
@@ -24,8 +24,8 @@ require (
 	github.com/suyuan32/simple-admin-common v1.6.8
 	github.com/withfig/autocomplete-tools/integrations/cobra v1.2.1
 	github.com/zeromicro/antlr v0.0.1
-	github.com/zeromicro/go-zero v1.8.4
-	golang.org/x/text v0.26.0
+	github.com/zeromicro/go-zero v1.8.5
+	golang.org/x/text v0.27.0
 )
 
 require (
@@ -60,7 +60,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0 // indirect
 	golang.org/x/mod v0.25.0 // indirect
-	golang.org/x/sync v0.15.0 // indirect
+	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/tools v0.34.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250603155806-513f23925822 // indirect
