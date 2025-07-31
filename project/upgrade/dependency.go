@@ -22,6 +22,7 @@ import (
 	"strings"
 
 	"github.com/duke-git/lancet/v2/fileutil"
+
 	"github.com/suyuan32/goctls/config"
 	"github.com/suyuan32/goctls/rpc/execx"
 )
@@ -62,12 +63,6 @@ func upgradeOfficialDependencies(data, workDir string) (err error) {
 		},
 		{
 			Repo: "github.com/suyuan32/simple-admin-core",
-		},
-		{
-			Repo: "github.com/suyuan32/simple-admin-message-center",
-		},
-		{
-			Repo: "github.com/suyuan32/simple-admin-job",
 		},
 	}
 
