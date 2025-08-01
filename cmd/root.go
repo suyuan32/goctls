@@ -112,8 +112,8 @@ func init() {
 	})
 
 	rootCmd.Version = fmt.Sprintf(
-		"%s %s/%s - Go Zero %s - Simple Admin Tools %s", version.BuildVersion,
-		runtime.GOOS, runtime.GOARCH, config.DefaultGoZeroVersion, config.DefaultToolVersion)
+		"%s %s/%s - Go Zero %s - Simple Admin Tools %s - Core %s - Common Lib %s ", version.BuildVersion,
+		runtime.GOOS, runtime.GOARCH, config.DefaultGoZeroVersion, config.DefaultToolVersion, config.CoreVersion, config.CommonVersion)
 
 	rootCmd.SetUsageTemplate(usageTpl)
 	rootCmd.AddCommand(api.Cmd, docker.Cmd, kube.Cmd, env.Cmd, gateway.Cmd)
