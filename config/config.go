@@ -23,6 +23,9 @@ const GoctlsVersion = "v1.11.5"
 // CoreVersion is the core service version.
 const CoreVersion = "v1.6.12"
 
+// CommonVersion is the common lib version.
+const CommonVersion = "v1.6.11"
+
 // LangEnvKey is the environment variable name to control the tools help info language
 const LangEnvKey = "SIMPLE_LANG"
 

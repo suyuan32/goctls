@@ -68,10 +68,18 @@ func upgradeOfficialDependencies(data, workDir string) (err error) {
 
 	for _, v := range deps {
 		if strings.Contains(data, v.Repo) {
-			_, err = execx.Run(fmt.Sprintf("go mod edit -require=%s@%s", v.Repo,
-				config.CoreVersion), workDir)
-			if err != nil {
-				return err
+			if strings.Contains(data, "simple-admin-core") {
+				_, err = execx.Run(fmt.Sprintf("go mod edit -require=%s@%s", v.Repo,
+					config.CoreVersion), workDir)
+				if err != nil {
+					return err
+				}
+			} else if strings.Contains(data, "simple-admin-common") {
+				_, err = execx.Run(fmt.Sprintf("go mod edit -require=%s@%s", v.Repo,
+					config.CommonVersion), workDir)
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
