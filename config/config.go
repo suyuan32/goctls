@@ -15,16 +15,16 @@ const DefaultGoZeroVersion = "v1.8.5"
 var OldGoZeroVersion = []string{"v1.7.1", "v1.7.2", "v1.7.3", "v1.7.4", "v1.7.5", "v1.7.6", "v1.8.0", "v1.8.1", "v1.8.2", "v1.8.3", "v1.8.4"}
 
 // DefaultToolVersion defines the default version of simple admin tools for migrate
-const DefaultToolVersion = "v1.8.6-rc.1"
+const DefaultToolVersion = "v1.8.6-rc.2"
 
 // GoctlsVersion is goctls version
-const GoctlsVersion = "v1.11.5"
+const GoctlsVersion = "v1.11.6"
 
 // CoreVersion is the core service version.
-const CoreVersion = "v1.6.12"
+const CoreVersion = "v1.6.13"
 
 // CommonVersion is the common lib version.
-const CommonVersion = "v1.6.12"
+const CommonVersion = "v1.6.13"
 
 // LangEnvKey is the environment variable name to control the tools help info language
 const LangEnvKey = "SIMPLE_LANG"
