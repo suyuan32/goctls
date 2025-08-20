@@ -3,7 +3,7 @@ package {{.PkgName}}
 import (
 	"net/http"
 
-{{if not .UseSSE}}	"github.com/zeromicro/go-zero/rest/httpx"{{end}}
+    "github.com/zeromicro/go-zero/rest/httpx"
 
 	{{.ImportPackages}}
 )
@@ -25,7 +25,41 @@ func {{.HandlerName}}(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
 			{{if .HasResp}}httpx.OkJsonCtx(r.Context(), w, resp){{else}}httpx.Ok(w){{end}}
-		}{{else}}l := {{.LogicName}}.New{{.LogicType}}(r, w, svcCtx)
-		l.{{.Call}}({{if .HasRequest}}&req{{end}}){{end}}
+		}{{else}}
+		client := make(chan {{.ResponseType}}, 16)
+        defer func() {
+            close(client)
+        }()
+
+        l := {{.LogicName}}.New{{.LogicType}}(r.Context(), svcCtx)
+
+        threading.GoSafeCtx(r.Context(), func() {
+            err := l.{{.Call}}({{if .HasRequest}}&req, {{end}}client)
+            if err != nil {
+                logc.Errorw(r.Context(), "{{.HandlerName}}", logc.Field("error", err))
+                return
+            }
+        })
+
+        for {
+            select {
+            case data := <-client:
+                output, err := json.Marshal(data)
+                if err != nil {
+                    logc.Errorw(r.Context(), "{{.HandlerName}}", logc.Field("error", err))
+                    continue
+                }
+
+                if _, err := fmt.Fprintf(w, "data: %s\n\n", string(output)); err != nil {
+                    logc.Errorw(r.Context(), "{{.HandlerName}}", logc.Field("error", err))
+                    return
+                }
+               if flusher, ok := w.(http.Flusher); ok {
+                   flusher.Flush()
+               }
+            case <-r.Context().Done():
+                return
+            }
+        }{{end}}
 	}
 }

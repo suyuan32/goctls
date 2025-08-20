@@ -63,8 +63,14 @@ func genLogicByRoute(dir, rootPkg string, cfg *config.Config, group spec.Group, 
 	}
 
 	if useSSE {
-		responseString = ""
-		returnString = "return"
+		responseString = "error"
+		returnString = "return nil"
+		resp := responseGoTypeName(route, typesPacket)
+		if len(requestString) == 0 {
+			requestString = "client chan<- " + resp
+		} else {
+			requestString += ", client chan<- " + resp
+		}
 	}
 
 	subDir := getLogicFolderPath(group, route)

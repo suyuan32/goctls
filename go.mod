@@ -11,7 +11,7 @@ require (
 	github.com/duke-git/lancet/v2 v2.3.7
 	github.com/emicklei/proto v1.14.2
 	github.com/fatih/structtag v1.2.0
-	github.com/go-openapi/inflect v0.21.2
+	github.com/go-openapi/inflect v0.21.3
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/gookit/color v1.5.4
 	github.com/iancoleman/strcase v0.3.0
@@ -21,11 +21,11 @@ require (
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.7
 	github.com/stretchr/testify v1.10.0
-	github.com/suyuan32/simple-admin-common v1.6.13
+	github.com/suyuan32/simple-admin-common v1.7.0
 	github.com/withfig/autocomplete-tools/integrations/cobra v1.2.1
 	github.com/zeromicro/antlr v0.0.1
-	github.com/zeromicro/go-zero v1.8.5
-	golang.org/x/text v0.27.0
+	github.com/zeromicro/go-zero v1.9.0
+	golang.org/x/text v0.28.0
 )
 
 require (
@@ -62,7 +62,7 @@ require (
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0 // indirect
 	golang.org/x/mod v0.26.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect
-	golang.org/x/sys v0.34.0 // indirect
+	golang.org/x/sys v0.35.0 // indirect
 	golang.org/x/tools v0.35.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250728155136-f173205681a0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect

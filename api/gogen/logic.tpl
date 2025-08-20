@@ -5,19 +5,15 @@ import (
 )
 
 type {{.logic}} struct {
-	logx.Logger{{if .useSSE}}
-	request *http.Request
-	response http.ResponseWriter{{end}}
+	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func New{{.logic}}({{if not .useSSE}}ctx context.Context, {{else}}r *http.Request, w http.ResponseWriter, {{end}}svcCtx *svc.ServiceContext) *{{.logic}} {
+func New{{.logic}}(ctx context.Context, svcCtx *svc.ServiceContext) *{{.logic}} {
 	return &{{.logic}}{
-		Logger: logx.WithContext({{if not .useSSE}}ctx{{else}}r.Context(){{end}}),
-		ctx:    {{if not .useSSE}}ctx{{else}}r.Context(){{end}},{{if .useSSE}}
-		request : r,
-		response : w,{{end}}
+		Logger: logx.WithContext(ctx),
+		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }

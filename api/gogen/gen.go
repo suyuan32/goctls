@@ -179,7 +179,7 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 		}
 	}
 
-	rootPkg, err := golang.GetParentPackage(dir)
+	rootPkg, _, err := golang.GetParentPackage(dir)
 	if err != nil {
 		return err
 	}
