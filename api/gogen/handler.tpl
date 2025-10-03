@@ -27,13 +27,11 @@ func {{.HandlerName}}(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			{{if .HasResp}}httpx.OkJsonCtx(r.Context(), w, resp){{else}}httpx.Ok(w){{end}}
 		}{{else}}
 		client := make(chan {{.ResponseType}}, 16)
-        defer func() {
-            close(client)
-        }()
 
         l := {{.LogicName}}.New{{.LogicType}}(r.Context(), svcCtx)
 
         threading.GoSafeCtx(r.Context(), func() {
+            defer close(client)
             err := l.{{.Call}}({{if .HasRequest}}&req, {{end}}client)
             if err != nil {
                 logc.Errorw(r.Context(), "{{.HandlerName}}", logc.Field("error", err))
@@ -43,7 +41,10 @@ func {{.HandlerName}}(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
         for {
             select {
-            case data := <-client:
+            case data, ok := <-client:
+                if !ok {
+                    return
+                }
                 output, err := json.Marshal(data)
                 if err != nil {
                     logc.Errorw(r.Context(), "{{.HandlerName}}", logc.Field("error", err))
