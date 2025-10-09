@@ -30,7 +30,7 @@ func ToSnakeCase(s string) string {
 			continue
 		}
 
-		if IsUpperCase(r) && index != 0 {
+		if IsUpperCase(r) {
 			if IsLowerCase(rune(s[index-1])) {
 				out = append(out, '_', ToLowerCase(r))
 				continue
