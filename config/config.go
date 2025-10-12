@@ -18,13 +18,13 @@ var OldGoZeroVersion = []string{"v1.7.1", "v1.7.2", "v1.7.3", "v1.7.4", "v1.7.5"
 const DefaultToolVersion = "v1.9.1"
 
 // GoctlsVersion is goctls version
-const GoctlsVersion = "v1.12.1"
+const GoctlsVersion = "v1.12.2"
 
 // CoreVersion is the core service version.
-const CoreVersion = "v1.7.2"
+const CoreVersion = "v1.7.3"
 
 // CommonVersion is the common lib version.
-const CommonVersion = "v1.7.2"
+const CommonVersion = "v1.7.3"
 
 // LangEnvKey is the environment variable name to control the tools help info language
 const LangEnvKey = "SIMPLE_LANG"
