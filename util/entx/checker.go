@@ -15,31 +15,11 @@
 
 package entx
 
-import (
-	"strings"
-)
-
 // IsTimeProperty returns true when the string contains time suffix
 func IsTimeProperty(prop string) bool {
 	if prop == "time.Time" {
 		return true
 	}
-	return false
-}
-
-// IsUpperProperty returns true when the string
-// contains Ent upper string such as uuid, api and id
-func IsUpperProperty(prop string) bool {
-	prop = strings.ToLower(prop)
-
-	data := []string{"uuid", "id", "api", "url", "uri", "ip"}
-
-	for _, v := range data {
-		if strings.Contains(prop, v) {
-			return true
-		}
-	}
-
 	return false
 }
 

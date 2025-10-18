@@ -219,6 +219,8 @@ func genEntLogic(g *GenEntLogicContext) error {
 }
 
 func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *load.Schema) []*ApiLogicData {
+	// ent field
+	var tmpField = &gen.Field{}
 	var data []*ApiLogicData
 	hasTime, hasUUID, hasCreated, hasUpdated, hasPointy := false, false, false, false, false
 	// end string means whether to use \n
@@ -232,6 +234,7 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 
 	setLogic := strings.Builder{}
 	for _, v := range schema.Fields {
+		tmpField.Name = v.Name
 		if entx.IsBaseProperty(v.Name) {
 			if v.Name == "id" && entx.IsUUIDType(v.Info.Type.String()) {
 				g.UseUUID = true
@@ -248,24 +251,15 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		} else {
 			if entx.IsTimeProperty(v.Info.Type.String()) {
 				hasTime = true
-				setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(pointy.GetTimeMilliPointer(req.%s)).\n", parser.CamelCase(v.Name),
+				setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(pointy.GetTimeMilliPointer(req.%s)).\n", tmpField.StructField(),
 					parser.CamelCase(v.Name)))
-			} else if entx.IsUpperProperty(v.Name) {
-				if entx.IsUUIDType(v.Info.Type.String()) {
-					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(uuidx.ParseUUIDStringToPointer(req.%s)).\n", entx.ConvertSpecificNounToUpper(v.Name),
-						parser.CamelCase(v.Name)))
-					hasUUID = true
-				} else {
-					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(req.%s).\n", entx.ConvertSpecificNounToUpper(v.Name),
-						parser.CamelCase(v.Name)))
-				}
 			} else {
 				if entx.IsUUIDType(v.Info.Type.String()) {
-					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(uuidx.ParseUUIDStringToPointer(req.%s)).\n", parser.CamelCase(v.Name),
+					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(uuidx.ParseUUIDStringToPointer(req.%s)).\n", tmpField.StructField(),
 						parser.CamelCase(v.Name)))
 					hasUUID = true
 				} else {
-					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(req.%s).\n", parser.CamelCase(v.Name),
+					setLogic.WriteString(fmt.Sprintf("\t\t\tSetNotNil%s(req.%s).\n", tmpField.StructField(),
 						parser.CamelCase(v.Name)))
 				}
 			}
@@ -328,12 +322,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 			continue
 		}
 
+		tmpField.Name = v.Name
 		camelName := parser.CamelCase(v.Name)
-
-		entFieldName := camelName
-		if entx.IsUpperProperty(v.Name) {
-			entFieldName = entx.ConvertSpecificNounToUpper(v.Name)
-		}
 
 		if v.Info.Type.String() == "string" && !strings.Contains(strings.ToLower(v.Name), "uuid") {
 			predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sContains(*req.%s))\n\t}\n",
@@ -342,21 +332,21 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 		} else if entx.IsTimeProperty(v.Info.Type.String()) {
 			if g.SplitTimeField {
 				predicateData.WriteString(fmt.Sprintf("\tif req.%sBegin != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*req.%sBegin)))\n\t}\n",
-					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+					camelName, strings.ToLower(schema.Name), tmpField.StructField(), camelName))
 				predicateData.WriteString(fmt.Sprintf("\tif req.%sEnd != nil {\n\t\tpredicates = append(predicates, %s.%sLTE(time.UnixMilli(*req.%sEnd)))\n\t}\n",
-					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+					camelName, strings.ToLower(schema.Name), tmpField.StructField(), camelName))
 			} else {
 				predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sGTE(time.UnixMilli(*req.%s)))\n\t}\n",
-					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+					camelName, strings.ToLower(schema.Name), tmpField.StructField(), camelName))
 			}
 			count++
 		} else {
 			if v.Info.Type.String() == "[16]byte" {
 				predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(uuidx.ParseUUIDString(*req.%s)))\n\t}\n",
-					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+					camelName, strings.ToLower(schema.Name), tmpField.StructField(), camelName))
 			} else {
 				predicateData.WriteString(fmt.Sprintf("\tif req.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(*req.%s))\n\t}\n",
-					camelName, strings.ToLower(schema.Name), entFieldName, camelName))
+					camelName, strings.ToLower(schema.Name), tmpField.StructField(), camelName))
 			}
 			count++
 		}
@@ -368,6 +358,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 	listData := strings.Builder{}
 
 	for i, v := range schema.Fields {
+		tmpField.Name = v.Name
+
 		if entx.IsBaseProperty(v.Name) {
 			continue
 		} else {
@@ -393,13 +385,8 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 				}
 				hasPointy = true
 			} else {
-				if entx.IsUpperProperty(v.Name) {
-					listData.WriteString(fmt.Sprintf("\t\t\t%s:\t&v.%s,%s", nameCamelCase,
-						entx.ConvertSpecificNounToUpper(v.Name), endString))
-				} else {
-					listData.WriteString(fmt.Sprintf("\t\t\t%s:\t&v.%s,%s", nameCamelCase,
-						nameCamelCase, endString))
-				}
+				listData.WriteString(fmt.Sprintf("\t\t\t%s:\t&v.%s,%s", nameCamelCase,
+					tmpField.StructField(), endString))
 			}
 		}
 	}
