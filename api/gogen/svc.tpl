@@ -34,11 +34,16 @@ func NewServiceContext(c {{.config}}) *ServiceContext {
     trans := i18n.NewTranslator(c.I18nConf, i18n2.LocaleFS)
 {{end}}
 {{if .useEnt}}
-    db := ent.NewClient(
-		ent.Log(logx.Info), // logger
+	entOpts := []ent.Option{
+		ent.Log(logx.Info),
 		ent.Driver(c.DatabaseConf.NewNoCacheDriver()),
-		ent.Debug(), // debug mode
-	)
+	}
+
+	if c.DatabaseConf.Debug {
+		entOpts = append(entOpts, ent.Debug())
+	}
+
+	db := ent.NewClient(entOpts...)
 {{end}}
 	return &ServiceContext{
 		Config: c,{{if .useCasbin}}

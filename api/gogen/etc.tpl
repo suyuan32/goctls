@@ -30,6 +30,7 @@ Log:
   MaxOpenConn: 100
   SSLMode: disable
   CacheTime: 5
+  Debug: false
 {{end}}{{if .useCoreRpc}}
 CoreRpc:
   Target: k8s://default/core-rpc-svc:9101

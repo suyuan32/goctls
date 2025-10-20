@@ -13,11 +13,16 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-{{if .isEnt}}   db := ent.NewClient(
-      ent.Log(logx.Info), // logger
-      ent.Driver(c.DatabaseConf.NewNoCacheDriver()),
-      ent.Debug(), // debug mode
-    )
+{{if .isEnt}}   entOpts := []ent.Option{
+		ent.Log(logx.Info),
+		ent.Driver(c.DatabaseConf.NewNoCacheDriver()),
+	}
+
+	if c.DatabaseConf.Debug {
+		entOpts = append(entOpts, ent.Debug())
+	}
+
+	db := ent.NewClient(entOpts...)
     
     {{end}}
 	return &ServiceContext{
