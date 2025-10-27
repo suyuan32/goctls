@@ -8,6 +8,7 @@ import (
 
 	"github.com/duke-git/lancet/v2/fileutil"
 	new2 "github.com/suyuan32/goctls/api/new"
+	"github.com/suyuan32/goctls/util/format"
 
 	"github.com/gookit/color"
 
@@ -180,7 +181,8 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 	}
 
 	if zctx.DockerFile {
-		_, err = execx.Run(fmt.Sprintf("goctls docker -p %d -s %s -t rpc -l", zctx.Port, zctx.RpcName), abs)
+		serviceName, _ := format.FileNamingFormat(g.cfg.NamingFormat, zctx.RpcName)
+		_, err = execx.Run(fmt.Sprintf("goctls docker -p %d -s %s -t rpc -l", zctx.Port, serviceName), abs)
 	}
 
 	if zctx.UseDescDir {
