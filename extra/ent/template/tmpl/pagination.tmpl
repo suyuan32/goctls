@@ -11,14 +11,6 @@ in the LICENSE file in the root directory of this source tree.
     {{ $pkg := base $.Config.Package }}
     {{ template "import" $ }}
 
-    const errInvalidPage = "INVALID_PAGE"
-
-    const (
-        listField = "list"
-        pageNumField = "pageNum"
-        pageSizeField = "pageSize"
-    )
-
     type PageDetails struct {
         Page  uint64 `json:"page"`
         Size  uint64 `json:"size"`
