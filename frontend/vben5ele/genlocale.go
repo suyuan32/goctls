@@ -92,10 +92,10 @@ func genLocale(g *GenContext) error {
 
 		data := string(file)
 
-		if !strings.Contains(data, fmt.Sprintf("\"%s\":", strings.ToLower(g.ModelName))) && strings.Contains(data, ":") {
+		if !strings.Contains(data, fmt.Sprintf("\"%s\": {\n", strcase.ToLowerCamel(g.ModelName))) && strings.Contains(data, ":") {
 			data = data[:len(data)-3] + ",\n" + localeEnData.String() + data[len(data)-3:]
 		} else if g.Overwrite {
-			begin, end := FindBeginEndOfLocaleField(data, strings.ToLower(g.ModelName))
+			begin, end := FindBeginEndOfLocaleField(data, fmt.Sprintf("\"%s\": {\n", strcase.ToLowerCamel(g.ModelName)))
 			data = data[:begin-2] + localeEnData.String() + data[end+1:]
 		}
 
@@ -120,10 +120,10 @@ func genLocale(g *GenContext) error {
 
 		data := string(file)
 
-		if !strings.Contains(data, fmt.Sprintf("\"%s\":", strcase.ToLowerCamel(g.ModelName))) && strings.Contains(data, ":") {
+		if !strings.Contains(data, fmt.Sprintf("\"%s\": {\n", strcase.ToLowerCamel(g.ModelName))) && strings.Contains(data, ":") {
 			data = data[:len(data)-3] + ",\n" + localeZhData.String() + data[len(data)-3:]
 		} else if g.Overwrite {
-			begin, end := FindBeginEndOfLocaleField(data, fmt.Sprintf("\"%s\"", strcase.ToLowerCamel(g.ModelName)))
+			begin, end := FindBeginEndOfLocaleField(data, fmt.Sprintf("\"%s\": {\n", strcase.ToLowerCamel(g.ModelName)))
 			data = data[:begin-2] + localeZhData.String() + data[end+1:]
 		}
 
