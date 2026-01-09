@@ -10,7 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"{{end}}
     {{if .useCasbin}}
     "github.com/zeromicro/go-zero/rest"
-    "github.com/casbin/casbin/v2"{{end}}{{if .useCoreRpc}}
+    "github.com/casbin/casbin/v3"{{end}}{{if .useCoreRpc}}
 	"github.com/zeromicro/go-zero/zrpc"{{end}}
 )
 
