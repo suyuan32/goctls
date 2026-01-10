@@ -93,7 +93,7 @@ func DoGen(g *GenContext) error {
 		return errors.New("failed to find insert place in config")
 	}
 
-	fileutil.WriteStringToFile(configFilePath, configFileStr[:configInsertIdx+16]+fmt.Sprintf("\t%sRpc    zrpc.RpcClientConf", g.ServiceName)+configFileStr[configInsertIdx+16:], false)
+	fileutil.WriteStringToFile(configFilePath, configFileStr[:configInsertIdx+16]+fmt.Sprintf("\t%sRpc    zrpc.RpcClientConf\n", g.ServiceName)+configFileStr[configInsertIdx+16:], false)
 
 	svcStrBuilder := strings.Builder{}
 
@@ -119,7 +119,7 @@ func DoGen(g *GenContext) error {
 
 	svcStrBuilder.WriteString(svcFileStr[importInsertIdx+8 : svcTypeInsertIdx+29])
 
-	svcStrBuilder.WriteString(fmt.Sprintf("\n\t%sRpc   %sclient.%s", g.ServiceName, strings.ToLower(g.ServiceName), g.ServiceName))
+	svcStrBuilder.WriteString(fmt.Sprintf("\n\t%sRpc   %sclient.%s\n", g.ServiceName, strings.ToLower(g.ServiceName), g.ServiceName))
 
 	svcReturnInsertIdx := strings.Index(svcFileStr, "&ServiceContext{")
 
