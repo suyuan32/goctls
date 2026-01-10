@@ -95,10 +95,12 @@ func DoGen(g *GenContext) error {
 	typeNameSet := set.New[string]()
 
 	// gen route
+	modelCount := 0
 	for _, v := range protoData.Service {
 		for _, r := range v.RPC {
 			if strings.Contains(r.Comment.Message(), g.GroupName) {
 				if SkipRpcName(r.Name, g.ModelName) {
+					modelCount++
 					continue
 				}
 				urlName, err := format.FileNamingFormat("go_zero", r.Name)
@@ -106,6 +108,7 @@ func DoGen(g *GenContext) error {
 					return err
 				}
 				if strings.Contains(apiData, r.Name) {
+					modelCount++
 					continue
 				}
 
@@ -119,7 +122,12 @@ func DoGen(g *GenContext) error {
 	}
 
 	if routeData.Len() < 2 {
-		return errors.New("rpc not found, please check your group name is correct")
+		if modelCount == 0 {
+			return errors.New("rpc not found, please check your group name is correct")
+		}
+
+		color.Green.Println("Generate successfully")
+		return nil
 	}
 
 	// gen type
