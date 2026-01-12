@@ -448,14 +448,27 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 			}
 
 			if entx.IsUUIDType(v.Info.Type.String()) {
-				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.String()),%s", camelName,
-					tmpField.StructField(), endString))
+				if v.Nillable {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.String()),%s", camelName,
+						tmpField.StructField(), endString))
+				} else {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(v.%s.String()),%s", camelName,
+						tmpField.StructField(), endString))
+				}
 			} else if entx.IsOnlyEntType(v.Info.Type.String()) {
-				listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(%s(v.%s)),%s", camelName,
-					entx.ConvertOnlyEntTypeToGoType(v.Info.Type.String()),
-					tmpField.StructField(), endString))
+				if v.Nillable {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tv.%s,%s", camelName,
+						tmpField.StructField(), endString))
+				} else {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(%s(v.%s)),%s", camelName,
+						entx.ConvertOnlyEntTypeToGoType(v.Info.Type.String()),
+						tmpField.StructField(), endString))
+				}
 			} else if entx.IsTimeProperty(v.Info.Type.String()) {
-				if v.Optional {
+				if v.Nillable {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetUnixMilliPointer(v.%s.UnixMilli()),%s", camelName,
+						tmpField.StructField(), endString))
+				} else if v.Optional {
 					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetUnixMilliPointer(v.%s.UnixMilli()),%s", camelName,
 						tmpField.StructField(), endString))
 				} else {
@@ -463,7 +476,10 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 						tmpField.StructField(), endString))
 				}
 			} else {
-				if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
+				if v.Nillable {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tv.%s,%s", camelName,
+						tmpField.StructField(), endString))
+				} else if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
 					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tpointy.GetPointer(%s(v.%s)),%s", camelName,
 						entx.ConvertEntTypeToGotype(v.Info.Type.String()), tmpField.StructField(), endString))
 				} else {
