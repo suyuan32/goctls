@@ -3,8 +3,8 @@ package {{.modelNameLowerCase}}
 import (
 	"context"
 
-    "{{.projectPackage}}{{.importPrefix}}/internal/svc"
-	"{{.projectPackage}}{{.importPrefix}}/internal/types"
+    "{{.projectPackage}}{{if .importPrefix}}/{{.importPrefix}}{{end}}/internal/svc"
+	"{{.projectPackage}}{{if .importPrefix}}/{{.importPrefix}}{{end}}/internal/types"
 	"{{.rpcPackage}}"
 {{if .useI18n}}
 	"github.com/suyuan32/simple-admin-common/i18n"{{end}}{{if .optionalService}}{{if not .useI18n}}
