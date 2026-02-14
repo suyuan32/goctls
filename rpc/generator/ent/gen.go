@@ -411,7 +411,11 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 			}
 			count++
 		} else {
-			if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
+			// []byte 类型的搜索条件，不需要解引用，直接传入值
+			if v.Info.Type.String() == "[]byte" {
+				predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(in.%s))\n\t}\n",
+					camelName, strings.ToLower(schema.Name), tmpField.StructField(), camelName))
+			} else if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
 				if v.Info.Type.String() == "[16]byte" {
 					predicateData.WriteString(fmt.Sprintf("\tif in.%s != nil {\n\t\tpredicates = append(predicates, %s.%sEQ(uuidx.ParseUUIDString(*in.%s)))\n\t}\n",
 						camelName, strings.ToLower(schema.Name), tmpField.StructField(), camelName))
@@ -476,7 +480,11 @@ func GenCRUDData(g *GenEntLogicContext, projectCtx *ctx.ProjectContext, schema *
 						tmpField.StructField(), endString))
 				}
 			} else {
-				if v.Nillable {
+				// bytes 类型在 proto 中通常为 []byte，这里不取地址，直接赋值
+				if v.Info.Type.String() == "[]byte" {
+					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tv.%s,%s", camelName,
+						tmpField.StructField(), endString))
+				} else if v.Nillable {
 					listData.WriteString(fmt.Sprintf("\t\t\t%s:\tv.%s,%s", camelName,
 						tmpField.StructField(), endString))
 				} else if entx.IsGoTypeNotPrototype(v.Info.Type.String()) {
