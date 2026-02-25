@@ -402,11 +402,21 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 						fieldComment = strings.Trim(protox.ProtoField.Comment, " ")
 					}
 
-					structData = fmt.Sprintf("\n\n        // %s\n        %s  *%s `json:\"%s,optional\"`",
-						fieldComment,
-						parser.CamelCase(protox.ProtoField.Name),
-						entx.ConvertProtoTypeToGoType(protox.ProtoField.Type),
-						jsonTag)
+					goType := entx.ConvertProtoTypeToGoType(protox.ProtoField.Type)
+					// bytes 在 api 里使用 []byte，不加指针
+					if goType == "[]byte" {
+						structData = fmt.Sprintf("\n\n        // %s\n        %s  %s `json:\"%s,optional\"`",
+							fieldComment,
+							parser.CamelCase(protox.ProtoField.Name),
+							goType,
+							jsonTag)
+					} else {
+						structData = fmt.Sprintf("\n\n        // %s\n        %s  *%s `json:\"%s,optional\"`",
+							fieldComment,
+							parser.CamelCase(protox.ProtoField.Name),
+							goType,
+							jsonTag)
+					}
 
 					infoData.WriteString(structData)
 				}
@@ -421,20 +431,31 @@ func GenApiData(ctx *GenLogicByProtoContext, p *parser.Proto) (string, error) {
 						return "", err
 					}
 
-					pointerStr := ""
-					optionalStr := ""
-					if protox.ProtoField.Optional {
-						pointerStr = "*"
-						optionalStr = "optional"
-					}
+					goType := entx.ConvertProtoTypeToGoType(protox.ProtoField.Type)
 
-					structData = fmt.Sprintf("\n\n        // %s\n        %s  %s%s `json:\"%s,%s\"`",
-						parser.CamelCase(protox.ProtoField.Name),
-						parser.CamelCase(protox.ProtoField.Name),
-						pointerStr,
-						entx.ConvertProtoTypeToGoType(protox.ProtoField.Type),
-						jsonTag,
-						optionalStr)
+					// bytes 在列表请求中也使用 []byte，不加指针
+					if goType == "[]byte" {
+						structData = fmt.Sprintf("\n\n        // %s\n        %s  %s `json:\"%s,optional\"`",
+							parser.CamelCase(protox.ProtoField.Name),
+							parser.CamelCase(protox.ProtoField.Name),
+							goType,
+							jsonTag)
+					} else {
+						pointerStr := ""
+						optionalStr := ""
+						if protox.ProtoField.Optional {
+							pointerStr = "*"
+							optionalStr = "optional"
+						}
+
+						structData = fmt.Sprintf("\n\n        // %s\n        %s  %s%s `json:\"%s,%s\"`",
+							parser.CamelCase(protox.ProtoField.Name),
+							parser.CamelCase(protox.ProtoField.Name),
+							pointerStr,
+							goType,
+							jsonTag,
+							optionalStr)
+					}
 
 					if parser.CamelCase(protox.ProtoField.Name) == "Page" || parser.CamelCase(protox.ProtoField.Name) == "PageSize" {
 						continue

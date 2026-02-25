@@ -37,6 +37,8 @@ func ConvertEntTypeToProtoType(typeName string) string {
 		typeName = "uint64"
 	case "[16]byte":
 		typeName = "string"
+	case "[]byte":
+		typeName = "bytes"
 	case "uint8", "uint16":
 		typeName = "uint32"
 	case "int8", "int16":
@@ -52,6 +54,8 @@ func ConvertProtoTypeToGoType(typeName string) string {
 		typeName = "float32"
 	case "double":
 		typeName = "float64"
+	case "bytes":
+		typeName = "[]byte"
 	}
 	return typeName
 }
