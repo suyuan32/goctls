@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	ariga.io/atlas v1.1.0
 	entgo.io/contrib v0.7.0
-	entgo.io/ent v0.14.5
+	entgo.io/ent v0.14.6
 	github.com/duke-git/lancet/v2 v2.3.9
 	github.com/emicklei/proto v1.14.3
 	github.com/fatih/structtag v1.2.0
@@ -14,15 +14,15 @@ require (
 	github.com/gookit/color v1.6.0
 	github.com/iancoleman/strcase v0.3.0
 	github.com/jedib0t/go-pretty/v6 v6.7.8
-	github.com/lib/pq v1.11.2
+	github.com/lib/pq v1.12.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
 	github.com/stretchr/testify v1.11.1
-	github.com/suyuan32/simple-admin-common v1.8.2
+	github.com/suyuan32/simple-admin-common v1.8.3
 	github.com/withfig/autocomplete-tools/integrations/cobra v1.2.1
 	github.com/zeromicro/antlr v0.0.1
-	github.com/zeromicro/go-zero v1.10.0
+	github.com/zeromicro/go-zero v1.10.1
 	golang.org/x/text v0.35.0
 )
 
@@ -34,7 +34,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/fatih/color v1.18.0 // indirect
+	github.com/fatih/color v1.19.0 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/gofrs/uuid/v5 v5.4.0 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
