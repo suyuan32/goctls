@@ -118,6 +118,10 @@ func readHostAndPortFromYAML(configPath string) (string, string, error) {
 		return "", "", fmt.Errorf("invalid host/port in %s", configPath)
 	}
 
+	if host == "0.0.0.0" {
+		host = "localhost"
+	}
+
 	return host, port, nil
 }
 
