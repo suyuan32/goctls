@@ -323,10 +323,10 @@ func wrapCodeMsgProps(ctx Context, properties spec.SchemaProps, atDoc apiSpec.At
 func specExtensions(api apiSpec.Info, defaults swaggerDefaults) (spec.Extensions, *spec.Info) {
 	ext := spec.Extensions{}
 	ext.Add("x-goctl-version", version.BuildVersion)
-	ext.Add("x-description", "This is a goctl generated swagger file.")
+	ext.Add("x-description", "This is a goctls generated swagger file.")
 	ext.Add("x-date", time.Now().Format(time.DateTime))
-	ext.Add("x-github", "https://github.com/zeromicro/go-zero")
-	ext.Add("x-go-zero-doc", "https://go-zero.dev/")
+	ext.Add("x-github", "https://github.com/suyuan32/simple-admin-core")
+	ext.Add("x-simple-admin-doc", "https://doc.ryansu.tech/zh/")
 
 	info := &spec.Info{}
 	info.Title = getStringFromKVOrDefault(api.Properties, propertyKeyTitle, defaults.Title)
