@@ -122,3 +122,38 @@ func TestSpec2PathSummaryAndDescriptionUseRouteDocByDefault(t *testing.T) {
 		assert.Equal(t, "fetch user list", pathItem.Get.Description)
 	}
 }
+
+func TestSpec2PathSchemesFallbackToGlobalByDefault(t *testing.T) {
+	route := spec.Route{
+		Method:  "get",
+		Path:    "/students",
+		Handler: "GetStudents",
+	}
+	group := spec.Group{}
+
+	pathItem := spec2Path(testingContext(t), group, route)
+
+	if assert.NotNil(t, pathItem.Get) {
+		assert.Nil(t, pathItem.Get.Schemes)
+	}
+}
+
+func TestSpec2PathSchemesCanBeSetPerRoute(t *testing.T) {
+	route := spec.Route{
+		Method:  "get",
+		Path:    "/students",
+		Handler: "GetStudents",
+		AtDoc: spec.AtDoc{
+			Properties: map[string]string{
+				propertyKeySchemes: "https",
+			},
+		},
+	}
+	group := spec.Group{}
+
+	pathItem := spec2Path(testingContext(t), group, route)
+
+	if assert.NotNil(t, pathItem.Get) {
+		assert.Equal(t, []string{"https"}, pathItem.Get.Schemes)
+	}
+}

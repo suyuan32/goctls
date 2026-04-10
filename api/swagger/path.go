@@ -97,7 +97,7 @@ func spec2Path(ctx Context, group apiSpec.Group, route apiSpec.Route) spec.PathI
 			Description: getStringFromKVOrDefault(route.AtDoc.Properties, propertyKeyDescription, defaultDesc),
 			Consumes:    consumesFromTypeOrDef(ctx, route.Method, route.RequestType),
 			Produces:    getListFromInfoOrDefault(route.AtDoc.Properties, propertyKeyProduces, []string{applicationJson}),
-			Schemes:     getListFromInfoOrDefault(route.AtDoc.Properties, propertyKeySchemes, []string{schemeHttps}),
+			Schemes:     getListFromInfoOrDefault(route.AtDoc.Properties, propertyKeySchemes, nil),
 			Tags:        getListFromInfoOrDefault(group.Annotation.Properties, propertyKeyTags, getListFromInfoOrDefault(group.Annotation.Properties, propertyKeyGroup, getListFromInfoOrDefault(group.Annotation.Properties, propertyKeySummary, groupTags))),
 			Summary:     getStringFromKVOrDefault(route.AtDoc.Properties, propertyKeySummary, defaultDesc),
 			ID:          operationId,
