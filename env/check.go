@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/suyuan32/goctls/pkg/env"
-	"github.com/suyuan32/goctls/pkg/goswagger"
 	"github.com/suyuan32/goctls/pkg/protoc"
 	"github.com/suyuan32/goctls/pkg/protocgengo"
 	"github.com/suyuan32/goctls/pkg/protocgengogrpc"
@@ -40,11 +39,6 @@ var bins = []bin{
 		name:   "protoc-gen-go-grpc",
 		exists: protocgengogrpc.Exists(),
 		get:    protocgengogrpc.Install,
-	},
-	{
-		name:   "swagger",
-		exists: goswagger.Exists(),
-		get:    goswagger.Install,
 	},
 }
 

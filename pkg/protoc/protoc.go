@@ -17,11 +17,11 @@ import (
 )
 
 var url = map[string]string{
-	"linux_32":   "https://github.com/protocolbuffers/protobuf/releases/download/v25.2/protoc-25.2-linux-x86_32.zip",
-	"linux_64":   "https://github.com/protocolbuffers/protobuf/releases/download/v25.2/protoc-25.2-linux-x86_64.zip",
-	"darwin":     "https://github.com/protocolbuffers/protobuf/releases/download/v25.2/protoc-25.2-osx-x86_64.zip",
-	"windows_32": "https://github.com/protocolbuffers/protobuf/releases/download/v25.2/protoc-25.2-win32.zip",
-	"windows_64": "https://github.com/protocolbuffers/protobuf/releases/download/v25.2/protoc-25.2-win64.zip",
+	"linux_32":   "https://github.com/protocolbuffers/protobuf/releases/download/v25.9/protoc-25.9-linux-x86_32.zip",
+	"linux_64":   "https://github.com/protocolbuffers/protobuf/releases/download/v25.9/protoc-25.9-linux-x86_64.zip",
+	"darwin":     "https://github.com/protocolbuffers/protobuf/releases/download/v25.9/protoc-25.9-osx-x86_64.zip",
+	"windows_32": "https://github.com/protocolbuffers/protobuf/releases/download/v25.9/protoc-25.9-win32.zip",
+	"windows_64": "https://github.com/protocolbuffers/protobuf/releases/download/v25.9/protoc-25.9-win64.zip",
 }
 
 const (
