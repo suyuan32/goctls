@@ -42,6 +42,11 @@ func formatComment(comment string) string {
 	return strings.TrimSpace(s)
 }
 
+func formatMemberDescription(member apiSpec.Member) string {
+	// Prefer leading docs (comments above field), fallback to trailing inline comment.
+	return getFirstUsableString(normalizeComments(member.Docs), formatComment(member.Comment))
+}
+
 func sampleItemsFromGoType(ctx Context, tp apiSpec.Type) *spec.Items {
 	val, ok := tp.(apiSpec.ArrayType)
 	if !ok {

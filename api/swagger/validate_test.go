@@ -79,3 +79,41 @@ func TestPropertiesFromType_ValidateAndRequired(t *testing.T) {
 	}
 	assert.Equal(t, []string{"age"}, required)
 }
+
+func TestPropertiesFromType_DescriptionFromDocs(t *testing.T) {
+	ctx := testingContext(t)
+	testStruct := apiSpec.DefineStruct{
+		RawName: "Request",
+		Members: []apiSpec.Member{
+			{
+				Name: "Name",
+				Type: apiSpec.PrimitiveType{RawName: "string"},
+				Tag:  `json:"name"`,
+				Docs: []string{"// user name"},
+			},
+		},
+	}
+
+	properties, _ := propertiesFromType(ctx, testStruct)
+	assert.Equal(t, "user name", properties["name"].Description)
+}
+
+func TestParametersFromType_DescriptionFromDocs(t *testing.T) {
+	ctx := testingContext(t)
+	testStruct := apiSpec.DefineStruct{
+		RawName: "Request",
+		Members: []apiSpec.Member{
+			{
+				Name: "Name",
+				Type: apiSpec.PrimitiveType{RawName: "string"},
+				Tag:  `form:"name"`,
+				Docs: []string{"// user name for query"},
+			},
+		},
+	}
+
+	params := parametersFromType(ctx, http.MethodGet, testStruct)
+	if assert.Len(t, params, 1) {
+		assert.Equal(t, "user name for query", params[0].Description)
+	}
+}

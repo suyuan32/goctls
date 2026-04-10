@@ -94,7 +94,7 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 				ParamProps: spec.ParamProps{
 					In:          paramsInHeader,
 					Name:        headerTag.Name,
-					Description: formatComment(member.Comment),
+					Description: formatMemberDescription(member),
 					Required:    required,
 				},
 			})
@@ -130,7 +130,7 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 				ParamProps: spec.ParamProps{
 					In:          paramsInPath,
 					Name:        pathParameterTag.Name,
-					Description: formatComment(member.Comment),
+					Description: formatMemberDescription(member),
 					Required:    required,
 				},
 			})
@@ -167,7 +167,7 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 					ParamProps: spec.ParamProps{
 						In:              paramsInQuery,
 						Name:            formTag.Name,
-						Description:     formatComment(member.Comment),
+						Description:     formatMemberDescription(member),
 						Required:        required,
 						AllowEmptyValue: !required,
 					},
@@ -194,7 +194,7 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 					ParamProps: spec.ParamProps{
 						In:              paramsInForm,
 						Name:            formTag.Name,
-						Description:     formatComment(member.Comment),
+						Description:     formatMemberDescription(member),
 						Required:        required,
 						AllowEmptyValue: !required,
 					},
@@ -219,7 +219,7 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 					Example: exampleValueFromOptions(ctx, jsonTag.Options, member.Type),
 				},
 				SchemaProps: spec.SchemaProps{
-					Description:          formatComment(member.Comment),
+					Description:          formatMemberDescription(member),
 					Type:                 typeFromGoType(ctx, member.Type),
 					Default:              defValueFromOptions(ctx, jsonTag.Options, member.Type),
 					Maximum:              maximum,
