@@ -40,14 +40,6 @@ func resolveSwaggerDefaults(apiPath, makefilePath string) swaggerDefaults {
 }
 
 func resolveMakefilePath(apiPath, makefilePath string) (string, string, bool) {
-	if strings.TrimSpace(makefilePath) != "" {
-		makefileAbsPath, err := filepath.Abs(makefilePath)
-		if err != nil {
-			return "", "", false
-		}
-		return makefileAbsPath, filepath.Dir(makefileAbsPath), true
-	}
-
 	apiAbsPath, err := filepath.Abs(apiPath)
 	if err != nil {
 		return "", "", false
@@ -56,6 +48,14 @@ func resolveMakefilePath(apiPath, makefilePath string) (string, string, bool) {
 	projectRoot, ok := projectRootFromAPIPath(apiAbsPath)
 	if !ok {
 		return "", "", false
+	}
+
+	if strings.TrimSpace(makefilePath) != "" {
+		makefileAbsPath, err := filepath.Abs(makefilePath)
+		if err != nil {
+			return "", "", false
+		}
+		return makefileAbsPath, projectRoot, true
 	}
 
 	return filepath.Join(projectRoot, "Makefile"), projectRoot, true
