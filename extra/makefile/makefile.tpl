@@ -56,9 +56,7 @@ lint: # Run go linter | 运行代码错误分析
 
 .PHONY: tools
 tools: # Install the necessary tools | 安装必要的工具
-	$(GO) install github.com/golangci/golangci-lint/cmd/golangci-lint@latest;{{if or .isSingle .isApi}}
-	$(GO) install github.com/go-swagger/go-swagger/cmd/swagger@latest
-{{end}}
+	$(GO) install github.com/golangci/golangci-lint/cmd/golangci-lint@latest;
 
 .PHONY: docker
 docker: # Build the docker image | 构建 docker 镜像
