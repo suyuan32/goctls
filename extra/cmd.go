@@ -78,6 +78,7 @@ func init() {
 	makefileCmdFlags.StringVarP(&makefile.VarStringServiceType, "service_type", "t")
 	makefileCmdFlags.BoolVarP(&makefile.VarBoolI18n, "i18n", "i")
 	makefileCmdFlags.BoolVarP(&makefile.VarBoolEnt, "ent", "e")
+	makefileCmdFlags.BoolVarP(&makefile.VarDisableValidator, "disable_validator", "v")
 
 	proto2apiCmdFlags.StringVarP(&proto2api.VarStringApiPath, "api_path", "a")
 	proto2apiCmdFlags.StringVarP(&proto2api.VarStringProtoPath, "proto_path", "p")

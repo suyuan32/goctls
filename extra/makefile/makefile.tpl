@@ -28,7 +28,10 @@ ENT_FEATURE={{.entFeature}}
 {{if .isSingle}}
 # Auto generate API data for initialization | 自动生成 API 初始化数据
 AUTO_API_INIT_DATA=true{{end}}{{end}}
-
+{{if or .isApi .isSingle}}
+# Whether to disable go playground validator (Using only go zero's built-in rules) | 是否禁用 go playground validator (仅使用 go zero 内置规则)
+DISABLE_PLAYGROUND_VALIDATOR={{if .disableValidator}}true{{else}}false{{end}}
+{{end}}
 # The arch of the build | 构建的架构
 GOARCH=amd64
 
@@ -70,7 +73,7 @@ publish-docker: # Publish docker image | 发布 docker 镜像
 {{if or .isApi .isSingle}}
 .PHONY: gen-api
 gen-api: # Generate API files | 生成 API 的代码
-	goctls api go --api ./desc/all.api --dir ./ --trans_err=true --style=$(PROJECT_STYLE)
+	goctls api go --api ./desc/all.api --dir ./ --trans_err={{if .useI18n}}true{{else}}false{{end}} --style=$(PROJECT_STYLE) --disable_validator=$(DISABLE_PLAYGROUND_VALIDATOR)
 	goctls api swagger --api=./desc/all.api --filename=./$(SERVICE_STYLE).$(SWAGGER_TYPE) --dir=./
 	@echo "Generate API codes successfully"
 {{end}}{{if .isRpc}}

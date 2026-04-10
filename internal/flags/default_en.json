@@ -42,7 +42,7 @@
         "casbin": "Whether to use the Casbin",
         "extra_field": "Whether to generate extra fields for logic, such as userId",
         "i18n": "{{.global.i18n}}",
-        "disable_validator": "Whether to disable validator"
+        "disable_validator": "Whether to disable the go playground validator and only use the go zero built-in validator"
       },
       "new": {
         "short": "Fast create api service",
@@ -57,7 +57,8 @@
         "trans_err": "Whether to translate the error",
         "port": "The service port exposed",
         "ent": "Whether to use Ent in API service",
-        "use_core_rpc": "Whether to use \"CoreRpc\", if true will generate \"CoreRpc\" configuration"
+        "use_core_rpc": "Whether to use \"CoreRpc\", if true will generate \"CoreRpc\" configuration",
+        "disable_validator": "Whether to disable the go playground validator and only use the go zero built-in validator"
       },
       "validate": {
         "short": "Validate api file",
@@ -309,7 +310,8 @@
         "dir": "Directory where the makefile file is located.",
         "service_type": "Service type: api, single, or rpc.",
         "i18n": "{{.global.i18n}}",
-        "ent": "Whether to use Ent."
+        "ent": "Whether to use Ent.",
+        "disable_validator": "Whether to disable the go playground validator and only use the go zero built-in validator"
       },
       "proto2api": {
         "short": "Generate additional data for API, such as type and service, through proto",

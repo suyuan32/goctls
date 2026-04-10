@@ -220,6 +220,10 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 			makefileCmd += " -e"
 		}
 
+		if g.UseValidator {
+			makefileCmd += " -v"
+		}
+
 		_, err = execx.Run(makefileCmd, dir)
 
 		if err != nil {

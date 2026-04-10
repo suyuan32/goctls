@@ -83,6 +83,7 @@ func init() {
 	newCmdFlags.IntVarPWithDefaultValue(&new.VarIntServicePort, "port", "p", 9100)
 	newCmdFlags.BoolVarP(&new.VarBoolEnt, "ent", "e")
 	newCmdFlags.BoolVarP(&new.VarBoolCore, "use_core_rpc", "r")
+	newCmdFlags.BoolVar(&gogen.VarBoolDisabledValidator, "disable_validator")
 
 	pluginCmdFlags.StringVarP(&plugin.VarStringPlugin, "plugin", "p")
 	pluginCmdFlags.StringVar(&plugin.VarStringDir, "dir")

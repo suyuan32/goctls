@@ -148,6 +148,7 @@ func CreateServiceCommand(_ *cobra.Command, args []string) error {
 		UseEnt:        VarBoolEnt,
 		IsNewProject:  true,
 		UseCoreRpc:    VarBoolCore,
+		UseValidator:  !gogen.VarBoolDisabledValidator,
 	}
 
 	err = gogen.DoGenProject(apiFilePath, abs, VarStringStyle, genCtx)

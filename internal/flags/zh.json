@@ -42,7 +42,7 @@
         "casbin": "是否使用 Casbin",
         "extra_field": "是否生成额外变量，如 userId",
         "i18n": "{{.global.i18n}}",
-        "disable_validator": "是否禁用验证器"
+        "disable_validator": "是否禁用go playground 验证器, 仅使用 go zero 内置验证器"
       },
       "new": {
         "short": "快速创建 api 服务",
@@ -58,7 +58,8 @@
         "port": "服务暴露的端口",
         "gitlab": "是否使用 gitlab CI/CD",
         "ent": "API 服务中是否使用 Ent",
-        "use_core_rpc": "是否使用 CoreRpc, 生成 CoreRpc 配置"
+        "use_core_rpc": "是否使用 CoreRpc, 生成 CoreRpc 配置",
+        "disable_validator": "是否禁用go playground 验证器, 仅使用 go zero 内置验证器"
       },
       "validate": {
         "short": "验证 api 文件",
@@ -311,7 +312,8 @@
         "dir": "Makefile 文件所在目录",
         "service_type": "服务类型，api, single 或者 rpc",
         "i18n": "{{.global.i18n}}",
-        "ent": "是否使用 Ent"
+        "ent": "是否使用 Ent",
+        "disable_validator": "是否禁用go playground 验证器, 仅使用 go zero 内置验证器"
       },
       "proto2api": {
         "short": "通过 proto 生成 api 额外数据，如 type 和 service",

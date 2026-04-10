@@ -42,18 +42,20 @@ var (
 	VarStringServiceType string
 	VarBoolI18n          bool
 	VarBoolEnt           bool
+	VarDisableValidator  bool
 )
 
 type GenContext struct {
-	ServiceName string
-	Style       string
-	IsSingle    bool
-	IsApi       bool
-	IsRpc       bool
-	UseI18n     bool
-	UseEnt      bool
-	TargetPath  string
-	EntFeature  string
+	ServiceName      string
+	Style            string
+	IsSingle         bool
+	IsApi            bool
+	IsRpc            bool
+	UseI18n          bool
+	UseEnt           bool
+	TargetPath       string
+	EntFeature       string
+	DisableValidator bool
 }
 
 func Gen(_ *cobra.Command, _ []string) (err error) {
@@ -80,6 +82,7 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 	ctx.ServiceName = VarStringServiceName
 	ctx.UseEnt = VarBoolEnt
 	ctx.UseI18n = VarBoolI18n
+	ctx.DisableValidator = VarDisableValidator
 
 	switch VarStringServiceType {
 	case "api":
@@ -127,6 +130,7 @@ func DoGen(g *GenContext) error {
 		"isSingle":         g.IsSingle,
 		"isRpc":            g.IsRpc,
 		"entFeature":       g.EntFeature,
+		"disableValidator": g.DisableValidator,
 	})
 
 	if fileutil.IsExist(g.TargetPath) {
