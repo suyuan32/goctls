@@ -25,6 +25,9 @@ var (
 
 	// VarBoolYaml specifies whether to generate a YAML file.
 	VarBoolYaml bool
+
+	// VarStringMakefile specifies a custom Makefile path for resolving defaults.
+	VarStringMakefile string
 )
 
 func Command(_ *cobra.Command, _ []string) error {
@@ -46,7 +49,7 @@ func Command(_ *cobra.Command, _ []string) error {
 	if err := api.Validate(); err != nil {
 		return err
 	}
-	defaults := resolveSwaggerDefaults(VarStringAPI)
+	defaults := resolveSwaggerDefaults(VarStringAPI, VarStringMakefile)
 	swagger, err := spec2Swagger(api, defaults)
 	if err != nil {
 		return err

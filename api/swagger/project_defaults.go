@@ -18,18 +18,13 @@ type swaggerDefaults struct {
 
 var serviceStylePattern = regexp.MustCompile(`(?m)^\s*SERVICE_STYLE\s*(?::=|\?=|\+=|=)\s*([^#\r\n]+)`)
 
-func resolveSwaggerDefaults(apiPath string) swaggerDefaults {
-	apiAbsPath, err := filepath.Abs(apiPath)
-	if err != nil {
-		return swaggerDefaults{}
-	}
-
-	projectRoot, ok := projectRootFromAPIPath(apiAbsPath)
+func resolveSwaggerDefaults(apiPath, makefilePath string) swaggerDefaults {
+	makefileAbsPath, projectRoot, ok := resolveMakefilePath(apiPath, makefilePath)
 	if !ok {
 		return swaggerDefaults{}
 	}
 
-	serviceStyle, err := readServiceStyle(filepath.Join(projectRoot, "Makefile"))
+	serviceStyle, err := readServiceStyle(makefileAbsPath)
 	if err != nil || serviceStyle == "" {
 		return swaggerDefaults{}
 	}
@@ -42,6 +37,28 @@ func resolveSwaggerDefaults(apiPath string) swaggerDefaults {
 		defaults.Host = host + ":" + port
 	}
 	return defaults
+}
+
+func resolveMakefilePath(apiPath, makefilePath string) (string, string, bool) {
+	if strings.TrimSpace(makefilePath) != "" {
+		makefileAbsPath, err := filepath.Abs(makefilePath)
+		if err != nil {
+			return "", "", false
+		}
+		return makefileAbsPath, filepath.Dir(makefileAbsPath), true
+	}
+
+	apiAbsPath, err := filepath.Abs(apiPath)
+	if err != nil {
+		return "", "", false
+	}
+
+	projectRoot, ok := projectRootFromAPIPath(apiAbsPath)
+	if !ok {
+		return "", "", false
+	}
+
+	return filepath.Join(projectRoot, "Makefile"), projectRoot, true
 }
 
 func projectRootFromAPIPath(apiPath string) (string, bool) {

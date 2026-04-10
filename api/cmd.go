@@ -131,6 +131,7 @@ func init() {
 	swaggerCmdFlags.StringVar(&swagger.VarStringDir, "dir")
 	swaggerCmdFlags.StringVar(&swagger.VarStringFilename, "filename")
 	swaggerCmdFlags.BoolVar(&swagger.VarBoolYaml, "yaml")
+	swaggerCmdFlags.StringVar(&swagger.VarStringMakefile, "makefile")
 
 	// Add sub-commands
 	Cmd.AddCommand(docCmd)
