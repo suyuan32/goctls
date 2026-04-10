@@ -12,28 +12,28 @@
       "dir": "目标目录",
       "dart": {
         "short": "为提供的 api 文件生成 dart 文件",
-        "dir": "{{.goctl.api.dir}}",
-        "api": "{{.goctl.api.api}}",
+        "dir": "{{.goctls.api.dir}}",
+        "api": "{{.goctls.api.api}}",
         "legacy": "flutter v1 的传统生成器",
         "hostname": "服务器的主机名",
         "scheme": "服务器的协议"
       },
       "doc": {
         "short": "生成文档文件",
-        "dir": "{{.goctl.api.dir}}",
+        "dir": "{{.goctls.api.dir}}",
         "o": "输出 markdown 目录"
       },
       "format": {
         "short": "格式化 api 文件",
-        "dir": "{{.goctl.api.dir}}",
+        "dir": "{{.goctls.api.dir}}",
         "iu": "忽略更新",
         "stdin": "使用 stdin 输入 api 文档内容，按 \"ctrl + d\" 发送 EOF",
         "declare": "用于跳过已声明的 api 类型检查"
       },
       "go": {
         "short": "为提供的 api 文件生成 go 文件",
-        "dir": "{{.goctl.api.dir}}",
-        "api": "{{.goctl.api.api}}",
+        "dir": "{{.goctls.api.dir}}",
+        "api": "{{.goctls.api.api}}",
         "home": "{{.global.home}}",
         "remote": "{{.global.remote}}",
         "branch": "{{.global.branch}}",
@@ -62,13 +62,13 @@
       },
       "validate": {
         "short": "验证 api 文件",
-        "api": "{{.goctl.api.api}}"
+        "api": "{{.goctls.api.api}}"
       },
       "plugin": {
         "short": "自定义文件生成器",
         "plugin": "插件文件",
-        "dir": "{{.goctl.api.dir}}",
-        "api": "{{.goctl.api.api}}",
+        "dir": "{{.goctls.api.dir}}",
+        "api": "{{.goctls.api.api}}",
         "style": "{{.global.style}}"
       },
       "proto": {
@@ -114,8 +114,8 @@
       },
       "swagger": {
         "short": "从 API 生成 Swagger 文件",
-        "dir": "{{.goctl.api.dir}}",
-        "api": "{{.goctl.api.api}}",
+        "dir": "{{.goctls.api.dir}}",
+        "api": "{{.goctls.api.api}}",
         "filename": "生成的 Swagger 文件名（不含扩展名）",
         "yaml": "生成 Swagger YAML 文件，默认为 JSON"
       }
@@ -382,22 +382,22 @@
       "home": "模板的 goctl 路径",
       "init": {
         "short": "初始化所有模板（强制更新）",
-        "home": "{{.goctl.template.home}}",
+        "home": "{{.goctls.template.home}}",
         "category": "模板的类别，枚举值 [api,rpc,model,docker,kube]"
       },
       "clean": {
         "short": "清除所有缓存模板",
-        "home": "{{.goctl.template.home}}"
+        "home": "{{.goctls.template.home}}"
       },
       "update": {
         "short": "将目标类别的模板更新到最新版本",
-        "home": "{{.goctl.template.home}}",
-        "category": "{{.goctl.template.category}}"
+        "home": "{{.goctls.template.home}}",
+        "category": "{{.goctls.template.category}}"
       },
       "revert": {
         "short": "将目标模板回滚到最新版本",
-        "home": "{{.goctl.template.home}}",
-        "category": "{{.goctl.template.category}}",
+        "home": "{{.goctls.template.home}}",
+        "category": "{{.goctls.template.category}}",
         "name": "模板的目标文件名"
       }
     },
