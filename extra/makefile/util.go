@@ -74,6 +74,20 @@ func extractInfo(g *GenContext) error {
 		g.EntFeature = "sql/execquery,intercept"
 	}
 
+	disableValidator := findDefined("DISABLE_PLAYGROUND_VALIDATOR", dataSplit)
+	if disableValidator != "" {
+		if disableValidator == "true" {
+			g.DisableValidator = true
+		} else {
+			g.DisableValidator = false
+		}
+	}
+
+	dockerRepo := findDefined("DOCKER_REPO", dataSplit)
+	if dockerRepo != "" {
+		g.DockerRepo = dockerRepo
+	}
+
 	return err
 }
 

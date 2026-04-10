@@ -36,7 +36,7 @@ DISABLE_PLAYGROUND_VALIDATOR={{if .disableValidator}}true{{else}}false{{end}}
 GOARCH=amd64
 
 # The repository of docker | Docker 仓库地址
-DOCKER_REPO=docker.io/xxx
+DOCKER_REPO={{.dockerRepo}}
 
 # ---- You may not need to modify the codes below | 下面的代码大概率不需要更改 ----
 
@@ -74,7 +74,7 @@ publish-docker: # Publish docker image | 发布 docker 镜像
 .PHONY: gen-api
 gen-api: # Generate API files | 生成 API 的代码
 	goctls api go --api ./desc/all.api --dir ./ --trans_err={{if .useI18n}}true{{else}}false{{end}} --style=$(PROJECT_STYLE) --disable_validator=$(DISABLE_PLAYGROUND_VALIDATOR)
-	goctls api swagger --api=./desc/all.api --filename=./$(SERVICE_STYLE).$(SWAGGER_TYPE) --dir=./
+	goctls api swagger --api=./desc/all.api --filename=$(SERVICE_STYLE) --dir=./
 	@echo "Generate API codes successfully"
 {{end}}{{if .isRpc}}
 .PHONY: gen-rpc

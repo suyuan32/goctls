@@ -56,6 +56,7 @@ type GenContext struct {
 	TargetPath       string
 	EntFeature       string
 	DisableValidator bool
+	DockerRepo       string
 }
 
 func Gen(_ *cobra.Command, _ []string) (err error) {
@@ -94,6 +95,7 @@ func Gen(_ *cobra.Command, _ []string) (err error) {
 	}
 
 	ctx.EntFeature = "sql/execquery,intercept"
+	ctx.DockerRepo = "docker.io/xxx"
 
 	if fileutil.IsExist(ctx.TargetPath) {
 		err = extractInfo(&ctx)
@@ -131,6 +133,7 @@ func DoGen(g *GenContext) error {
 		"isRpc":            g.IsRpc,
 		"entFeature":       g.EntFeature,
 		"disableValidator": g.DisableValidator,
+		"dockerRepo":       g.DockerRepo,
 	})
 
 	if fileutil.IsExist(g.TargetPath) {
