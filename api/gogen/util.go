@@ -82,7 +82,7 @@ func writeProperty(writer io.Writer, name, tag string, tp spec.Type, doc spec.Do
 	if len(docText) > 0 {
 		docText = strings.TrimPrefix(docText, "//")
 		docText = strings.TrimSpace(docText)
-		_, err = fmt.Fprintf(writer, "//%s\n%s %s %s\n", docText, cases.Title(language.English, cases.NoLower).String(name), tp.Name(), tag)
+		_, err = fmt.Fprintf(writer, "// %s\n%s %s %s\n", docText, cases.Title(language.English, cases.NoLower).String(name), tp.Name(), tag)
 	} else {
 		_, err = fmt.Fprintf(writer, "%s %s %s\n", cases.Title(language.English, cases.NoLower).String(name), tp.Name(), tag)
 	}
