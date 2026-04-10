@@ -42,14 +42,12 @@ type PageInfo {
 // Basic ID request | 基础ID参数请求
 type IDReq {
     // ID
-    // Required: true
     Id  uint64 `json:"id" validate:"number"`
 }
 
 // Basic IDs request | 基础ID数组参数请求
 type IDsReq {
     // IDs
-    // Required: true
     Ids  []uint64 `json:"ids"`
 }
 
@@ -57,63 +55,54 @@ type IDsReq {
 // Basic ID request | 基础ID地址参数请求
 type IDPathReq {
     // ID
-    // Required: true
     Id  uint64 `path:"id"`
 }
 
 // Basic ID request (int32) | 基础ID参数请求 (int32)
 type IDInt32Req {
     // ID
-    // Required: true
     Id  int32 `json:"id" validate:"number"`
 }
 
 // Basic IDs request (int32) | 基础ID数组参数请求 (int32)
 type IDsInt32Req {
     // IDs
-    // Required: true
     Ids  []int32 `json:"ids"`
 }
 
 // Basic ID request (int32) | 基础ID地址参数请求 (int32)
 type IDInt32PathReq {
     // ID
-    // Required: true
     Id  int32 `path:"id"`
 }
 
 // Basic ID request (uint32) | 基础ID参数请求 (uint32)
 type IDUint32Req {
     // ID
-    // Required: true
     Id  uint32 `json:"id" validate:"number"`
 }
 
 // Basic IDs request (uint32) | 基础ID数组参数请求 (uint32)
 type IDsUint32Req {
     // IDs
-    // Required: true
     Ids  []uint32 `json:"ids"`
 }
 
 // Basic ID request (uint32) | 基础ID地址参数请求 (uint32)
 type IDUint32PathReq {
     // ID
-    // Required: true
     Id  uint32 `path:"id"`
 }
 
 // Basic ID request (int64) | 基础ID参数请求 (int64)
 type IDInt64Req {
     // ID
-    // Required: true
     Id  int64 `json:"id" validate:"number"`
 }
 
 // Basic IDs request (int64) | 基础ID数组参数请求 (int64)
 type IDsInt64Req {
     // IDs
-    // Required: true
     Ids  []int64 `json:"ids"`
 }
 
@@ -121,21 +110,18 @@ type IDsInt64Req {
 // Basic ID request (int64) | 基础ID地址参数请求 (int64)
 type IDInt64PathReq {
     // ID
-    // Required: true
     Id  int64 `path:"id"`
 }
 
 // Basic ID request (string) | 基础ID参数请求 (string)
 type IDStringReq {
     // ID
-    // Required: true
     Id  string `json:"id"`
 }
 
 // Basic IDs request (string) | 基础ID数组参数请求 (string)
 type IDsStringReq {
     // IDs
-    // Required: true
     Ids  []string `json:"ids"`
 }
 
@@ -143,14 +129,12 @@ type IDsStringReq {
 // Basic ID request (string) | 基础ID地址参数请求 (string)
 type IDStringPathReq {
     // ID
-    // Required: true
     Id  string `path:"id"`
 }
 
 // Basic UUID request in path | 基础UUID地址参数请求
 type UUIDPathReq {
     // ID
-    // Required: true
     Id  string `path:"id"`
 }
 
@@ -163,7 +147,6 @@ type UUIDReq {
 // Basic UUID array request | 基础UUID数组参数请求
 type UUIDsReq {
     // Ids
-    // Required: true
     Ids []string `json:"ids"`
 }
 
