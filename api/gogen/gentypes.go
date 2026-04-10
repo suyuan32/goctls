@@ -94,7 +94,7 @@ func writeType(writer io.Writer, tp spec.Type, config *config.Config) error {
 			continue
 		}
 
-		if err := writeProperty(writer, member.Name, member.Tag, member.GetComment(), member.Type, member.Docs, 1); err != nil {
+		if err := writeProperty(writer, member.Name, member.Tag, member.Type, member.Docs, 1); err != nil {
 			return err
 		}
 	}

@@ -63,16 +63,26 @@ func genFile(c fileGenConfig) error {
 	return err
 }
 
-func writeProperty(writer io.Writer, name, tag, comment string, tp spec.Type, doc spec.Doc, indent int) error {
+func writeProperty(writer io.Writer, name, tag string, tp spec.Type, doc spec.Doc, indent int) error {
 	// write doc for swagger
 	var err error
 
 	util.WriteIndent(writer, indent)
 
-	if len(comment) > 0 {
-		comment = strings.TrimPrefix(comment, "//")
-		comment = "//" + comment
-		_, err = fmt.Fprintf(writer, "%s %s %s %s\n", cases.Title(language.English, cases.NoLower).String(name), tp.Name(), tag, comment)
+	docText := ""
+	for _, line := range doc {
+		line = strings.TrimSpace(line)
+		if len(line) == 0 {
+			continue
+		}
+		docText = line
+		break
+	}
+
+	if len(docText) > 0 {
+		docText = strings.TrimPrefix(docText, "//")
+		docText = strings.TrimSpace(docText)
+		_, err = fmt.Fprintf(writer, "//%s\n%s %s %s\n", docText, cases.Title(language.English, cases.NoLower).String(name), tp.Name(), tag)
 	} else {
 		_, err = fmt.Fprintf(writer, "%s %s %s\n", cases.Title(language.English, cases.NoLower).String(name), tp.Name(), tag)
 	}
