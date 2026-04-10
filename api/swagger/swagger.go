@@ -14,8 +14,17 @@ func spec2Swagger(api *apiSpec.ApiSpec, defaults swaggerDefaults) (*spec.Swagger
 	ctx := contextFromApi(api.Info)
 	extensions, info := specExtensions(api.Info, defaults)
 	var securityDefinitions spec.SecurityDefinitions
+	var security []map[string][]string
 	securityDefinitionsFromJson := getStringFromKVOrDefault(api.Info.Properties, "securityDefinitionsFromJson", `{}`)
 	_ = json.Unmarshal([]byte(securityDefinitionsFromJson), &securityDefinitions)
+	if len(securityDefinitions) == 0 {
+		securityDefinitions = defaultSecurityDefinitions()
+		security = []map[string][]string{
+			{
+				"Token": {},
+			},
+		}
+	}
 	swagger := &spec.Swagger{
 		VendorExtensible: spec.VendorExtensible{
 			Extensions: extensions,
@@ -24,17 +33,30 @@ func spec2Swagger(api *apiSpec.ApiSpec, defaults swaggerDefaults) (*spec.Swagger
 			Definitions:         definitionsFromTypes(ctx, api.Types),
 			Consumes:            getListFromInfoOrDefault(api.Info.Properties, propertyKeyConsumes, []string{applicationJson}),
 			Produces:            getListFromInfoOrDefault(api.Info.Properties, propertyKeyProduces, []string{applicationJson}),
-			Schemes:             getListFromInfoOrDefault(api.Info.Properties, propertyKeySchemes, []string{schemeHttps}),
+			Schemes:             getListFromInfoOrDefault(api.Info.Properties, propertyKeySchemes, []string{schemeHttp, schemeHttps}),
 			Swagger:             swaggerVersion,
 			Info:                info,
 			Host:                getStringFromKVOrDefault(api.Info.Properties, propertyKeyHost, defaults.Host),
 			BasePath:            getStringFromKVOrDefault(api.Info.Properties, propertyKeyBasePath, defaultBasePath),
 			Paths:               spec2Paths(ctx, api.Service),
 			SecurityDefinitions: securityDefinitions,
+			Security:            security,
 		},
 	}
 
 	return swagger, nil
+}
+
+func defaultSecurityDefinitions() spec.SecurityDefinitions {
+	return spec.SecurityDefinitions{
+		"Token": &spec.SecurityScheme{
+			SecuritySchemeProps: spec.SecuritySchemeProps{
+				Type: "apiKey",
+				Name: "Authorization",
+				In:   "header",
+			},
+		},
+	}
 }
 
 func formatComment(comment string) string {

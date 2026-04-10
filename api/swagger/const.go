@@ -28,6 +28,7 @@ const (
 	swaggerVersion  = "2.0"
 	applicationJson = "application/json"
 	applicationForm = "application/x-www-form-urlencoded"
+	schemeHttp      = "http"
 	schemeHttps     = "https"
 	defaultBasePath = "/"
 )

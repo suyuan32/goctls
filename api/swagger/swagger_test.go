@@ -138,3 +138,29 @@ func TestArrayWithoutDefinitions(t *testing.T) {
 	assert.Contains(t, arrayField.Items.Schema.Properties, "itemName")
 	assert.Equal(t, []string{"itemName"}, arrayField.Items.Schema.Required)
 }
+
+func TestSpec2Swagger_DefaultSecurity(t *testing.T) {
+	swaggerDoc, err := spec2Swagger(&spec.ApiSpec{}, swaggerDefaults{})
+	assert.NoError(t, err)
+
+	token, ok := swaggerDoc.SecurityDefinitions["Token"]
+	assert.True(t, ok)
+	assert.Equal(t, "apiKey", token.Type)
+	assert.Equal(t, "Authorization", token.Name)
+	assert.Equal(t, "header", token.In)
+
+	if assert.Len(t, swaggerDoc.Security, 1) {
+		requirement := swaggerDoc.Security[0]
+		tokenScopes, found := requirement["Token"]
+		assert.True(t, found)
+		assert.Empty(t, tokenScopes)
+	}
+}
+
+func TestSpec2Swagger_DefaultContentTypesAndSchemes(t *testing.T) {
+	swaggerDoc, err := spec2Swagger(&spec.ApiSpec{}, swaggerDefaults{})
+	assert.NoError(t, err)
+	assert.Equal(t, []string{"application/json"}, swaggerDoc.Consumes)
+	assert.Equal(t, []string{"application/json"}, swaggerDoc.Produces)
+	assert.Equal(t, []string{"http", "https"}, swaggerDoc.Schemes)
+}
