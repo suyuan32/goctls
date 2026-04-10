@@ -88,3 +88,37 @@ func TestSpec2PathsWithRootRoute(t *testing.T) {
 		})
 	}
 }
+
+func TestSpec2PathSummaryUsesRouteCommentByDefault(t *testing.T) {
+	route := spec.Route{
+		Method:  "get",
+		Path:    "/users",
+		Handler: "GetUsers",
+		Comment: []string{"// list users"},
+	}
+	group := spec.Group{}
+
+	pathItem := spec2Path(testingContext(t), group, route)
+
+	if assert.NotNil(t, pathItem.Get) {
+		assert.Equal(t, "list users", pathItem.Get.Summary)
+		assert.Equal(t, "list users", pathItem.Get.Description)
+	}
+}
+
+func TestSpec2PathSummaryAndDescriptionUseRouteDocByDefault(t *testing.T) {
+	route := spec.Route{
+		Method:  "get",
+		Path:    "/users",
+		Handler: "GetUsers",
+		Doc:     []string{"// fetch user list"},
+	}
+	group := spec.Group{}
+
+	pathItem := spec2Path(testingContext(t), group, route)
+
+	if assert.NotNil(t, pathItem.Get) {
+		assert.Equal(t, "fetch user list", pathItem.Get.Summary)
+		assert.Equal(t, "fetch user list", pathItem.Get.Description)
+	}
+}

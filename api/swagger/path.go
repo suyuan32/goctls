@@ -80,6 +80,13 @@ func spec2Path(ctx Context, group apiSpec.Group, route apiSpec.Route) spec.PathI
 	if len(groupName) > 0 {
 		groupTags = []string{groupName}
 	}
+	comment := getFirstUsableString(
+		normalizeComments(route.Doc),
+		normalizeComments(route.Comment),
+		normalizeComments(route.HandlerDoc),
+		normalizeComments(route.HandlerComment),
+	)
+	defaultDesc := getFirstUsableString(comment, route.AtDoc.Text, route.Handler)
 	operationId := route.Handler
 	if len(groupName) > 0 {
 		operationId = stringx.From(groupName + "_" + route.Handler).ToCamel()
@@ -87,12 +94,12 @@ func spec2Path(ctx Context, group apiSpec.Group, route apiSpec.Route) spec.PathI
 	operationId = stringx.From(operationId).Untitle()
 	op := &spec.Operation{
 		OperationProps: spec.OperationProps{
-			Description: getStringFromKVOrDefault(route.AtDoc.Properties, propertyKeyDescription, ""),
+			Description: getStringFromKVOrDefault(route.AtDoc.Properties, propertyKeyDescription, defaultDesc),
 			Consumes:    consumesFromTypeOrDef(ctx, route.Method, route.RequestType),
 			Produces:    getListFromInfoOrDefault(route.AtDoc.Properties, propertyKeyProduces, []string{applicationJson}),
 			Schemes:     getListFromInfoOrDefault(route.AtDoc.Properties, propertyKeySchemes, []string{schemeHttps}),
 			Tags:        getListFromInfoOrDefault(group.Annotation.Properties, propertyKeyTags, getListFromInfoOrDefault(group.Annotation.Properties, propertyKeyGroup, getListFromInfoOrDefault(group.Annotation.Properties, propertyKeySummary, groupTags))),
-			Summary:     getStringFromKVOrDefault(route.AtDoc.Properties, propertyKeySummary, getFirstUsableString(route.AtDoc.Text, route.Handler)),
+			Summary:     getStringFromKVOrDefault(route.AtDoc.Properties, propertyKeySummary, defaultDesc),
 			ID:          operationId,
 			Deprecated:  getBoolFromKVOrDefault(route.AtDoc.Properties, propertyKeyDeprecated, false),
 			Parameters:  parametersFromType(ctx, route.Method, route.RequestType),
@@ -128,4 +135,20 @@ func spec2Path(ctx Context, group apiSpec.Group, route apiSpec.Route) spec.PathI
 	default: // [http.MethodConnect,http.MethodTrace] not supported
 	}
 	return item
+}
+
+func normalizeComments(comments []string) string {
+	if len(comments) == 0 {
+		return ""
+	}
+	var normalized []string
+	for _, comment := range comments {
+		text := strings.TrimSpace(comment)
+		text = strings.TrimPrefix(text, "//")
+		text = strings.TrimSpace(text)
+		if len(text) > 0 {
+			normalized = append(normalized, text)
+		}
+	}
+	return strings.TrimSpace(strings.Join(normalized, " "))
 }
