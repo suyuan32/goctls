@@ -10,9 +10,9 @@ import (
 	"github.com/suyuan32/goctls/internal/version"
 )
 
-func spec2Swagger(api *apiSpec.ApiSpec) (*spec.Swagger, error) {
+func spec2Swagger(api *apiSpec.ApiSpec, defaults swaggerDefaults) (*spec.Swagger, error) {
 	ctx := contextFromApi(api.Info)
-	extensions, info := specExtensions(api.Info)
+	extensions, info := specExtensions(api.Info, defaults)
 	var securityDefinitions spec.SecurityDefinitions
 	securityDefinitionsFromJson := getStringFromKVOrDefault(api.Info.Properties, "securityDefinitionsFromJson", `{}`)
 	_ = json.Unmarshal([]byte(securityDefinitionsFromJson), &securityDefinitions)
@@ -27,7 +27,7 @@ func spec2Swagger(api *apiSpec.ApiSpec) (*spec.Swagger, error) {
 			Schemes:             getListFromInfoOrDefault(api.Info.Properties, propertyKeySchemes, []string{schemeHttps}),
 			Swagger:             swaggerVersion,
 			Info:                info,
-			Host:                getStringFromKVOrDefault(api.Info.Properties, propertyKeyHost, ""),
+			Host:                getStringFromKVOrDefault(api.Info.Properties, propertyKeyHost, defaults.Host),
 			BasePath:            getStringFromKVOrDefault(api.Info.Properties, propertyKeyBasePath, defaultBasePath),
 			Paths:               spec2Paths(ctx, api.Service),
 			SecurityDefinitions: securityDefinitions,
@@ -298,7 +298,7 @@ func wrapCodeMsgProps(ctx Context, properties spec.SchemaProps, atDoc apiSpec.At
 	}
 }
 
-func specExtensions(api apiSpec.Info) (spec.Extensions, *spec.Info) {
+func specExtensions(api apiSpec.Info, defaults swaggerDefaults) (spec.Extensions, *spec.Info) {
 	ext := spec.Extensions{}
 	ext.Add("x-goctl-version", version.BuildVersion)
 	ext.Add("x-description", "This is a goctl generated swagger file.")
@@ -307,7 +307,7 @@ func specExtensions(api apiSpec.Info) (spec.Extensions, *spec.Info) {
 	ext.Add("x-go-zero-doc", "https://go-zero.dev/")
 
 	info := &spec.Info{}
-	info.Title = getStringFromKVOrDefault(api.Properties, propertyKeyTitle, "")
+	info.Title = getStringFromKVOrDefault(api.Properties, propertyKeyTitle, defaults.Title)
 	info.Description = getStringFromKVOrDefault(api.Properties, propertyKeyDescription, "")
 	info.TermsOfService = getStringFromKVOrDefault(api.Properties, propertyKeyTermsOfService, "")
 	info.Version = getStringFromKVOrDefault(api.Properties, propertyKeyVersion, "1.0")

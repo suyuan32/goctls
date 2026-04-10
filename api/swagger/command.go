@@ -46,7 +46,8 @@ func Command(_ *cobra.Command, _ []string) error {
 	if err := api.Validate(); err != nil {
 		return err
 	}
-	swagger, err := spec2Swagger(api)
+	defaults := resolveSwaggerDefaults(VarStringAPI)
+	swagger, err := spec2Swagger(api, defaults)
 	if err != nil {
 		return err
 	}
