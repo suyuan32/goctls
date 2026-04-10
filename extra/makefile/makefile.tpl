@@ -70,17 +70,6 @@ publish-docker: # Publish docker image | 发布 docker 镜像
 	docker push $(DOCKER_REPO)/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):$(VERSION)
 	@echo "Publish docker successfully"
 {{if or .isApi .isSingle}}
-.PHONY: gen-swagger
-gen-swagger: # Generate swagger file | 生成 swagger 文件
-	swagger generate spec --output=./$(SERVICE_STYLE).$(SWAGGER_TYPE) --scan-models --exclude-deps
-	@echo "Generate swagger successfully"
-
-.PHONY: serve-swagger
-serve-swagger: # Run the swagger server | 运行 swagger 服务
-	lsof -i:36666 | awk 'NR!=1 {print $2}' | xargs killall -9 || true
-	swagger serve -F=swagger --port 36666 $(SERVICE_STYLE).$(SWAGGER_TYPE)
-	@echo "Serve swagger-ui successfully"
-
 .PHONY: gen-api
 gen-api: # Generate API files | 生成 API 的代码
 	goctls api go --api ./desc/all.api --dir ./ --trans_err=true --style=$(PROJECT_STYLE)
