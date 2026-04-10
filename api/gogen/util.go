@@ -66,25 +66,6 @@ func genFile(c fileGenConfig) error {
 func writeProperty(writer io.Writer, name, tag, comment string, tp spec.Type, doc spec.Doc, indent int) error {
 	// write doc for swagger
 	var err error
-	hasValidator := false
-
-	for _, v := range doc {
-		_, _ = fmt.Fprintf(writer, "\t%s\n", v)
-		if util.HasCustomValidation(v) {
-			hasValidator = true
-		}
-	}
-
-	if !hasValidator {
-		validatorComment, err := util.ConvertValidateTagToSwagger(tag)
-		if err != nil {
-			return err
-		}
-
-		for _, v := range validatorComment {
-			_, _ = fmt.Fprint(writer, v)
-		}
-	}
 
 	util.WriteIndent(writer, indent)
 

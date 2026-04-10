@@ -43,18 +43,6 @@ func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route
 		logicName = pkgName
 	}
 
-	// write doc for swagger
-	var handlerDoc *strings.Builder
-	handlerDoc = &strings.Builder{}
-
-	var isParameterRequest bool
-	if route.RequestType != nil && strings.Contains(strings.Join(route.RequestType.Documents(), ""),
-		"swagger:parameters") {
-		isParameterRequest = true
-	} else {
-		isParameterRequest = false
-	}
-
 	var swaggerPath string
 	if strings.Contains(route.Path, ":") {
 		swaggerPath = ConvertRoutePathToSwagger(route.Path)
@@ -69,30 +57,6 @@ func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route
 		prefix = path.Join("/", prefix)
 	}
 	swaggerPath = path.Join("/", prefix, swaggerPath)
-
-	handlerDoc.WriteString(fmt.Sprintf("// swagger:route %s %s %s %s \n", route.Method, swaggerPath,
-		strings.ReplaceAll(group.GetAnnotation("group"), "/", "-"), strings.TrimSuffix(handler, "Handler")))
-	handlerDoc.WriteString("//\n")
-	handlerDoc.WriteString(fmt.Sprintf("%s\n", strings.Join(route.HandlerDoc, " ")))
-	handlerDoc.WriteString("//\n")
-	handlerDoc.WriteString(fmt.Sprintf("%s\n", strings.Join(route.HandlerDoc, " ")))
-	handlerDoc.WriteString("//\n")
-
-	// HasRequest
-	if len(route.RequestTypeName()) > 0 && !isParameterRequest {
-		handlerDoc.WriteString(fmt.Sprintf(`// Parameters:
-			//  + name: body
-			//    require: true
-			//    in: %s
-			//    type: %s
-			//
-			`, "body", route.RequestTypeName()))
-	}
-	// HasResp
-	if len(route.ResponseTypeName()) > 0 {
-		handlerDoc.WriteString(fmt.Sprintf(`// Responses:
-			//  200: %s`, route.ResponseTypeName()))
-	}
 
 	// sse
 	var useSSE bool
@@ -129,7 +93,6 @@ func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route
 			"TransErr":       g.TransErr,
 			"UseValidator":   g.UseValidator,
 			"UseSSE":         useSSE,
-			"HandlerDoc":     handlerDoc.String(),
 		},
 	})
 }

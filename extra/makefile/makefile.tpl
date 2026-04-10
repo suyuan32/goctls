@@ -21,9 +21,7 @@ PROJECT_I18N={{if .useI18n}}true{{else}}false{{end}}
 
 # The suffix after build or compile | 构建后缀
 PROJECT_BUILD_SUFFIX={{if .isRpc}}rpc{{else}}api{{end}}
-{{if or .isApi .isSingle}}
-# Swagger type, support yml,json | Swagger 文件类型，支持yml,json
-SWAGGER_TYPE=json{{end}}
+
 {{if .useEnt}}
 # Ent enabled features | Ent 启用的官方特性
 ENT_FEATURE={{.entFeature}}
@@ -86,7 +84,7 @@ serve-swagger: # Run the swagger server | 运行 swagger 服务
 .PHONY: gen-api
 gen-api: # Generate API files | 生成 API 的代码
 	goctls api go --api ./desc/all.api --dir ./ --trans_err=true --style=$(PROJECT_STYLE)
-	swagger generate spec --output=./$(SERVICE_STYLE).$(SWAGGER_TYPE) --scan-models --exclude-deps
+	goctls api swagger --api=./desc/all.api --filename=./$(SERVICE_STYLE).$(SWAGGER_TYPE) --dir=./
 	@echo "Generate API codes successfully"
 {{end}}{{if .isRpc}}
 .PHONY: gen-rpc

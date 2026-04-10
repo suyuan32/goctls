@@ -1,25 +1,3 @@
-//	{{.serviceName}}
-//
-//	Description: {{.serviceName}} service
-//
-//	Schemes: http, https
-//	Host: localhost:{{.port}}
-//	BasePath: /
-//	Version: 0.0.1
-//	SecurityDefinitions:
-//	  Token:
-//	    type: apiKey
-//	    name: Authorization
-//	    in: header
-//	Security:
-//	  Token:
-//	Consumes:
-//	  - application/json
-//
-//	Produces:
-//	  - application/json
-//
-// swagger:meta
 package main
 
 import (
