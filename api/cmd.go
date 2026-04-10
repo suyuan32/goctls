@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/spf13/cobra"
+	"github.com/suyuan32/goctls/api/swagger"
 
 	"github.com/suyuan32/goctls/api/apigen"
 	"github.com/suyuan32/goctls/api/docgen"
@@ -28,6 +29,8 @@ var (
 	protoCmd = cobrax.NewCommand("proto", cobrax.WithRunE(gogen.GenCRUDLogicByProto))
 
 	entCmd = cobrax.NewCommand("ent", cobrax.WithRunE(gogen.GenCRUDLogicByEnt))
+
+	swaggerCmd = cobrax.NewCommand("swagger", cobrax.WithRunE(swagger.Command))
 )
 
 func init() {
@@ -41,6 +44,7 @@ func init() {
 		validateCmdFlags = validateCmd.Flags()
 		protoCmdFlags    = protoCmd.Flags()
 		entCmdFlags      = entCmd.Flags()
+		swaggerCmdFlags  = swaggerCmd.Flags()
 	)
 
 	apiCmdFlags.StringVar(&apigen.VarStringOutput, "o")
@@ -123,6 +127,11 @@ func init() {
 	entCmdFlags.StringVarPWithDefaultValue(&gogen.VarStringJSONStyle, "json_style", "j", "goZero")
 	entCmdFlags.BoolVar(&gogen.VarBoolSplitTimeField, "split_time_field")
 
+	swaggerCmdFlags.StringVar(&swagger.VarStringAPI, "api")
+	swaggerCmdFlags.StringVar(&swagger.VarStringDir, "dir")
+	swaggerCmdFlags.StringVar(&swagger.VarStringFilename, "filename")
+	swaggerCmdFlags.BoolVar(&swagger.VarBoolYaml, "yaml")
+
 	// Add sub-commands
 	Cmd.AddCommand(docCmd)
 	Cmd.AddCommand(formatCmd)
@@ -132,4 +141,5 @@ func init() {
 	Cmd.AddCommand(validateCmd)
 	Cmd.AddCommand(protoCmd)
 	Cmd.AddCommand(entCmd)
+	Cmd.AddCommand(swaggerCmd)
 }

@@ -110,6 +110,13 @@
         "model_chinese_name": "Model Chinese name",
         "model_english_name": "Model English name",
         "split_time_field": "Whether to change the time request in the list request to \"Begin\" and \"End\" range request"
+      },
+      "swagger": {
+        "short": "Generate swagger file from api",
+        "dir": "{{.goctl.api.dir}}",
+        "api": "{{.goctl.api.api}}",
+        "filename": "The generated swagger file name without the extension",
+        "yaml": "Generate swagger yaml file, default to json"
       }
     },
     "bug": {

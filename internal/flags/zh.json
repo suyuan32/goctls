@@ -111,6 +111,13 @@
         "model_chinese_name": "模型的中文名称",
         "model_english_name": "模型的英文名称",
         "split_time_field": "是否将列表请求中的时间请求改为 Begin 和 End 范围请求"
+      },
+      "swagger": {
+        "short": "从 API 生成 Swagger 文件",
+        "dir": "{{.goctl.api.dir}}",
+        "api": "{{.goctl.api.api}}",
+        "filename": "生成的 Swagger 文件名（不含扩展名）",
+        "yaml": "生成 Swagger YAML 文件，默认为 JSON"
       }
     },
     "bug": {

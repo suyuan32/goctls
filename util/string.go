@@ -121,3 +121,15 @@ func IsEmptyStringOrWhiteSpace(s string) bool {
 	v := TrimWhiteSpace(s)
 	return len(v) == 0
 }
+
+func FieldsAndTrimSpace(s string, f func(r rune) bool) []string {
+	fields := strings.FieldsFunc(s, f)
+	var resp []string
+	for _, v := range fields {
+		val := TrimWhiteSpace(v)
+		if len(val) > 0 {
+			resp = append(resp, v)
+		}
+	}
+	return resp
+}
