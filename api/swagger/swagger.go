@@ -218,6 +218,10 @@ func rangeMemberAndDo(ctx Context, structType apiSpec.Type, do func(tag *apiSpec
 }
 
 func isRequired(ctx Context, tags *apiSpec.Tags) bool {
+	if hasValidateRequired(tags) {
+		return true
+	}
+
 	tag, err := tags.Get(tagJson)
 	if err == nil {
 		return !isOptional(ctx, tag.Options)

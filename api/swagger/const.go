@@ -5,6 +5,7 @@ const (
 	tagPath      = "path"
 	tagForm      = "form"
 	tagJson      = "json"
+	tagValidate  = "validate"
 	defFlag      = "default="
 	enumFlag     = "options="
 	rangeFlag    = "range="

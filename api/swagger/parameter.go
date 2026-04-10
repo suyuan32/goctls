@@ -50,6 +50,11 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 		requiredFields []string
 	)
 	rangeMemberAndDo(ctx, structType, func(tag *apiSpec.Tags, required bool, member apiSpec.Member) {
+		validateRules := validateRulesFromTags(tag)
+		if validateRules.required {
+			required = true
+		}
+
 		headerTag, _ := tag.Get(tagHeader)
 		hasHeader := headerTag != nil
 		pathParameterTag, _ := tag.Get(tagPath)
@@ -61,12 +66,23 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 
 		if hasHeader {
 			minimum, maximum, exclusiveMinimum, exclusiveMaximum := rangeValueFromOptions(headerTag.Options)
+			var (
+				minLength *int64
+				maxLength *int64
+				minItems  *int64
+				maxItems  *int64
+			)
+			applyValidateRulesToBounds(member.Type, validateRules, &minimum, &maximum, &minLength, &maxLength, &minItems, &maxItems)
 			resp = append(resp, spec.Parameter{
 				CommonValidations: spec.CommonValidations{
 					Maximum:          maximum,
 					ExclusiveMaximum: exclusiveMaximum,
 					Minimum:          minimum,
 					ExclusiveMinimum: exclusiveMinimum,
+					MaxLength:        maxLength,
+					MinLength:        minLength,
+					MaxItems:         maxItems,
+					MinItems:         minItems,
 					Enum:             enumsValueFromOptions(headerTag.Options),
 				},
 				SimpleSchema: spec.SimpleSchema{
@@ -86,12 +102,23 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 
 		if hasPathParameter {
 			minimum, maximum, exclusiveMinimum, exclusiveMaximum := rangeValueFromOptions(pathParameterTag.Options)
+			var (
+				minLength *int64
+				maxLength *int64
+				minItems  *int64
+				maxItems  *int64
+			)
+			applyValidateRulesToBounds(member.Type, validateRules, &minimum, &maximum, &minLength, &maxLength, &minItems, &maxItems)
 			resp = append(resp, spec.Parameter{
 				CommonValidations: spec.CommonValidations{
 					Maximum:          maximum,
 					ExclusiveMaximum: exclusiveMaximum,
 					Minimum:          minimum,
 					ExclusiveMinimum: exclusiveMinimum,
+					MaxLength:        maxLength,
+					MinLength:        minLength,
+					MaxItems:         maxItems,
+					MinItems:         minItems,
 					Enum:             enumsValueFromOptions(pathParameterTag.Options),
 				},
 				SimpleSchema: spec.SimpleSchema{
@@ -111,6 +138,13 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 
 		if hasForm {
 			minimum, maximum, exclusiveMinimum, exclusiveMaximum := rangeValueFromOptions(formTag.Options)
+			var (
+				minLength *int64
+				maxLength *int64
+				minItems  *int64
+				maxItems  *int64
+			)
+			applyValidateRulesToBounds(member.Type, validateRules, &minimum, &maximum, &minLength, &maxLength, &minItems, &maxItems)
 			if strings.EqualFold(method, http.MethodGet) {
 				resp = append(resp, spec.Parameter{
 					CommonValidations: spec.CommonValidations{
@@ -118,6 +152,10 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 						ExclusiveMaximum: exclusiveMaximum,
 						Minimum:          minimum,
 						ExclusiveMinimum: exclusiveMinimum,
+						MaxLength:        maxLength,
+						MinLength:        minLength,
+						MaxItems:         maxItems,
+						MinItems:         minItems,
 						Enum:             enumsValueFromOptions(formTag.Options),
 					},
 					SimpleSchema: spec.SimpleSchema{
@@ -141,6 +179,10 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 						ExclusiveMaximum: exclusiveMaximum,
 						Minimum:          minimum,
 						ExclusiveMinimum: exclusiveMinimum,
+						MaxLength:        maxLength,
+						MinLength:        minLength,
+						MaxItems:         maxItems,
+						MinItems:         minItems,
 						Enum:             enumsValueFromOptions(formTag.Options),
 					},
 					SimpleSchema: spec.SimpleSchema{
@@ -162,6 +204,13 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 
 		if hasJson {
 			minimum, maximum, exclusiveMinimum, exclusiveMaximum := rangeValueFromOptions(jsonTag.Options)
+			var (
+				minLength *int64
+				maxLength *int64
+				minItems  *int64
+				maxItems  *int64
+			)
+			applyValidateRulesToBounds(member.Type, validateRules, &minimum, &maximum, &minLength, &maxLength, &minItems, &maxItems)
 			if required {
 				requiredFields = append(requiredFields, jsonTag.Name)
 			}
@@ -177,6 +226,10 @@ func parametersFromType(ctx Context, method string, tp apiSpec.Type) []spec.Para
 					ExclusiveMaximum:     exclusiveMaximum,
 					Minimum:              minimum,
 					ExclusiveMinimum:     exclusiveMinimum,
+					MaxLength:            maxLength,
+					MinLength:            minLength,
+					MaxItems:             maxItems,
+					MinItems:             minItems,
 					Enum:                 enumsValueFromOptions(jsonTag.Options),
 					AdditionalProperties: mapFromGoType(ctx, member.Type),
 				},

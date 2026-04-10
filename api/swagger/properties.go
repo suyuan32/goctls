@@ -17,10 +17,17 @@ func propertiesFromType(ctx Context, tp apiSpec.Type) (spec.SchemaProperties, []
 		return propertiesFromType(ctx, val.Value)
 	case apiSpec.DefineStruct, apiSpec.NestedStruct:
 		rangeMemberAndDo(ctx, val, func(tag *apiSpec.Tags, required bool, member apiSpec.Member) {
+			validateRules := validateRulesFromTags(tag)
+			if validateRules.required {
+				required = true
+			}
+
 			var (
 				jsonTagString                      = member.Name
 				minimum, maximum                   *float64
 				exclusiveMinimum, exclusiveMaximum bool
+				minLength, maxLength               *int64
+				minItems, maxItems                 *int64
 				example, defaultValue              any
 				enum                               []any
 			)
@@ -45,6 +52,7 @@ func propertiesFromType(ctx Context, tp apiSpec.Type) (spec.SchemaProperties, []
 				defaultValue = defValueFromOptions(ctx, jsonTag.Options, member.Type)
 				enum = enumsValueFromOptions(jsonTag.Options)
 			}
+			applyValidateRulesToBounds(member.Type, validateRules, &minimum, &maximum, &minLength, &maxLength, &minItems, &maxItems)
 
 			if required {
 				requiredFields = append(requiredFields, jsonTagString)
@@ -62,6 +70,10 @@ func propertiesFromType(ctx Context, tp apiSpec.Type) (spec.SchemaProperties, []
 					ExclusiveMaximum:     exclusiveMaximum,
 					Minimum:              minimum,
 					ExclusiveMinimum:     exclusiveMinimum,
+					MaxLength:            maxLength,
+					MinLength:            minLength,
+					MaxItems:             maxItems,
+					MinItems:             minItems,
 					Enum:                 enum,
 					AdditionalProperties: mapFromGoType(ctx, member.Type),
 				},
