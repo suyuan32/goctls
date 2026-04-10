@@ -76,6 +76,10 @@ func spec2Path(ctx Context, group apiSpec.Group, route apiSpec.Route) spec.PathI
 		}
 	}
 	groupName := getStringFromKVOrDefault(group.Annotation.Properties, propertyKeyGroup, "")
+	groupTags := []string{}
+	if len(groupName) > 0 {
+		groupTags = []string{groupName}
+	}
 	operationId := route.Handler
 	if len(groupName) > 0 {
 		operationId = stringx.From(groupName + "_" + route.Handler).ToCamel()
@@ -87,7 +91,7 @@ func spec2Path(ctx Context, group apiSpec.Group, route apiSpec.Route) spec.PathI
 			Consumes:    consumesFromTypeOrDef(ctx, route.Method, route.RequestType),
 			Produces:    getListFromInfoOrDefault(route.AtDoc.Properties, propertyKeyProduces, []string{applicationJson}),
 			Schemes:     getListFromInfoOrDefault(route.AtDoc.Properties, propertyKeySchemes, []string{schemeHttps}),
-			Tags:        getListFromInfoOrDefault(group.Annotation.Properties, propertyKeyTags, getListFromInfoOrDefault(group.Annotation.Properties, propertyKeySummary, []string{})),
+			Tags:        getListFromInfoOrDefault(group.Annotation.Properties, propertyKeyTags, getListFromInfoOrDefault(group.Annotation.Properties, propertyKeyGroup, getListFromInfoOrDefault(group.Annotation.Properties, propertyKeySummary, groupTags))),
 			Summary:     getStringFromKVOrDefault(route.AtDoc.Properties, propertyKeySummary, getFirstUsableString(route.AtDoc.Text, route.Handler)),
 			ID:          operationId,
 			Deprecated:  getBoolFromKVOrDefault(route.AtDoc.Properties, propertyKeyDeprecated, false),
