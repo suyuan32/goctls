@@ -73,7 +73,7 @@ publish-docker: # Publish docker image | 发布 docker 镜像
 {{if or .isApi .isSingle}}
 .PHONY: gen-api
 gen-api: # Generate API files | 生成 API 的代码
-	goctls api go --api ./desc/all.api --dir ./ --trans_err={{if .useI18n}}true{{else}}false{{end}} --style=$(PROJECT_STYLE) --disable_validator=$(DISABLE_PLAYGROUND_VALIDATOR)
+	goctls api go --api ./desc/all.api --dir ./ --trans_err=$(PROJECT_I18N) --style=$(PROJECT_STYLE) --disable_validator=$(DISABLE_PLAYGROUND_VALIDATOR)
 	goctls api swagger --api=./desc/all.api --filename=$(SERVICE_STYLE) --dir=./
 	@echo "Generate API codes successfully"
 {{end}}{{if .isRpc}}
