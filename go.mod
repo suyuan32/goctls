@@ -3,7 +3,7 @@ module github.com/suyuan32/goctls
 go 1.25.0
 
 require (
-	ariga.io/atlas v1.1.0
+	ariga.io/atlas v1.2.0
 	entgo.io/contrib v0.7.0
 	entgo.io/ent v0.14.6
 	github.com/duke-git/lancet/v2 v2.3.9
@@ -14,18 +14,18 @@ require (
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/gookit/color v1.6.0
 	github.com/iancoleman/strcase v0.3.0
-	github.com/jedib0t/go-pretty/v6 v6.7.8
-	github.com/lib/pq v1.12.0
+	github.com/jedib0t/go-pretty/v6 v6.7.9
+	github.com/lib/pq v1.12.3
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
 	github.com/stretchr/testify v1.11.1
-	github.com/suyuan32/simple-admin-common v1.8.3
+	github.com/suyuan32/simple-admin-common v1.8.4
 	github.com/withfig/autocomplete-tools/integrations/cobra v1.2.1
 	github.com/zeromicro/antlr v0.0.1
 	github.com/zeromicro/go-zero v1.10.1
-	golang.org/x/text v0.35.0
-	google.golang.org/grpc v1.79.3
+	golang.org/x/text v0.36.0
+	google.golang.org/grpc v1.80.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
