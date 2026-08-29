@@ -200,6 +200,13 @@ func (g *Generator) Generate(zctx *ZRpcContext) error {
 			return err
 		}
 
+		// upgrade x/tools to a version compatible with the local Go toolchain
+		// to avoid the "package without types was imported from entgo.io/ent" error
+		_, err = execx.Run("go get golang.org/x/tools@v0.49.0", abs)
+		if err != nil {
+			return err
+		}
+
 		_, err = execx.Run("go run -mod=mod entgo.io/ent/cmd/ent generate ./ent/schema", abs)
 		if err != nil {
 			return err
