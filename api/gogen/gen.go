@@ -247,6 +247,13 @@ func DoGenProject(apiFile, dir, style string, g *GenContext) error {
 			return err
 		}
 
+		// ent v0.14.6 pins x/tools v0.30, which is incompatible with
+		// newer Go toolchains during Ent code generation.
+		_, err = execx.Run("go get golang.org/x/tools@v0.49.0", dir)
+		if err != nil {
+			return err
+		}
+
 		_, err = execx.Run("go run -mod=mod entgo.io/ent/cmd/ent generate ./ent/schema", dir)
 		if err != nil {
 			return err

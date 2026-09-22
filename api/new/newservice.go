@@ -152,6 +152,9 @@ func CreateServiceCommand(_ *cobra.Command, args []string) error {
 	}
 
 	err = gogen.DoGenProject(apiFilePath, abs, VarStringStyle, genCtx)
+	if err != nil {
+		return err
+	}
 
 	err = fileutil.WriteStringToFile(filepath.Join(abs, ".gitignore"), GitIgnoreTmpl, false)
 	if err != nil {
