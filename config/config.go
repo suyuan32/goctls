@@ -18,7 +18,7 @@ var OldGoZeroVersion = []string{"v1.7.1", "v1.7.2", "v1.7.3", "v1.7.4", "v1.7.5"
 const DefaultToolVersion = "v1.10.3"
 
 // GoctlsVersion is goctls version
-const GoctlsVersion = "v1.14.9"
+const GoctlsVersion = "v1.14.10"
 
 // CoreVersion is the core service version.
 const CoreVersion = "v1.8.7"
